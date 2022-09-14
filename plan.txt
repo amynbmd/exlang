@@ -1,0 +1,3 @@
+Do we need to separate our technology presentation's PPT into several parts?
+Thus each one can take part of a small part.
+
