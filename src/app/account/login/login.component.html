@@ -1,82 +1,74 @@
 <form [formGroup]="formGroup">
-  <mat-card class="text-center m-auto p-0">
-    <div class="p-3 ps-5 pe-5">
-      <mat-card-title class="fw-bold mt-5 mb-5">ExLang</mat-card-title>
-
-      <mat-card-content>
-        <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
-          <div class="col-md-12">
-            <ul>
-              <li *ngFor="let error of summaryError">
-                {{ error }}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <mat-form-field appearance="outline" color="accent">
-              <mat-label>Email Address</mat-label>
-              <input matInput formControlName="email" placeholder="firstlast" />
-
-              <mat-error *ngIf="formGroup.controls.email?.hasError('required')">
-                Email Address is required
-              </mat-error>
-              <mat-error *ngIf="formGroup.controls.email.hasError('other')">
-                {{ formGroup.controls.email.errors?.['other'] }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="row pb-3">
-          <div class="col-md-12">
-            <mat-form-field appearance="outline" color="accent">
-              <mat-label>Password</mat-label>
-              <input type="password" matInput formControlName="password" />
-
-              <mat-error
-                *ngIf="formGroup.controls.password?.hasError('required')"
-              >
-                Password is required
-              </mat-error>
-              <mat-error
-                *ngIf="formGroup.controls.password?.hasError('password')"
-              >
-                Password is not valid
-              </mat-error>
-              <mat-error *ngIf="formGroup.controls.password.hasError('other')">
-                {{ formGroup.controls.password.errors?.['other'] }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="row pb-3">
-          <div class="col-md-6">
-            <mat-checkbox id="rememberMe" class="rememberMe" color="primary"
-              formControlName="rememberMe">Remember me</mat-checkbox>
-          </div>
-          <div class="col-md-6"><span class="hyper-link color-primary">Forgot password</span></div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <button
-              class="w-100"
-              title="Login"
-              type="button"
-              mat-raised-button
-              color="primary"
-              [disabled]="formGroup.invalid"
-              (click)="login()"
-            >
-              LOGIN
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
+  <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
+    <div class="col-md-12">
+      <ul>
+        <li *ngFor="let error of summaryError">
+          {{ error }}
+        </li>
+      </ul>
     </div>
-  </mat-card>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" placeholder="firstlast" />
+
+        <mat-error *ngIf="formGroup.controls.email?.hasError('required')">
+          Email Address is required
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.email.hasError('other')">
+          {{ formGroup.controls.email.errors?.['other'] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" />
+
+        <mat-error
+          *ngIf="formGroup.controls.password?.hasError('required')"
+        >
+          Password is required
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.controls.password?.hasError('password')"
+        >
+          Password is not valid
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.password.hasError('other')">
+          {{ formGroup.controls.password.errors?.['other'] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-md-6">
+      <mat-checkbox id="rememberMe" class="rememberMe" color="primary"
+        formControlName="rememberMe">Remember me</mat-checkbox>
+    </div>
+    <div class="col-md-6"><span class="hyper-link color-primary">Forgot password</span></div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        class="w-100"
+        title="Login"
+        type="button"
+        mat-raised-button
+        color="primary"
+        [disabled]="formGroup.invalid"
+        (click)="login()"
+      >
+        LOGIN
+      </button>
+    </div>
+  </div>
 </form>

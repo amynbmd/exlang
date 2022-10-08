@@ -1,20 +1,17 @@
 <div class="container" style="min-height: 500px;">
   <div class="tag h-100" style="width: 30%;">
-    <div class="h-100">
-      <div class="h-100" *ngIf="showComponent == 0">
-        <registration class="h-100"></registration>
-        <div class="row text-center">
-          <div class="col">Already have an account? <span class="hyper-link color-primary" (click)="switchToLogin()">Sign In</span></div>
-        </div>
-      </div>
+    <mat-card class="text-center m-auto p-0 h-100 pt-5">
+      <mat-card-title class="fw-bold">ExLang</mat-card-title>
+      <mat-card-content class="ps-5 pe-5">
+        <registration *ngIf="showComponent == 0"></registration>
+        <login *ngIf="showComponent == 1"></login>
+      </mat-card-content>
 
-      <div class="h-100" *ngIf="showComponent == 1">
-        <login></login>
-        <div class="row text-center h-100">
-          <div class="col">New to ExLang? <span class="hyper-link color-primary" (click)="switchToRegister()">Create an account</span></div>
-        </div>
+      <div class="row text-center">
+        <div *ngIf="showComponent == 0" class="col">Already have an account? <span class="hyper-link color-primary" (click)="switchToLogin()">Sign In</span></div>
+        <div *ngIf="showComponent == 1" class="col">New to ExLang? <span class="hyper-link color-primary" (click)="switchToRegister()">Create an account</span></div>
       </div>
-    </div>
+    </mat-card>
   </div>
   <img src="/assets/img/registration.jpg" alt="Italian Trulli" class="img-right">
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { LoginComponent } from '../login/login.component';
 import { RegistrationComponent } from '../registration/registration.component';
 
@@ -11,6 +12,7 @@ import { RegistrationComponent } from '../registration/registration.component';
   standalone: true,
   imports: [
     CommonModule,
+    MatCardModule,
     RegistrationComponent,
     LoginComponent
   ],
