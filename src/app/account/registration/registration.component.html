@@ -1,5 +1,5 @@
-<form [formGroup]="formGroup" class="h-100">
-  <mat-card class="text-center m-auto p-0 h-100">
+<form [formGroup]="formGroup">
+  <mat-card class="text-center m-auto p-0">
     <div class="p-3 ps-5 pe-5">
       <mat-card-title class="fw-bold mt-5 mb-5">ExLang</mat-card-title>
 
@@ -91,12 +91,8 @@
 
         <div class="row">
           <div class="col">
-            <button class="w-100" title="Create Account" type="button" mat-raised-button color="primary" (click)="register()" [disabled]="formGroup.invalid">Create Account</button>
+            <button class="w-100" title="Create Account" type="button" mat-raised-button color="primary" (click)="register()" [disabled]="formGroup.invalid">CREATE ACCOUNT</button>
           </div>
-        </div>
-
-        <div class="row pt-3">
-          <div class="col">Already have an account? <span class="hyper-link color-primary" (click)="login()">Sign In</span></div>
         </div>
       </mat-card-content>
     </div>

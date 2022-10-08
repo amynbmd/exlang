@@ -1,9 +1,7 @@
 <form [formGroup]="formGroup">
-  <mat-card class="text-center m-auto p-0 card-sm">
-    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-
-    <div class="p-3">
-      <mat-card-title>Sign in</mat-card-title>
+  <mat-card class="text-center m-auto p-0">
+    <div class="p-3 ps-5 pe-5">
+      <mat-card-title class="fw-bold mt-5 mb-5">ExLang</mat-card-title>
 
       <mat-card-content>
         <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
@@ -19,11 +17,11 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field appearance="outline" color="accent">
-              <mat-label>Email</mat-label>
+              <mat-label>Email Address</mat-label>
               <input matInput formControlName="email" placeholder="firstlast" />
 
               <mat-error *ngIf="formGroup.controls.email?.hasError('required')">
-                Email is required
+                Email Address is required
               </mat-error>
               <mat-error *ngIf="formGroup.controls.email.hasError('other')">
                 {{ formGroup.controls.email.errors?.['other'] }}
@@ -55,34 +53,15 @@
           </div>
         </div>
 
-        <div *ngIf="showResetPasswordBtn" class="row pb-3">
-          <div class="col-md-12">
-            <button
-              class="w-100"
-              title="Change Password"
-              type="button"
-              mat-raised-button
-              color="warn"
-              (click)="resetPassword()"
-            >
-              Change Password
-            </button>
+        <div class="row pb-3">
+          <div class="col-md-6">
+            <mat-checkbox id="rememberMe" class="rememberMe" color="primary"
+              formControlName="rememberMe">Remember me</mat-checkbox>
           </div>
+          <div class="col-md-6"><span class="hyper-link color-primary">Forgot password</span></div>
         </div>
 
         <div class="row">
-          <div class="col">
-            <button
-              class="w-100"
-              title="Create Account"
-              type="button"
-              mat-raised-button
-              color="accent"
-              (click)="registerAccount()"
-            >
-              Create account
-            </button>
-          </div>
           <div class="col">
             <button
               class="w-100"
@@ -93,7 +72,7 @@
               [disabled]="formGroup.invalid"
               (click)="login()"
             >
-              Login
+              LOGIN
             </button>
           </div>
         </div>

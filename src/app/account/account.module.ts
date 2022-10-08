@@ -24,11 +24,11 @@ const routes: Routes = [
         loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent)
       },
       {
-        path: 'register/area',
+        path: 'area',
         data: {
           title: 'Account - Registration',
         },
-        loadComponent: () => import('./registration-area/registration-area.component').then(m => m.RegistrationAreaComponent)
+        loadComponent: () => import('./account-area/account-area.component').then(m => m.AccountAreaComponent)
       }
     ],
   },

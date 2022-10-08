@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterModule } from '@angular/router';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -16,17 +17,15 @@ import { AuthenticationService } from 'src/app/account/_services/authentication/
 import { BaseComponent } from '../../_shared/BaseComponent';
 
 @Component({
-  selector: 'account-login',
+  selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss', '../_shared/styles.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterModule, FormModule, MatCardModule, MatProgressBarModule],
+  imports: [RouterModule, FormModule, MatCardModule, MatProgressBarModule, MatCheckboxModule],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup<LoginForm>;
-  showResetPasswordBtn: boolean = false;
-
   constructor(
     private _router: Router,
     private _authService: AuthenticationService,
@@ -41,38 +40,36 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   private createForm() {
     this.formGroup = new FormGroup<LoginForm>({
-      email: new FormControl('', {
+      email: new FormControl('your@email.com', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      password: new FormControl('', {
+      password: new FormControl('123123123', {
         nonNullable: true,
         validators: [
           RxwebValidators.required(),
-          RxwebValidators.password({
-            validation: { upperCase: true, lowerCase: true },
-          }),
+          // RxwebValidators.password({
+          //   validation: { upperCase: true, lowerCase: true },
+          // }),
           RxwebValidators.minLength({ value: 8 }),
         ],
+      }),
+      rememberMe: new FormControl(false, {
+        nonNullable: true
       }),
     });
   }
   
   private checkWrongPassword() {
     if (this.formGroup.get('password')?.invalid) {
-      if (
-        this.formGroup.controls.password.errors?.['other']
-          .toLowerCase()
-          .indexOf('wrong password') != -1
-      ) {
-        this.showResetPasswordBtn = true;
-      }
     }
   }
 
   login() {
     this.loading = true;
     let credential: Login = this.formGroup.getRawValue();
+
+    console.log(credential);
   }
 
   resetPassword() {
