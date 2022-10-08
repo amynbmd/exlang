@@ -8,5 +8,3 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   exports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule]
 })
 export class ThemeModule {}
-
-// No longer used
