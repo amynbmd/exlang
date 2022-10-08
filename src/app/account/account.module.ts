@@ -22,6 +22,13 @@ const routes: Routes = [
           title: 'Account - Registration',
         },
         loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent)
+      },
+      {
+        path: 'register/area',
+        data: {
+          title: 'Account - Registration',
+        },
+        loadComponent: () => import('./registration-area/registration-area.component').then(m => m.RegistrationAreaComponent)
       }
     ],
   },

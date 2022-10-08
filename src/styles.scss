@@ -18,7 +18,7 @@ $_theme: mat.define-light-theme($_primary, $_accent);
 
 @import './styles/bootstrap/bootstrap-grid.min.css';
 @import './styles/bootstrap/bootstrap-utilities.min.css';
-@import './app/_shared/mat-table-responsive/mat-table-responsive.directive';
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 
@@ -34,7 +34,10 @@ mat-icon {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
 
 .container {
     min-width: 100% !important;
@@ -43,7 +46,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .card-sm {
-    max-width: 440px;
     box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%) !important;
 }
 
