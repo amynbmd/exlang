@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   OnInit,
+  Output,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +17,7 @@ import { LoginForm } from 'src/app/account/_models/login.form';
 import { FormModule } from 'src/app/_modules/form.module';
 import { AuthenticationService } from 'src/app/account/_services/authentication/authentication.service';
 import { BaseComponent } from '../../_shared/BaseComponent';
+import { ShowComponent } from '../account-area/account-area.component';
 
 @Component({
   selector: 'login',
@@ -25,6 +28,8 @@ import { BaseComponent } from '../../_shared/BaseComponent';
   imports: [RouterModule, FormModule, MatCardModule, MatProgressBarModule, MatCheckboxModule],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
+  @Output() switchToForgotPasswordComponent = new EventEmitter<ShowComponent>();
+
   formGroup: FormGroup<LoginForm>;
   constructor(
     private _router: Router,
@@ -60,11 +65,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
     });
   }
   
-  private checkWrongPassword() {
-    if (this.formGroup.get('password')?.invalid) {
-    }
-  }
-
   login() {
     this.loading = true;
     let credential: Login = this.formGroup.getRawValue();
@@ -72,11 +72,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     console.log(credential);
   }
 
-  resetPassword() {
-    this._router.navigate(['account', 'password', 'reset']);
-  }
-
-  registerAccount() {
-    this._router.navigate(['account', 'register']);
+  switchToForgotPassword() {
+    this.switchToForgotPasswordComponent.emit(ShowComponent.forgotPassword);
   }
 }

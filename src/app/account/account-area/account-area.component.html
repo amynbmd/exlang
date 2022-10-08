@@ -4,7 +4,7 @@
       <mat-card-title class="fw-bold">ExLang</mat-card-title>
       <mat-card-content class="ps-5 pe-5">
         <registration *ngIf="showComponent == 0"></registration>
-        <login *ngIf="showComponent == 1"></login>
+        <login (switchToForgotPasswordComponent)="switchToForgotPassword($event)" *ngIf="showComponent == 1"></login>
       </mat-card-content>
 
       <div class="row text-center">

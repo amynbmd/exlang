@@ -18,7 +18,7 @@ import { RegistrationComponent } from '../registration/registration.component';
   ],
 })
 export class AccountAreaComponent implements OnInit {
-  showComponent: ShowComponent = ShowComponent.login;
+  showComponent: ShowComponent = ShowComponent.register;
 
   constructor() { }
 
@@ -32,9 +32,14 @@ export class AccountAreaComponent implements OnInit {
   switchToLogin() {
     this.showComponent = ShowComponent.login;
   }
+
+  switchToForgotPassword(value: ShowComponent) {
+    this.showComponent = value;
+  }
 }
 
 export enum ShowComponent {
   register = 0, 
-  login = 1
+  login = 1,
+  forgotPassword = 2
 }
