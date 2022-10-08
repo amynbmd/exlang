@@ -1,9 +1,7 @@
 <form [formGroup]="formGroup" class="h-100">
-  <mat-card class="text-center m-auto p-0 card-sm h-100">
-    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-
+  <mat-card class="text-center m-auto p-0 h-100">
     <div class="p-3">
-      <mat-card-title class="text-quote">ExLang</mat-card-title>
+      <mat-card-title class="fw-bold">ExLang</mat-card-title>
 
       <mat-card-content>
         <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
@@ -16,18 +14,30 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Name</mat-label>
+              <input type="name" matInput formControlName="name" placeholder="Your name">
+        
+              <mat-error *ngIf="formGroup.controls.name.hasError('required')">
+                Name is required
+              </mat-error>
+            </mat-form-field>          
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12">
             <mat-form-field appearance="outline" color="accent">
-              <mat-label>E-mail</mat-label>
-              <input type="email" matInput formControlName="email" placeholder="Ex. first.last@email.com">
+              <mat-label>Email Address</mat-label>
+              <input type="email" matInput formControlName="email" placeholder="Your email address">
         
               <mat-error *ngIf="formGroup.controls.email.hasError('required')">
-                E-mail is required
+                Email Address is required
               </mat-error>
               <mat-error *ngIf="formGroup.controls.email.hasError('email')">
-                E-mail is not valid
+                Email Address is not valid
               </mat-error>
               <mat-error *ngIf="formGroup.controls.email.hasError('other')">
                 {{ formGroup.controls.email.errors?.['other'] }}
@@ -36,28 +46,10 @@
           </div>
         </div>
 
-
         <div class="row">
           <div class="col-md-12">
             <mat-form-field appearance="outline" color="accent">
-              <mat-label>Username</mat-label>
-              <input type="username" matInput formControlName="username" placeholder="Ex. firstlast">
-        
-              <mat-error *ngIf="formGroup.controls.username.hasError('required')">
-                Username is required
-              </mat-error>
-              <mat-error *ngIf="formGroup.controls.username.hasError('other')">
-                {{ formGroup.controls.username.errors?.['other'] }}
-              </mat-error>
-            </mat-form-field>          
-          </div>
-        </div>
-  
-
-        <div class="row">
-          <div class="col-md-12">
-            <mat-form-field appearance="outline" color="accent">
-              <mat-label>New Password</mat-label>
+              <mat-label>Password</mat-label>
               <input type="password" matInput formControlName="password">
         
               <mat-error *ngIf="formGroup.controls.password.hasError('required')">
@@ -77,7 +69,7 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field appearance="outline" color="accent">
-              <mat-label>Confirm New Password</mat-label>
+              <mat-label>Repeat Your Password</mat-label>
               <input type="password" matInput formControlName="confirmPassword">
         
               <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('required')">
@@ -99,11 +91,12 @@
 
         <div class="row">
           <div class="col">
-            <button class="w-100" title="Login" type="button" mat-raised-button color="accent" (click)="login()">Login</button>
-          </div>
-          <div class="col">
             <button class="w-100" title="Create Account" type="button" mat-raised-button color="primary" (click)="register()" [disabled]="formGroup.invalid">Create Account</button>
           </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col">Already have an account? <span class="hyper-link color-primary" (click)="login()">Log In</span></div>
         </div>
       </mat-card-content>
     </div>

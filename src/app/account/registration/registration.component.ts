@@ -44,13 +44,13 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   
   private createForm() {
     this.formGroup = new FormGroup<RegistrationForm>({
-      email: new FormControl('', {
-        nonNullable: true,
-        validators: [RxwebValidators.required(), RxwebValidators.email()],
-      }),
-      username: new FormControl('', {
+      name: new FormControl('Duyen Nguyen', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
+      }),
+      email: new FormControl('email@email.com', {
+        nonNullable: true,
+        validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
       password: new FormControl('', {
         nonNullable: true,
@@ -62,17 +62,16 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
           ...this.basePasswordValidatorFn(),
           RxwebValidators.compare({ fieldName: 'password' }),
         ],
-      }),
-      clientUri: new FormControl('', { nonNullable: true }),
+      })
     });
   }
 
   private basePasswordValidatorFn() {
     let validators: ValidatorFn[] = [
       RxwebValidators.required(),
-      RxwebValidators.password({
-        validation: { upperCase: true, lowerCase: true },
-      }),
+      // RxwebValidators.password({
+      //   validation: { upperCase: true, lowerCase: true },
+      // }),
       RxwebValidators.minLength({ value: 8 }),
     ];
 
@@ -82,7 +81,12 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
   register() {
     this.loading = true;
+
+    //Prevent from clicking twice
+    this.formGroup.disable();
     const registration: Registration = this.formGroup.getRawValue();
+
+    console.log(JSON.stringify(registration));
   }
 
   login() {
