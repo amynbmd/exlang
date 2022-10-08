@@ -5,12 +5,16 @@
       <mat-card-content class="ps-5 pe-5">
         <registration *ngIf="showComponent == 0"></registration>
         <login (switchToForgotPasswordComponent)="switchToForgotPassword($event)" *ngIf="showComponent == 1"></login>
+        <app-forgot-password *ngIf="showComponent == 2"></app-forgot-password>
+
       </mat-card-content>
 
-      <div class="row text-center">
-        <div *ngIf="showComponent == 0" class="col">Already have an account? <span class="hyper-link color-primary" (click)="switchToLogin()">Sign In</span></div>
+      <div class="row text-center pt-3">
+        <div *ngIf="showComponent == 0 || showComponent == 2" class="col">Already have an account? <span class="hyper-link color-primary" (click)="switchToLogin()">Sign In</span></div>
         <div *ngIf="showComponent == 1" class="col">New to ExLang? <span class="hyper-link color-primary" (click)="switchToRegister()">Create an account</span></div>
+      
       </div>
+
     </mat-card>
   </div>
   <img src="/assets/img/registration.jpg" alt="Italian Trulli" class="img-right">

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { LoginComponent } from '../login/login.component';
 import { RegistrationComponent } from '../registration/registration.component';
 
@@ -14,11 +15,12 @@ import { RegistrationComponent } from '../registration/registration.component';
     CommonModule,
     MatCardModule,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    ForgotPasswordComponent
   ],
 })
 export class AccountAreaComponent implements OnInit {
-  showComponent: ShowComponent = ShowComponent.register;
+  showComponent: ShowComponent = ShowComponent.login;
 
   constructor() { }
 

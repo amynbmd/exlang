@@ -83,7 +83,7 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     this.loading = true;
 
     //Prevent from clicking twice
-    this.formGroup.disable();
+    //this.formGroup.disable();
     const registration: Registration = this.formGroup.getRawValue();
 
     console.log(JSON.stringify(registration));

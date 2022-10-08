@@ -47,7 +47,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.formGroup = new FormGroup<LoginForm>({
       email: new FormControl('your@email.com', {
         nonNullable: true,
-        validators: [RxwebValidators.required()],
+        validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
       password: new FormControl('123123123', {
         nonNullable: true,
