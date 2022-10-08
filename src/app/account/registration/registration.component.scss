@@ -1,0 +1,15 @@
+.mat-card {
+    box-shadow: none !important;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+:host ::ng-deep .mat-form-field-subscript-wrapper {
+    margin-top: 2px;
+}
+
+:host ::ng-deep .mat-card {
+    border-radius: 0;
+}

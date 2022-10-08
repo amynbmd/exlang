@@ -1,0 +1,28 @@
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <div>
+      <div class="toolbar">
+        <mat-toolbar color="primary">
+          <button title="Home" mat-button class="menu-button" [routerLink]="['']">
+            <mat-icon>home</mat-icon>
+          </button>
+
+          <div class="box" (click)="viewTheme()">ExLang</div>
+
+          <div class="flex-spacer"></div>
+
+          <div class="box">
+            <theme-picker></theme-picker>
+          </div>
+          
+          <div class="box">
+            <account-menu></account-menu>
+          </div>
+        </mat-toolbar>
+      </div>
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
