@@ -1,0 +1,33 @@
+<mat-sidenav-container>
+  <mat-sidenav class="mat-elevation-z8" #sidebar mode="side" opened>
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div>
+      <div class="toolbar">
+        <mat-toolbar color="primary">
+          <button title="Toggle Side Nav" mat-button (click)="sidebar.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <button title="Home" mat-button class="menu-button" [routerLink]="['']">
+            <mat-icon>home</mat-icon>
+          </button>
+
+          <div class="flex-spacer"></div>
+
+          <div class="box">
+            <theme-picker></theme-picker>
+          </div>
+          
+          <div class="box">
+            <account-menu></account-menu>
+          </div>
+        </mat-toolbar>
+      </div>
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

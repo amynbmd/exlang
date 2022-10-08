@@ -1,0 +1,112 @@
+<form [formGroup]="formGroup">
+  <mat-card class="text-center m-auto p-0 card-sm">
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+    <div class="p-3">
+      <mat-card-title>Registration</mat-card-title>
+
+      <mat-card-content>
+        <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
+          <div class="col-md-12">
+            <ul>
+              <li *ngFor="let error of summaryError">
+                {{ error }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>E-mail</mat-label>
+              <input type="email" matInput formControlName="email" placeholder="Ex. first.last@email.com">
+        
+              <mat-error *ngIf="formGroup.controls.email.hasError('required')">
+                E-mail is required
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.email.hasError('email')">
+                E-mail is not valid
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.email.hasError('other')">
+                {{ formGroup.controls.email.errors?.['other'] }}
+              </mat-error>
+            </mat-form-field>          
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Username</mat-label>
+              <input type="username" matInput formControlName="username" placeholder="Ex. firstlast">
+        
+              <mat-error *ngIf="formGroup.controls.username.hasError('required')">
+                Username is required
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.username.hasError('other')">
+                {{ formGroup.controls.username.errors?.['other'] }}
+              </mat-error>
+            </mat-form-field>          
+          </div>
+        </div>
+  
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>New Password</mat-label>
+              <input type="password" matInput formControlName="password">
+        
+              <mat-error *ngIf="formGroup.controls.password.hasError('required')">
+                Password is required
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.password.hasError('password')">
+                Password is not valid
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.password.hasError('minLength')">
+                Password must have at least {{ formGroup.controls.password.errors?.['minLength'].refValues[1] }} characters
+              </mat-error>
+            </mat-form-field>          
+          </div>
+        </div>
+  
+  
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Confirm New Password</mat-label>
+              <input type="password" matInput formControlName="confirmPassword">
+        
+              <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('required')">
+                Password is required
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('password')">
+                Password is not valid
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('compare')">
+                Password does not match
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('minLength')">
+                Password must have at least {{ formGroup.controls.confirmPassword.errors?.['minLength'].refValues[1] }} characters
+              </mat-error>
+            </mat-form-field>          
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <button class="w-100" title="Login" type="button" mat-raised-button color="accent" (click)="login()">Login</button>
+          </div>
+          <div class="col">
+            <button class="w-100" title="Create Account" type="button" mat-raised-button color="primary" (click)="register()" [disabled]="formGroup.invalid">Create Account</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+
+  </mat-card>
+</form>

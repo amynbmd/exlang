@@ -1,0 +1,4 @@
+{
+    "apiUrl": "https://nphamapi.azurewebsites.net/api/",
+    "devApiUrl": "https://localhost:7293/api/"
+}

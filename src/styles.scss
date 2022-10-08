@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use './app-theme';
+@use './styles/api';
+@use './styles/markdown';
+@use './styles/tables';
+@use './styles/general';
+
+// Define the light theme.
+$_primary: mat.define-palette(mat.$indigo-palette);
+$_accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$_theme: mat.define-light-theme($_primary, $_accent);
+
+// Include material core styles.
+@include mat.core();
+
+@include mat.all-component-themes($_theme);
+@include app-theme.theme($_theme);
+
+@import './styles/bootstrap/bootstrap-grid.min.css';
+@import './styles/bootstrap/bootstrap-utilities.min.css';
+@import './app/_shared/mat-table-responsive/mat-table-responsive.directive';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container {
+    min-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.card-sm {
+    max-width: 440px;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%) !important;
+}
+
+.card-sm-btn {
+    width: 130px;
+}
+
+.card-sm > .mat-progress-bar {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
