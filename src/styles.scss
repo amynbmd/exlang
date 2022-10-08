@@ -18,7 +18,6 @@ $_theme: mat.define-light-theme($_primary, $_accent);
 
 @import './styles/bootstrap/bootstrap-grid.min.css';
 @import './styles/bootstrap/bootstrap-utilities.min.css';
-// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 
@@ -61,12 +60,4 @@ body {
 .text-quote {
     font-size: 4vw;
     font-weight: 900;
-}
-
-.hyper-link {
-    text-decoration: underline;
-}
-
-.hyper-link:hover {
-    cursor: pointer;
 }
