@@ -41,6 +41,11 @@
         >
           Password is not valid
         </mat-error>
+        <mat-error
+        *ngIf="formGroup.controls.password?.hasError('minLength')"
+      >
+        Password must be at least 8 characters.
+      </mat-error>
         <mat-error *ngIf="formGroup.controls.password.hasError('other')">
           {{ formGroup.controls.password.errors?.['other'] }}
         </mat-error>
