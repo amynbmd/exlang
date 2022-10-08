@@ -1,0 +1,28 @@
+
+
+mat-sidenav {
+    width: 230px;
+    height: 100%;
+}
+
+mat-sidenav-content {
+    height: 100vh;
+
+    .main {
+        // margin: 30px;
+    }
+}
+
+mat-toolbar {
+    justify-content: space-between;
+}
+
+.flex-spacer {
+    flex-grow: 1;
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}

@@ -1,0 +1,89 @@
+<form [formGroup]="formGroup">
+  <div class="row text-start color-warn" *ngIf="summaryError.length > 0">
+    <div class="col-md-12">
+      <ul>
+        <li *ngFor="let error of summaryError">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row pt-5">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Name</mat-label>
+        <input type="name" matInput formControlName="name" placeholder="Your name">
+  
+        <mat-error *ngIf="formGroup.controls.name.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>          
+    </div>
+  </div>
+
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Email Address</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="Your email address">
+  
+        <mat-error *ngIf="formGroup.controls.email.hasError('required')">
+          Email Address is required
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.email.hasError('email')">
+          Email Address is not valid
+        </mat-error>
+      </mat-form-field>          
+    </div>
+  </div>
+
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password">
+  
+        <mat-error *ngIf="formGroup.controls.password.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.password.hasError('password')">
+          Password is not valid
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.password.hasError('minLength')">
+          Password must have at least {{ formGroup.controls.password.errors?.['minLength'].refValues[1] }} characters
+        </mat-error>
+      </mat-form-field>          
+    </div>
+  </div>
+
+
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Repeat Your Password</mat-label>
+        <input type="password" matInput formControlName="confirmPassword">
+  
+        <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('password')">
+          Password is not valid
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('compare')">
+          Password does not match
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls.confirmPassword.hasError('minLength')">
+          Password must have at least {{ formGroup.controls.confirmPassword.errors?.['minLength'].refValues[1] }} characters
+        </mat-error>
+      </mat-form-field>          
+    </div>
+  </div>
+
+
+  <div class="row pt-3">
+    <div class="col">
+      <button class="w-100" title="Create Account" type="button" mat-raised-button color="primary" (click)="register()" [disabled]="formGroup.invalid">CREATE ACCOUNT</button>
+    </div>
+  </div>
+</form>
