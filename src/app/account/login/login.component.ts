@@ -70,6 +70,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
     let credential: Login = this.formGroup.getRawValue();
 
     console.log(credential);
+
+    this._authService.login(credential).subscribe(response => {
+      console.log(response);
+    })
   }
 
   switchToForgotPassword() {

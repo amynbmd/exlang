@@ -1,13 +1,13 @@
 
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_cors import CORS
 
 #function to create web server
 
 #Create an instance of Flask as 'app'
 app = Flask(__name__)
-
+CORS(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://{username}:{password}@{server}/exlang".format(
 username="root", password= "", server="localhost")
 db = SQLAlchemy(app)
