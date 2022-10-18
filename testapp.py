@@ -14,9 +14,9 @@ db = SQLAlchemy(app)
 
 class Profile():
   wordofTheDay = "test"
-  numfriends = 0;
-  boolean isOnline = false;
-  country = ""
+  numfriends = 0
+  boolean isOnline = false
+  country = "United States of America"
   nativeLang = "English"
   learningLang = "Mandarin"
   #placeholder to represent user's interests as array#
@@ -24,7 +24,7 @@ class Profile():
   name = "Testing Test"
   #placeholder URL
   picURL = "http:google.com/testing"
-  bio = "This is a string representing a user's potential bio, we should set about a 250 char limit".
+  bio = "This is a string representing a user's potential bio, we should set about a 250 char limit."
   #placeholder array representing a user's available times and dates for meeting
   availability = ["12:20pm 10/31/2022", "1:20pm 10/31/2022"]
   #This will store the user's friends as an array/dict#
