@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, abort, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_login import LoginManager
@@ -48,8 +48,10 @@ def login():
             return "<p> Success <p>"
         else: 
             flash('Incorrect password, try again.', category='error')
+            abort(401)
     else:
         flash('Incorrect email, try again.', category='error')
+        abort(401)
 
     return "<p>Success <p>"
 
