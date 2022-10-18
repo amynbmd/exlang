@@ -37,7 +37,7 @@ class User(db.Model):
     username  = db.Column(db.String(50), primary_key = True)
     email = db.Column(db.String(50), unique = True)
     password = db.Column(db.String(50))
-    profile = new Profile()
+    profile = Profile()
 
 
 @app.route("/")
