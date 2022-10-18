@@ -12,11 +12,32 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://{username}:{pass
 username="root", password= "", server="localhost")
 db = SQLAlchemy(app)
 
+class Profile():
+  wordofTheDay = "test"
+  numfriends = 0;
+  boolean isOnline = false;
+  country = ""
+  nativeLang = "English"
+  learningLang = "Mandarin"
+  #placeholder to represent user's interests as array#
+  interests = ["Sports", "Entertainment", "News", "Science"]
+  name = "Testing Test"
+  #placeholder URL
+  picURL = "http:google.com/testing"
+  bio = "This is a string representing a user's potential bio, we should set about a 250 char limit".
+  #placeholder array representing a user's available times and dates for meeting
+  availability = ["12:20pm 10/31/2022", "1:20pm 10/31/2022"]
+  #This will store the user's friends as an array/dict#
+  friends = []
+
+  
+#Add line to get "Firstname Lastname" from user
 class User(db.Model):
     __tablename__ = 'user'
     username  = db.Column(db.String(50), primary_key = True)
     email = db.Column(db.String(50), unique = True)
     password = db.Column(db.String(50))
+    profile = new Profile()
 
 
 @app.route("/")
