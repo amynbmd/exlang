@@ -21,13 +21,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { ThemeStorage } from './layout/ui/theme-picker/theme-storage/theme-storage';
+import { UserProfileAreaComponent } from './user-profile-area/user-profile-area.component';
 
 export function getAppConfig(configService: ConfigService) {
   return () => configService.loadConfiguration();
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [	AppComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
