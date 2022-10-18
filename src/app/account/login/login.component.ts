@@ -73,6 +73,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     this._authService.login(credential).subscribe(response => {
       console.log(response);
+
+      this._router.navigate(['user-profile-area']);
+
     },
     error => {
       this.summaryError.push("Incorrect Email Address or Password. Please try again.");
