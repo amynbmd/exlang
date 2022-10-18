@@ -44,11 +44,11 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
   
   private createForm() {
     this.formGroup = new FormGroup<RegistrationForm>({
-      name: new FormControl('Duyen Nguyen', {
+      name: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      email: new FormControl('email@email.com', {
+      email: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
@@ -87,6 +87,12 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     const registration: Registration = this.formGroup.getRawValue();
 
     console.log(JSON.stringify(registration));
+
+    this._authService.register(registration).subscribe(response => {
+      console.log(response);
+    });
+
+
   }
 
   login() {

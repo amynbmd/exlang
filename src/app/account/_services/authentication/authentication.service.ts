@@ -14,7 +14,7 @@ import { ConfigService } from 'src/app/_shared/config/config.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private readonly baseUrl = this._configService.config?.apiUrl + 'authentication/';
+  private readonly baseUrl = this._configService.config?.apiUrl;
   
   private readonly httpOptions = {
     headers: new HttpHeaders({
@@ -25,47 +25,31 @@ export class AuthenticationService {
   loggedIn = new BehaviorSubject(false);
 
   constructor(private _http: HttpClient, private _configService: ConfigService, private _cookieService: CookieService, private _jwtHelper: JwtHelperService) { 
-    this.isLoggedInAndValid();
   }
 
   login(credential: Login): Observable<any> {
-    return this._http.post<AuthenticationResponse>(this.baseUrl + 'login', credential, this.httpOptions).pipe(
+    let body = new FormData();
+    body.append('email', credential.email);
+    body.append('password', credential.password);
+
+    return this._http.post<AuthenticationResponse>(this.baseUrl + 'login', body).pipe(
       map(res => {
-        if (res.success) {
-          this.storeJwt(res);
-          this.isLoggedInAndValid();
-        }
         return res;
       })
     )
   }
 
   register(credential: Registration) {
-    return this._http.post<AuthenticationResponse>(this.baseUrl + 'register', credential, this.httpOptions).pipe(
+    let body = new FormData();
+    body.append('email', credential.email);
+    body.append('name', credential.name);
+    body.append('password', credential.password);
+    body.append('confirmPassword', credential.confirmPassword);
+
+    return this._http.post<AuthenticationResponse>(this.baseUrl + 'register', body).pipe(
       map(res => {
         return res;
       })
     );
-  }
-  private isLoggedInAndValid() {
-    let jwt = this.getJwt();
-
-    if (jwt == null || jwt == undefined) {
-      return this.loggedIn.next(false);
-    }
-
-    if (this._jwtHelper.isTokenExpired(this._cookieService.get('jwt'))) {
-      return this.loggedIn.next(false);
-    }
-
-    return this.loggedIn.next(true);
-  }
-
-  private getJwt(): Jwt {
-    return this._jwtHelper.decodeToken(this._cookieService.get('jwt'));
-  }
-
-  private storeJwt(authRes: AuthenticationResponse) {
-    this._cookieService.put("jwt", authRes.token);
   }
 }
