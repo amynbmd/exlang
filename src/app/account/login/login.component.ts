@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterModule } from '@angular/router';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { error, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { Login } from 'src/app/account/_models/login';
 import { LoginForm } from 'src/app/account/_models/login.form';
 import { FormModule } from 'src/app/_modules/form.module';
@@ -73,6 +73,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     this._authService.login(credential).subscribe(response => {
       console.log(response);
+    },
+    error => {
+      this.summaryError.push("Incorrect Email Address or Password. Please try again.");
+      this._cd.markForCheck();
     })
   }
 
