@@ -1,10 +1,5 @@
 
-<<<<<<< HEAD
-from flask import Flask, abort, render_template, request, flash
-from flask_sqlalchemy import SQLAlchemy
-=======
 from flask import Flask, render_template, request, flash
->>>>>>> 6f3be2e (testapp Commit)
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_login import login_user, login_required, logout_user, current_user
@@ -42,21 +37,6 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-    
-<<<<<<< HEAD
-    user = User.query.filter_by(email=email).first()
-    user1 = bool(User.query.filter_by(password=password).first())
-    if user:
-        if  user1:
-            flash('Logged in successfully!', category='success')
-            return "<p> Success <p>"
-        else: 
-            flash('Incorrect password, try again.', category='error')
-            abort(401)
-    else:
-        flash('Incorrect email, try again.', category='error')
-        abort(401)
-=======
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
     
@@ -78,8 +58,6 @@ def login():
     # else:
     #     print("True2")
     #     flash('Incorrect email, try again.', category='error')
->>>>>>> 6f3be2e (testapp Commit)
-
     return "<p>Success <p>"
 
 #SIGN-UP
