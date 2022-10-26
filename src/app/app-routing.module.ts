@@ -29,6 +29,13 @@ const routes: Routes = [
             (m) => m.AccountModule
           ),
       },
+      {
+        path: 'user-profile-area',
+        data: {
+          title: 'User\'s Profile',
+        },
+        loadComponent: () => import('./user-profile-area/user-profile-area.component').then(m => m.UserProfileAreaComponent)
+      }
     ],
   },
 ];
