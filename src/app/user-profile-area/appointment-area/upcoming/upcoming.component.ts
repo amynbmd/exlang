@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @Component({
   selector: 'app-upcoming',
@@ -11,7 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
   standalone: true,
 
   imports: [
-    MatCardModule, MatDividerModule, MatIconModule,
+    MatCardModule, MatDividerModule, MatButtonModule,
   ]
 })
 export class UpcomingComponent implements OnInit {
