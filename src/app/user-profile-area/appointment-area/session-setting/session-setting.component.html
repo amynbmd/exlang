@@ -1,0 +1,59 @@
+<div class="row pt-3 pb-3">
+  <div class="col-md-5">
+    <span>
+      Session Duration (minutes)
+    </span>
+    <mat-form-field appearance="outline" color="accent">
+      <mat-label>Minutes</mat-label>
+      <input matInput placeholder="8:00AM" />
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="row pt-3 pb-3">
+  <div class="col-md-5">
+    <span>
+      Who can book my time
+    </span>
+    <mat-form-field appearance="outline" color="accent">
+      <mat-select name="booker">
+        <mat-option value="" selected></mat-option>
+        <mat-option value="Anyone" >Anyone</mat-option>
+        <mat-option value="Friends" >Friends</mat-option>
+        <mat-option value="Teachers" >Teachers</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="row pt-3 pb-3">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+        Timezone
+      </div>
+    </div>
+    <mat-form-field appearance="outline" color="accent">
+      <mat-select name="timezone">
+        <mat-option value="" selected></mat-option>
+        <ng-container *ngFor="let zone of timeZones">
+          <mat-option [value]="zone.abbr">{{zone.text}}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="row pt-3 pb-3">
+  <div class="col">
+    <button
+      class="w-40"
+      title="Login"
+      type="button"
+      mat-raised-button
+      color="primary"
+    >
+      UPDATE
+    </button>
+  </div>
+</div>

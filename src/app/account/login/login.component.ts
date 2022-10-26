@@ -70,17 +70,18 @@ export class LoginComponent extends BaseComponent implements OnInit {
     let credential: Login = this.formGroup.getRawValue();
 
     console.log(credential);
+    this._router.navigate(['user-profile-area']);
 
-    this._authService.login(credential).subscribe(response => {
-      console.log(response);
+    // this._authService.login(credential).subscribe(response => {
+    //   console.log(response);
 
-      this._router.navigate(['user-profile-area']);
+    //   this._router.navigate(['user-profile-area']);
 
-    },
-    error => {
-      this.summaryError.push("Incorrect Email Address or Password. Please try again.");
-      this._cd.markForCheck();
-    })
+    // },
+    // error => {
+    //   this.summaryError.push("Incorrect Email Address or Password. Please try again.");
+    //   this._cd.markForCheck();
+    // })
   }
 
   switchToForgotPassword() {

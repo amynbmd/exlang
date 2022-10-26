@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AppointmentAreaComponent } from './appointment-area/appointment-area.component';
 import { UserBioComponent } from './user-bio/user-bio.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-user-profile-area',
@@ -8,7 +10,9 @@ import { UserBioComponent } from './user-bio/user-bio.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [	
-    UserBioComponent
+    UserBioComponent,
+    AppointmentAreaComponent,
+    MatDividerModule,
   ]
 })
 export class UserProfileAreaComponent implements OnInit {
