@@ -60,7 +60,7 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
         nonNullable: true,
         validators: [
           ...this.basePasswordValidatorFn(),
-          RxwebValidators.compare({ fieldName: 'password' }),
+          RxwebValidators.compare({ fieldName: '' }),
         ],
       })
     });
@@ -87,11 +87,20 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     const registration: Registration = this.formGroup.getRawValue();
 
     console.log(JSON.stringify(registration));
+    this.summaryError = [];
 
     this._authService.register(registration).subscribe(response => {
-      console.log(response);
-    });
+      this._authService.setLoggedIn();
+      this._router.navigate(['user-profile-area']);
 
+    },
+    error => {
+      this.summaryError.push(error.error.message);
+      this._cd.markForCheck();
+    }).
+    add(() => {
+      this.loading = false;  
+    });
 
   }
 

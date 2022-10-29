@@ -24,7 +24,10 @@ export class AuthenticationService {
 
   loggedIn = new BehaviorSubject(false);
 
-  constructor(private _http: HttpClient, private _configService: ConfigService, private _cookieService: CookieService, private _jwtHelper: JwtHelperService) { 
+  constructor(private _http: HttpClient, private _configService: ConfigService, private _cookieService: CookieService, private _jwtHelper: JwtHelperService) {
+    if (localStorage.getItem("loggedIn") == "true") {
+      this.setLoggedIn();
+    }
   }
 
   login(credential: Login): Observable<any> {
@@ -51,5 +54,16 @@ export class AuthenticationService {
         return res;
       })
     );
+  }
+
+
+  setLoggedIn() {
+    localStorage.setItem("loggedIn", "true");
+    this.loggedIn.next(true);
+  }
+
+  logout() {
+    localStorage.removeItem("loggedIn");
+    this.loggedIn.next(false);
   }
 }

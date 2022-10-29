@@ -45,11 +45,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   private createForm() {
     this.formGroup = new FormGroup<LoginForm>({
-      email: new FormControl('your@email.com', {
+      email: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
-      password: new FormControl('123123123', {
+      password: new FormControl('', {
         nonNullable: true,
         validators: [
           RxwebValidators.required(),
@@ -70,18 +70,20 @@ export class LoginComponent extends BaseComponent implements OnInit {
     let credential: Login = this.formGroup.getRawValue();
 
     console.log(credential);
-    this._router.navigate(['user-profile-area']);
+    this.summaryError = [];
 
-    // this._authService.login(credential).subscribe(response => {
-    //   console.log(response);
+    this._authService.login(credential).subscribe(response => {
+      this._authService.setLoggedIn();
+      this._router.navigate(['user-profile-area']);
 
-    //   this._router.navigate(['user-profile-area']);
-
-    // },
-    // error => {
-    //   this.summaryError.push("Incorrect Email Address or Password. Please try again.");
-    //   this._cd.markForCheck();
-    // })
+    },
+    error => {
+      this.summaryError.push(error.error.message);
+      this._cd.markForCheck();
+    }).
+    add(() => {
+      this.loading = false;  
+    });
   }
 
   switchToForgotPassword() {

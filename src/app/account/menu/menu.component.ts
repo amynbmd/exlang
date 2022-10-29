@@ -21,10 +21,11 @@ export class MenuComponent implements OnInit {
   }
 
   login() {
-    this._router.navigate(['account', 'login']);
+    this._router.navigate(['account', 'area']);
   }
 
   logout() {
-    this._router.navigate(['account', 'logout', 1]);
+    this._authService.logout();
+    this._router.navigate(['account', 'area']);
   }
 }
