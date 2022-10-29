@@ -1,18 +1,19 @@
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, redirect, url_for
+from flask import abort, jsonify
 from flask_cors import CORS
-from flask_login import LoginManager
-from flask_login import login_user, login_required, logout_user, current_user
 import sqlite3 
 import os
+from flask_bcrypt import Bcrypt
+
 
 
 #function to create web server
 
 #Create an instance of Flask as 'app'
-# db = SQLAlchemy()
 app = Flask(__name__)
 CORS(app)
+bcrypt = Bcrypt(app)
 app.config['SECRET_KEY'] = 'exlang'
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://{username}:{password}@{server}/exlang".format(
 # username="root", password= "nhutran2002", server="localhost")
@@ -40,24 +41,22 @@ def login():
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
     
-    query1 = "SELECT email from user WHERE email = '"+email+"' and password = '"+password+"' "
-    cursor.execute(query1)
+    query_email = "SELECT email from user WHERE email = '"+email+"'  "
+   
+
+    cursor.execute(query_email)
     result = cursor.fetchall()
     if(result== []):
-        print("Incorrect email or password")
-    else: 
-        print(result)
-
-    # if user:
-    #     if  user1:
-    #         flash('Logged in successfully!', category='success')
-    #         print("True1")
-    #         return "<p> Success <p>"
-    #     else: 
-    #         flash('Incorrect password, try again.', category='error')
-    # else:
-    #     print("True2")
-    #     flash('Incorrect email, try again.', category='error')
+        abort(401)
+    else:
+        query_pw = "SELECT password from user WHERE email = '"+email+"' "
+        cursor.execute(query_pw)
+        result = cursor.fetchall()
+        if(bcrypt.check_password_hash(result[0][0],request.form['password'])):
+            return redirect(url_for('home_page'))
+        else: 
+            abort(401)
+    
     return "<p>Success <p>"
 
 #SIGN-UP
@@ -69,13 +68,12 @@ def signup_page():
             password = request.form['password']
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = password)
+    pw_hash = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+    query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
     cursor.execute(query1)
     connection.commit()
         
     return "<p>Success <p>"
 
-# with app.app_context():
-#     db.create_all()
 
 app.run()
