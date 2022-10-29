@@ -6,6 +6,7 @@
         <registration *ngIf="showComponent == 0"></registration>
         <login (switchToForgotPasswordComponent)="switchToForgotPassword($event)" *ngIf="showComponent == 1"></login>
         <app-forgot-password *ngIf="showComponent == 2"></app-forgot-password>
+        <app-sign-up-profile *ngIf="showComponent == 3"></app-sign-up-profile>
 
       </mat-card-content>
 

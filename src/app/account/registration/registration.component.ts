@@ -87,11 +87,20 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     const registration: Registration = this.formGroup.getRawValue();
 
     console.log(JSON.stringify(registration));
+    this.summaryError = [];
 
     this._authService.register(registration).subscribe(response => {
-      console.log(response);
-    });
+      this._authService.setLoggedIn(response);
+      this._router.navigate(['user-profile-area']);
 
+    },
+    error => {
+      this.summaryError.push(error.error.message);
+      this._cd.markForCheck();
+    }).
+    add(() => {
+      this.loading = false;  
+    });
 
   }
 

@@ -17,14 +17,15 @@ export class MenuComponent implements OnInit {
   }
 
   goToAccountInfo() {
-    this._router.navigate(['account', 'info', 1]);
+    this._router.navigate(['user-profile-area']);
   }
 
   login() {
-    this._router.navigate(['account', 'login']);
+    this._router.navigate(['account', 'area']);
   }
 
   logout() {
-    this._router.navigate(['account', 'logout', 1]);
+    this._authService.logout();
+    this._router.navigate(['account', 'area']);
   }
 }
