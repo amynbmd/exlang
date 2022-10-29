@@ -1,4 +1,5 @@
 export class Profile {
+    email: string;
     wordofTheDay: string;
     isOnline: boolean;
     countryCode: string;

@@ -9,6 +9,7 @@ from flask_bcrypt import Bcrypt
 import jsonpickle
 
 class Profile():
+    email = None
     wordofTheDay = None
     isOnline = False
     countryCode = None
@@ -28,6 +29,7 @@ class User:
     profile = Profile()
 
 
+#------------------------------------------TO-DO------------------------------------------#
 # Please create a new user profile table in database, retrieve profile for this particular user and then map it to an object. Hardcode values below is for testing purposes only.
 def getUserProfile(email):
     profile = Profile()
@@ -41,8 +43,10 @@ def getUserProfile(email):
         profile.learningLang = ["vi", "de", "fr"]
         profile.level = "Beginner"
         profile.interests = ["Art", "Movies", "Organizing"]
+        profile.email = email
 
     return profile
+
 
 
 def getUserByEmail(email):
@@ -138,6 +142,21 @@ def user_profile(email):
     else:
         data = {'message': 'User not found!'}
         return jsonify(data), 404
+
+
+#------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
+#Retrieve user profile by email address and return as JSON
+#Example: http://127.0.0.1:5000/user/profile
+@app.route("/user/profile", methods=['POST'])
+def update_user_profile():
+    # data is in the following json format: {'countryCode': 'AL', 'nativeLang': 'af', 'learningLangs': ['af', 'ak', 'sq', 'fy', 'yi', 'yo', 'za'], 'level': 'Intermediate', 'interest': 'art, history, math'}
+    # split interest by comma and store as array
+    
+    print(request.get_json())
+
+    return jsonpickle.encode(request.get_json()), 200
+
+
 
 
 #List of countries for UI dropdown select list.
@@ -1128,4 +1147,23 @@ def languages():
         ]
     return jsonify(data), 200
 
+#List of Levels for UI drop down list.
+#Example: http://127.0.0.1:5000/levels
+@app.route("/levels", methods=['GET'])
+def levels():
+    data = [
+        {
+            "code": "Beginner",
+            "name": "Beginner",
+        },
+        {
+            "code": "Intermediate",
+            "name": "Intermediate",
+        },
+        {
+            "code": "Advanced",
+            "name": "Advanced",
+        }
+    ]
+    return jsonify(data), 200
 app.run()

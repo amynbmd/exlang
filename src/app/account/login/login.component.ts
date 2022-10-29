@@ -58,10 +58,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
           // }),
           RxwebValidators.minLength({ value: 8 }),
         ],
-      }),
-      rememberMe: new FormControl(false, {
-        nonNullable: true
-      }),
+      })
     });
   }
   
@@ -75,8 +72,18 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this._authService.login(credential).subscribe(response => {
       this._authService.setLoggedIn(response);
       console.log(response);
-      this._router.navigate(['user-profile-area']);
 
+      if (response.profile.email == null || response.profile.email == undefined) {
+        this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
+        .then(() => {
+          window.location.reload();
+        });;
+
+      } else {
+        this._router.navigate(['user-profile-area']);
+      }
+
+  
     },
     error => {
       this.summaryError.push(error.error.message);
@@ -84,6 +91,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }).
     add(() => {
       this.loading = false;  
+      this._cd.markForCheck();
     });
   }
 

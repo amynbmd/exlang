@@ -9,6 +9,7 @@ import { Registration } from 'src/app/account/_models/registration';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
 import { ConfigService } from 'src/app/_shared/config/config.service';
+import { SignUpProfile } from '../../_models/sign-up-profile';
 import { User } from '../../_models/user';
 
 
@@ -59,6 +60,14 @@ export class AuthenticationService {
     );
   }
 
+  updateUserProfile(profile: SignUpProfile):Observable<User> {
+    return this._http.post<User>(this.baseUrl + '/user/profile', profile).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
   getUserProfile(email: string):Observable<User> {
     return this._http.get<User>(this.baseUrl + 'user/profile/' + email).pipe(
       map(res => {
@@ -66,7 +75,6 @@ export class AuthenticationService {
       })
     )
   }
-
 
   getCountries():Observable<SelectItem[]> {
     return this._http.get<SelectItem[]>(this.baseUrl + 'countries').pipe(
@@ -78,6 +86,14 @@ export class AuthenticationService {
 
   getLanguages():Observable<SelectItem[]> {
     return this._http.get<SelectItem[]>(this.baseUrl + 'languages').pipe(
+      map(res => {
+        return res;
+      })
+    )
+  }
+
+  getLevels():Observable<SelectItem[]> {
+    return this._http.get<SelectItem[]>(this.baseUrl + 'levels').pipe(
       map(res => {
         return res;
       })
