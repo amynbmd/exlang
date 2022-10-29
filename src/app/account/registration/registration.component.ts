@@ -91,7 +91,17 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
 
     this._authService.register(registration).subscribe(response => {
       this._authService.setLoggedIn(response);
-      this._router.navigate(['user-profile-area']);
+      console.log(response);
+
+      if (response.profile.email == null || response.profile.email == undefined) {
+        this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
+        .then(() => {
+          window.location.reload();
+        });
+
+      } else {
+        this._router.navigate(['user-profile-area']);
+      }
 
     },
     error => {
