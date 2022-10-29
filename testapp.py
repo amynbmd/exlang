@@ -95,12 +95,10 @@ def login():
         email = request.form['email']
         password = request.form['password']
         candidate = password
-        #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
-        #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
-        #and then (bcrypt.check_password_hash(realPassword, candiate), if true, authorize login
-        if (bcrypt.check_password_hash(pwhash, candidate):
-          #login to page
 
+    #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
+    #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
+    #and then (bcrypt.check_password_hash(realPassword, candiate), if true, authorize login
     user = getUserByEmail(email)
 
     if(user.email is not None and bcrypt.check_password_hash(user.password, password)):
