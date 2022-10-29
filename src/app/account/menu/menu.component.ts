@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   }
 
   goToAccountInfo() {
-    this._router.navigate(['account', 'info', 1]);
+    this._router.navigate(['user-profile-area']);
   }
 
   login() {

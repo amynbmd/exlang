@@ -1,106 +1,94 @@
 
+<ng-container *ngIf="user$ | async as user">
+  <div class="row">
+    <div class="col-md-6">
+      <font size="5">
+        <strong>
+          {{ user.name }}
+        </strong>
+      </font>   
+    </div>
+    <div class="col-md-6">
+      <button title="Edit Profile" type="button" mat-raised-button="primary">Edit Profile</button>
+    </div>
+  </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <font size="5">
-      <strong>
-        Duyen Nguyen
-      </strong>
-    </font>   
+  <div class="row pt-3" *ngIf="countries$ | async as countries">
+    <div class="col-md-6">
+      Location
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{getSelectItemName(countries, user.profile.countryCode)}}</mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
-  <div class="col-md-6">
-    <button title="Edit Profile" type="button" mat-raised-button="primary">Edit Profile</button>
-  </div>
-</div>
 
-<div class="row pt-3">
-  <div class="col-md-6">
-    Location
-  </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>United States</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
+  <div class="row pt-3" *ngIf="languages$ | async as languages">
+    <div class="col-md-6">
+      Native Language
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{getSelectItemName(languages, user.profile.nativeLang)}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>  
 
-<div class="row pt-3">
-  <div class="col-md-6">
-    Native Language
-  </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>Vietnamese</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
+  <div class="row pt-3" *ngIf="languages$ | async as languages">
+    <div class="col-md-6">
+      Learning Language(s)
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <ng-container *ngFor="let learningLang of user.profile.learningLang">
+          <mat-chip>{{getSelectItemName(languages, learningLang)}}</mat-chip>
+        </ng-container>
 
-<div class="row pt-3">
-  <div class="col-md-6">
-    Speaking Language(s)
-  </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>English</mat-chip>
-      <mat-chip>Vietnamese</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
+        
+      </mat-chip-list>
+    </div>
+  </div>  
 
-<div class="row pt-3">
-  <div class="col-md-6">
-    Learning Language(s)
+  <div class="row pt-3">
+    <div class="col-md-6">
+      Level
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{ user.profile.level }}</mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>Korean</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
 
-<div class="row pt-3">
-  <div class="col-md-6">
-    Level
-  </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>Beginner</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
+  <div class="row pt-3 pb-5">
+    <div class="col-md-6">
+      Interests
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <ng-container *ngFor="let interest of user.profile.interests">
+          <mat-chip>{{interest}}</mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+  </div>  
 
-<div class="row pt-3 pb-5">
-  <div class="col-md-6">
-    Interests
-  </div>
-  <div class="col-md-6">
-    <mat-chip-list>
-      <mat-chip>Art</mat-chip>
-      <mat-chip>Movies</mat-chip>
-      <mat-chip>Organizing</mat-chip>
-    </mat-chip-list>
-  </div>
-</div>
+  <mat-divider></mat-divider>
 
-<mat-divider></mat-divider>
-
-<div class="row pt-3 pb-3">
-  <div class="col">
-    About me
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      About me
+    </div>
   </div>
-</div>
 
-<div class="row pb-5">
-  <div class="col">
-    Hello World!
-    <br>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  <div class="row pb-5">
+    <div class="col">{{user.profile.bio}}</div>
   </div>
-</div>
 
-<mat-divider></mat-divider>
+  <mat-divider></mat-divider>
+</ng-container>
+
 
 
 

@@ -45,11 +45,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   private createForm() {
     this.formGroup = new FormGroup<LoginForm>({
-      email: new FormControl('', {
+      email: new FormControl('existingUser@email.com', {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
-      password: new FormControl('', {
+      password: new FormControl('321654987', {
         nonNullable: true,
         validators: [
           RxwebValidators.required(),
@@ -73,7 +73,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.summaryError = [];
 
     this._authService.login(credential).subscribe(response => {
-      this._authService.setLoggedIn();
+      this._authService.setLoggedIn(response);
+      console.log(response);
       this._router.navigate(['user-profile-area']);
 
     },
