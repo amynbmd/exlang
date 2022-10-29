@@ -3,6 +3,7 @@ from flask import Flask, Response, jsonify, make_response, render_template, requ
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_bcrypt import Bcrypt
 import sqlite3 
 import os
 from flask_bcrypt import Bcrypt
@@ -71,8 +72,10 @@ def getUserByEmail(email):
 
 #Create an instance of Flask as 'app'
 app = Flask(__name__)
+bcrpyt = Bcrypt(app)
 CORS(app)
 bcrypt = Bcrypt(app)
+#We should store our private key in a more secure way, like encryption or somewhere on github.
 app.config['SECRET_KEY'] = 'exlang'
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
 
@@ -91,6 +94,12 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        candidate = password
+        #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
+        #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
+        #and then (bcrypt.check_password_hash(realPassword, candiate), if true, authorize login
+        if (bcrypt.check_password_hash(pwhash, candidate):
+          #login to page
 
     user = getUserByEmail(email)
 
@@ -109,7 +118,7 @@ def signup_page():
             name = request.form['name']
             email = request.form['email']
             password = request.form['password']
-
+            
     user = getUserByEmail(email)
 
     # Only try to register user if email is NOT in use.
@@ -127,7 +136,6 @@ def signup_page():
     else:
         data = {'message': 'This Email Address is already in used! Please try a different Email Address.'}
         return jsonify(data), 401        
-        
 
 #Retrieve user profile by email address and return as JSON
 #Example: http://127.0.0.1:5000/user/profile/firstlast@email.com
@@ -1146,6 +1154,7 @@ def languages():
         }
         ]
     return jsonify(data), 200
+
 
 #List of Levels for UI drop down list.
 #Example: http://127.0.0.1:5000/levels
