@@ -17,6 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'theme/view',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./layout/ui/view-theme/view-theme.module').then(
             (m) => m.ViewThemeModule
@@ -29,6 +30,14 @@ const routes: Routes = [
             (m) => m.AccountModule
           ),
       },
+      {
+        path: 'user-profile-area',
+        canActivate: [AuthGuard],
+        data: {
+          title: 'User\'s Profile',
+        },
+        loadComponent: () => import('./user-profile-area/user-profile-area.component').then(m => m.UserProfileAreaComponent)
+      }
     ],
   },
 ];

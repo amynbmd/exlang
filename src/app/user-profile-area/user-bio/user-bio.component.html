@@ -1,0 +1,94 @@
+
+<ng-container *ngIf="user$ | async as user">
+  <div class="row">
+    <div class="col-md-6">
+      <font size="5">
+        <strong>
+          {{ user.name }}
+        </strong>
+      </font>   
+    </div>
+    <div class="col-md-6">
+      <button title="Edit Profile" type="button" mat-raised-button="primary">Edit Profile</button>
+    </div>
+  </div>
+
+  <div class="row pt-3" *ngIf="countries$ | async as countries">
+    <div class="col-md-6">
+      Location
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{getSelectItemName(countries, user.profile.countryCode)}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="row pt-3" *ngIf="languages$ | async as languages">
+    <div class="col-md-6">
+      Native Language
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{getSelectItemName(languages, user.profile.nativeLang)}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>  
+
+  <div class="row pt-3" *ngIf="languages$ | async as languages">
+    <div class="col-md-6">
+      Learning Language(s)
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <ng-container *ngFor="let learningLang of user.profile.learningLang">
+          <mat-chip>{{getSelectItemName(languages, learningLang)}}</mat-chip>
+        </ng-container>
+
+        
+      </mat-chip-list>
+    </div>
+  </div>  
+
+  <div class="row pt-3">
+    <div class="col-md-6">
+      Level
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip>{{ user.profile.level }}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="row pt-3 pb-5">
+    <div class="col-md-6">
+      Interests
+    </div>
+    <div class="col-md-6">
+      <mat-chip-list>
+        <ng-container *ngFor="let interest of user.profile.interests">
+          <mat-chip>{{interest}}</mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+  </div>  
+
+  <mat-divider></mat-divider>
+
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      About me
+    </div>
+  </div>
+
+  <div class="row pb-5">
+    <div class="col">{{user.profile.bio}}</div>
+  </div>
+
+  <mat-divider></mat-divider>
+</ng-container>
+
+
+
+
