@@ -22,6 +22,7 @@ class Profile():
     interests = []
     availability = []
     friends = []
+    zoomLocation = None
 
 class User:
     name = None
@@ -34,18 +35,28 @@ class User:
 # Please create a new user profile table in database, retrieve profile for this particular user and then map it to an object. Hardcode values below is for testing purposes only.
 def getUserProfile(email):
     profile = Profile()
-    if (email == "existingUser@email.com"):
-        profile.wordofTheDay = "obfuscate"
-        profile.isOnline = True
-        profile.countryCode = "US"
-        profile.picURL = ""
-        profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        profile.nativeLang = "en"
-        profile.learningLang = ["vi", "de", "fr"]
-        profile.level = "Beginner"
-        profile.interests = ["Art", "Movies", "Organizing"]
+    
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "SELECT PROFILE from user WHERE email = '"+email+"'"
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    
+    if (result is not None):
         profile.email = email
-
+        profile.wordofTheDay = result[0][0]
+        profile.isOnline = result[0][1]
+        profile.countryCode = result[0][2]
+        profile.picURL = result[0][3]
+        profile.bio = result[0][4]
+        profile.nativeLang = result[0][5]
+        profile.level = result[0][6]
+        profile.learningLang = result[0][7]
+        profile.interests = result[0][8]
+        profile.availaility = result[0][9]
+        profile.friends = result[0][10]
+        profile.zoomLocation = result[0][11]
+        
     return profile
 
 
