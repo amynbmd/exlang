@@ -43,19 +43,19 @@ def getUserProfile(email):
     result = cursor.fetchall()
     
     if (result is not None):
-        profile.email = email
-        profile.wordofTheDay = result[0][0]
-        profile.isOnline = result[0][1]
-        profile.countryCode = result[0][2]
-        profile.picURL = result[0][3]
-        profile.bio = result[0][4]
-        profile.nativeLang = result[0][5]
-        profile.level = result[0][6]
-        profile.learningLang = result[0][7]
-        profile.interests = result[0][8]
-        profile.availaility = result[0][9]
-        profile.friends = result[0][10]
-        profile.zoomLocation = result[0][11]
+        profile.email = result[0][0]
+        profile.wordofTheDay = result[0][1]
+        profile.isOnline = result[0][2]
+        profile.countryCode = result[0][3]
+        profile.picURL = result[0][4]
+        profile.bio = result[0][5]
+        profile.nativeLang = result[0][6]
+        profile.level = result[0][7]
+        profile.learningLang = result[0][8]
+        profile.interests = result[0][9]
+        profile.availaility = result[0][10]
+        profile.friends = result[0][11]
+        profile.zoomLocation = result[0][12]
         
     return profile
 
