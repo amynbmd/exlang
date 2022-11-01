@@ -1,17 +1,6 @@
 
-<<<<<<< HEAD
-from flask import Flask, render_template, request, redirect, url_for
-from flask import abort, jsonify
-from flask_cors import CORS
-import sqlite3 
-import os
-from flask_bcrypt import Bcrypt
-
-=======
 from flask import Flask, Response, jsonify, make_response, render_template, request, flash
 from flask_cors import CORS
-from flask_login import LoginManager
-from flask_login import login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
 import sqlite3 
 import os
@@ -75,7 +64,6 @@ def getUserByEmail(email):
 
     user.profile = getUserProfile(user.email)
     return user
->>>>>>> master
 
 
 #function to create web server
@@ -85,10 +73,7 @@ app = Flask(__name__)
 bcrpyt = Bcrypt(app)
 CORS(app)
 bcrypt = Bcrypt(app)
-<<<<<<< HEAD
-=======
 #We should store our private key in a more secure way, like encryption or somewhere on github.
->>>>>>> master
 app.config['SECRET_KEY'] = 'exlang'
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
 
@@ -109,32 +94,9 @@ def login():
         password = request.form['password']
         candidate = password
 
-<<<<<<< HEAD
-    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
-    cursor = connection.cursor()
     
-    query_email = "SELECT email from user WHERE email = '"+email+"'  "
-   
-
-    cursor.execute(query_email)
-    result = cursor.fetchall()
-    if(result== []):
-        abort(401)
-    else:
-        query_pw = "SELECT password from user WHERE email = '"+email+"' "
-        cursor.execute(query_pw)
-        result = cursor.fetchall()
-        if(bcrypt.check_password_hash(result[0][0],request.form['password'])):
-            return redirect(url_for('home_page'))
-        else: 
-            abort(401)
-    
-    return "<p>Success <p>"
-=======
-    #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
-    #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
-    #and then (bcrypt.check_password_hash(realPassword, candiate), if true, authorize login
     user = getUserByEmail(email)
+    
 
     if(user.email is not None and bcrypt.check_password_hash(user.password, password)):
         user.password = None
@@ -143,7 +105,6 @@ def login():
         data = {'message': 'Incorrect email or password!'}
         return jsonify(data), 401
 
->>>>>>> master
 
 #SIGN-UP
 @app.route("/register", methods=['GET', 'POST'])
@@ -152,17 +113,13 @@ def signup_page():
             name = request.form['name']
             email = request.form['email']
             password = request.form['password']
-<<<<<<< HEAD
-    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
-    cursor = connection.cursor()
-    pw_hash = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
-    query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
-    cursor.execute(query1)
-    connection.commit()
+    # connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    # cursor = connection.cursor()
+    # pw_hash = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+    # query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
+    # cursor.execute(query1)
+    # connection.commit()
         
-    return "<p>Success <p>"
-
-=======
             
     user = getUserByEmail(email)
 
@@ -171,10 +128,9 @@ def signup_page():
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
         cursor = connection.cursor()
         pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-        query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
+        query1 = "INSERT INTO USER VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
         cursor.execute(query1)
         connection.commit()
->>>>>>> master
 
         user = getUserByEmail(email)
         return jsonpickle.encode(user), 200
