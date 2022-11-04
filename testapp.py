@@ -168,6 +168,12 @@ def user_profile(email):
 def update_user_profile():
     # data is in the following json format: {'countryCode': 'AL', 'nativeLang': 'af', 'learningLangs': ['af', 'ak', 'sq', 'fy', 'yi', 'yo', 'za'], 'level': 'Intermediate', 'interest': 'art, history, math'}
     # split interest by comma and store as array
+      countryCode = request.form.get('countryCode')
+      nativeLang = request.form.get('nativeLang')
+      learningLangs = request.form.get('learningLangs')
+      level = request.form.get('level')
+      #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
+      interests = request.form.get('interests')
     
     print(request.get_json())
 
