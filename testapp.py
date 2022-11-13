@@ -53,7 +53,7 @@ def getUserProfile(email):
         profile.level = result[0][7]
         profile.learningLang = result[0][8]
         profile.interests = result[0][9]
-        profile.availaility = result[0][10]
+        profile.availability = result[0][10]
         profile.friends = result[0][11]
         profile.zoomLocation = result[0][12]
         
@@ -162,20 +162,46 @@ def user_profile(email):
 
 
 #------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
-#Retrieve user profile by email address and return as JSON
+#Save user profile from JSON.
 #Example: http://127.0.0.1:5000/user/profile
 @app.route("/user/profile", methods=['POST'])
 def update_user_profile():
-    # data is in the following json format: {'countryCode': 'AL', 'nativeLang': 'af', 'learningLangs': ['af', 'ak', 'sq', 'fy', 'yi', 'yo', 'za'], 'level': 'Intermediate', 'interest': 'art, history, math'}
     # split interest by comma and store as array
-      countryCode = request.form.get('countryCode')
-      nativeLang = request.form.get('nativeLang')
-      learningLangs = request.form.get('learningLangs')
-      level = request.form.get('level')
-      #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
-      interests = request.form.get('interests')
+    #countryCode = request.form.get('countryCode')
+    #nativeLang = request.form.get('nativeLang')
+    #learningLangs = request.form.get('learningLangs')
+    #level = request.form.get('level')
+    #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
+    #interests = request.form.get('interests')
+
     
-    print(request.get_json())
+
+    json = request.get_json()
+    email = json["email"]
+    countryCode = json["countryCode"]
+
+    print("This email is from JSON: " + email)
+    print("This countryCode is from JSON: " + countryCode)
+
+    #Save to db
+    '''
+    {
+    "email": "user@email.com",
+    "countryCode":"AL",
+    "nativeLang":"af",
+    "learningLangs":[
+        "af",
+        "ak",
+        "sq",
+        "fy",
+        "yi",
+        "yo",
+        "za"
+    ],
+    "level":"Intermediate",
+    "interest":"art, history, math"
+    }    
+    '''
 
     return jsonpickle.encode(request.get_json()), 200
 
