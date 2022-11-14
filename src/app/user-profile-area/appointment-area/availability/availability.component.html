@@ -1,158 +1,168 @@
-<div class="row pt-3 pb-3">
-  <div class="col-md-4">
-    <mat-slide-toggle>
-      Sundays
-    </mat-slide-toggle>
-  </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
+<form [formGroup]="formGroup">
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.sunday">
+    <div class="col-md-4">
+      <mat-slide-toggle formControlName="isAvailable">
+        Sundays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<mat-divider></mat-divider>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
+  </div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.monday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Mondays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Mondays
-    </mat-slide-toggle>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.tuesday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Tuesdays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<mat-divider></mat-divider>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
+  </div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.wednesday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Wednesdays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Tuesdays
-    </mat-slide-toggle>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.thursday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Thursdays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<mat-divider></mat-divider>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
+  </div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.friday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Fridays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Wednesdays
-    </mat-slide-toggle>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
+  
+  <mat-divider></mat-divider>
+  
+  <div class="row pt-3 pb-3" [formGroup]="formGroup.controls.saturday">
+    <div class="col">
+      <mat-slide-toggle formControlName="isAvailable">
+        Saturdays
+      </mat-slide-toggle>
+    </div>
+    <div class="col-md-8">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Start Time</mat-label>
+        <input formControlName="startTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
 
-<mat-divider></mat-divider>
-
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Thursdays
-    </mat-slide-toggle>
+      <span class="ps-5 pe-5">to</span>
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>End Time</mat-label>
+        <input formControlName="endTime" matInput placeholder="8:00AM" type="time"/>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
+  
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      <button
+        class="w-40"
+        title="Login"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="submit()"
+      >
+        UPDATE
+      </button>
+    </div>
   </div>
-</div>
-
-<mat-divider></mat-divider>
-
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Fridays
-    </mat-slide-toggle>
-  </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
-
-<mat-divider></mat-divider>
-
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <mat-slide-toggle>
-      Saturdays
-    </mat-slide-toggle>
-  </div>
-  <div class="col-md-8">
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Start Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-    <span class="ps-5 pe-5">to</span>
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>End Time</mat-label>
-      <input matInput placeholder="8:00AM" />
-    </mat-form-field>
-  </div>
-</div>
-
-<div class="row pt-3 pb-3">
-  <div class="col">
-    <button
-      class="w-40"
-      title="Login"
-      type="button"
-      mat-raised-button
-      color="primary"
-    >
-      UPDATE
-    </button>
-  </div>
-</div>
+</form>
