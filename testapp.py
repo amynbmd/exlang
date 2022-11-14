@@ -38,11 +38,21 @@ def getUserProfile(email):
     
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 = "SELECT PROFILE from user WHERE email = '"+email+"'"
+    query1 = "SELECT * from user WHERE email = '"+email+"'"
     cursor.execute(query1)
     result = cursor.fetchall()
     
     if (result is not None):
+        # profile.wordofTheDay = "obfuscate"
+        # profile.isOnline = True
+        # profile.countryCode = "US"
+        # profile.picURL = ""
+        # profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        # profile.nativeLang = "en"
+        # profile.learningLang = ["vi", "de", "fr"]
+        # profile.level = "Beginner"
+        # profile.interests = ["Art", "Movies", "Organizing"]
+        # profile.email = email        
         profile.email = result[0][0]
         profile.wordofTheDay = result[0][1]
         profile.isOnline = result[0][2]
@@ -95,9 +105,11 @@ currentdirectory  = os.path.dirname(os.path.abspath(__file__))
 def landing_page():
     return "<p>Testing Page for ExLang!</p>"
 
+
 @app.route("/home")
 def home_page():
     return "<p>Welcome to our home page!<p>"
+
 
 #LOGIN
 @app.route("/login", methods=['GET', 'POST'])
@@ -146,6 +158,7 @@ def signup_page():
         data = {'message': 'This Email Address is already in used! Please try a different Email Address.'}
         return jsonify(data), 401        
 
+
 #Retrieve user profile by email address and return as JSON
 #Example: http://127.0.0.1:5000/user/profile/firstlast@email.com
 @app.route("/user/profile/<email>", methods=['GET'])
@@ -174,9 +187,6 @@ def update_user_profile():
     #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
     #interests = request.form.get('interests')
 
-    
-
-    json = request.get_json()
     email = json["email"]
     countryCode = json["countryCode"]
 
@@ -186,26 +196,128 @@ def update_user_profile():
     #Save to db
     '''
     {
-    "email": "user@email.com",
-    "countryCode":"AL",
-    "nativeLang":"af",
-    "learningLangs":[
-        "af",
-        "ak",
-        "sq",
-        "fy",
-        "yi",
-        "yo",
-        "za"
-    ],
-    "level":"Intermediate",
-    "interest":"art, history, math"
+        "email": "user@email.com",
+        "countryCode":"AL",
+        "nativeLang":"af",
+        "learningLangs":[
+            "af",
+            "ak",
+            "sq",
+            "fy",
+            "yi",
+            "yo",
+            "za"
+        ],
+        "level":"Intermediate",
+        "interest":"art, history, math"
     }    
     '''
 
     return jsonpickle.encode(request.get_json()), 200
 
 
+#Get user availability from DB.
+#Example: http://127.0.0.1:5000/user/availability/existingUser@email.com
+@app.route("/user/availability/<email>", methods=['GET'])
+def get_user_availability(email):
+    assert email == request.view_args['email']
+
+    #Get user availability by email.
+
+    availability = {
+        "email":"existingUser@email.com",
+        "sunday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        },
+        "monday":{
+            "isAvailable":True,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "tuesday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "wednesday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        },
+        "thursday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "friday":{
+            "isAvailable":True,
+            "startTime":"12:00",
+            "endTime":"14:00"
+        },
+        "saturday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        }
+    }
+
+    return jsonpickle.encode(availability), 200
+
+
+#Save user availability from JSON.
+#Example: http://127.0.0.1:5000/user/availability
+@app.route("/user/availability", methods=['POST'])
+def update_user_availability():
+    json = request.get_json()
+    email = json["email"]
+
+    print("This email is from JSON: " + email)
+
+    #Save to db. Time in 24hr format.
+    '''
+    {
+        "email":"existingUser@email.com",
+        "sunday":{
+            "isAvailable":false,
+            "startTime":"",
+            "endTime":""
+        },
+        "monday":{
+            "isAvailable":true,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "tuesday":{
+            "isAvailable":true,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "wednesday":{
+            "isAvailable":true,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "thursday":{
+            "isAvailable":true,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "friday":{
+            "isAvailable":true,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "saturday":{
+            "isAvailable":false,
+            "startTime":"",
+            "endTime":""
+        }
+    }   
+    '''
+
+    return jsonpickle.encode(request.get_json()), 200
 
 
 #List of countries for UI dropdown select list.
@@ -459,6 +571,7 @@ def countries():
         {"name": "Zimbabwe", "code": "ZW"} 
         ]
     return jsonify(data), 200
+
 
 #List of languages for UI dropdown select list.
 #Example: http://127.0.0.1:5000/languages

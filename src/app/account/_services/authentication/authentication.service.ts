@@ -6,6 +6,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { AuthenticationResponse } from 'src/app/account/_models/authentication-response';
 import { Login } from 'src/app/account/_models/login';
 import { Registration } from 'src/app/account/_models/registration';
+import { Availability } from 'src/app/user-profile-area/_models/availability';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
 import { ConfigService } from 'src/app/_shared/config/config.service';
@@ -62,6 +63,22 @@ export class AuthenticationService {
 
   updateUserProfile(profile: SignUpProfile):Observable<User> {
     return this._http.post<User>(this.baseUrl + '/user/profile', profile).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
+  getUserAvailability(email: string):Observable<Availability> {
+    return this._http.get<Availability>(this.baseUrl + 'user/availability/' + email).pipe(
+      map(res => {
+        return res;
+      })
+    )
+  }
+
+  updateUserAvailability(availability: Availability) {
+    return this._http.post<User>(this.baseUrl + '/user/availability', availability).pipe(
       map(res => {
         return res;
       })
