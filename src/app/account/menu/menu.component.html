@@ -1,0 +1,21 @@
+<button mat-icon-button aria-label="Account" [mat-menu-trigger-for]="themeMenu" matTooltip="Account">
+  <mat-icon title="Account">account_circle</mat-icon>
+</button>
+
+
+<mat-menu #themeMenu="matMenu" xPosition="before" class="docs-theme-picker-menu">
+  <button title="Login" mat-menu-item (click)="login()" *ngIf="!(loggedIn | async)">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+
+  <button title="Account Info" mat-menu-item (click)="goToAccountInfo()" *ngIf="(loggedIn | async)">
+    <mat-icon>person</mat-icon>
+    <span>Account Info</span>
+  </button>
+  
+  <button title="Logout" mat-menu-item (click)="logout()" *ngIf="(loggedIn | async)">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

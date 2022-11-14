@@ -25,11 +25,44 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/web.config"             
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles.scss"
+              },
+              {
+                "input": "src/highlightjs/material-light.scss"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/custom-themes/pink-bluegrey.scss",
+                "bundleName": "pink-bluegrey"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/custom-themes/deeppurple-amber.scss",
+                "bundleName": "deeppurple-amber"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/custom-themes/indigo-pink.scss",
+                "bundleName": "indigo-pink"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/custom-themes/purple-green.scss",
+                "bundleName": "purple-green"
+              }
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules",
+                "src",
+                "src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -38,7 +71,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -103,5 +136,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "e9125c5a-3503-4d42-a4aa-9d5145d5c747"
   }
 }
