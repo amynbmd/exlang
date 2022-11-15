@@ -58,7 +58,13 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
 
 
   private createForm() {
+    const user = this._authService.getUserFromLocalStorage();
+
     this.formGroup = new FormGroup<SignUpProfileForm>({
+      email: new FormControl(user.email, {
+        nonNullable: true,
+        validators: [RxwebValidators.email(), RxwebValidators.required()],
+      }),      
       countryCode: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
