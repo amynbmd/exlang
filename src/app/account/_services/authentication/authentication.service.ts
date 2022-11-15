@@ -7,6 +7,8 @@ import { AuthenticationResponse } from 'src/app/account/_models/authentication-r
 import { Login } from 'src/app/account/_models/login';
 import { Registration } from 'src/app/account/_models/registration';
 import { Availability } from 'src/app/user-profile-area/_models/availability';
+import { SessionSetting } from 'src/app/user-profile-area/_models/session-setting';
+import { Timezone } from 'src/app/user-profile-area/_models/Timezone';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
 import { ConfigService } from 'src/app/_shared/config/config.service';
@@ -69,6 +71,14 @@ export class AuthenticationService {
     );
   }
 
+  updateSessionSetting(sessionSetting: SessionSetting):Observable<SessionSetting> {
+    return this._http.post<SessionSetting>(this.baseUrl + '/user/session-setting', sessionSetting).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
   getUserAvailability(email: string):Observable<Availability> {
     return this._http.get<Availability>(this.baseUrl + 'user/availability/' + email).pipe(
       map(res => {
@@ -116,7 +126,20 @@ export class AuthenticationService {
       })
     )
   }
+  
+  getTimezones():Observable<SelectItem[]> {
+    return this._http.get<Timezone[]>(this.baseUrl + 'timezones').pipe(
+      map(res => {
+        const items: SelectItem[] = [];
 
+        res.forEach(item => {
+          items.push({name: item.text, code: item.abbr});
+        });
+        
+        return items;
+      })
+    )
+  }  
 
   getUserFromLocalStorage():User {
     let user: User = new User();

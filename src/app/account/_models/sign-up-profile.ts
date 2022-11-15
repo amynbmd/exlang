@@ -1,4 +1,5 @@
 export class SignUpProfile {
+    email: string | null;
     countryCode: string;
     nativeLang: string;
     learningLangs: string[];
