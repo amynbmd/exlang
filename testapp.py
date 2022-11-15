@@ -38,37 +38,51 @@ class User:
 def getUserProfile(email):
     profile = Profile()
     
-    # connection = sqlite3.connect(currentdirectory + "\ExLang.db")
-    # cursor = connection.cursor()
-    # query1 = "SELECT * from user WHERE email = '"+email+"'"
-    # cursor.execute(query1)
-    # result = cursor.fetchall()
-    
-    if (email == "existingUser@email.com"):
-        profile.wordofTheDay = "obfuscate"
-        profile.isOnline = True
-        profile.countryCode = "US"
-        profile.picURL = ""
-        profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        profile.nativeLang = "en"
-        profile.learningLang = ["vi", "de", "fr"]
-        profile.level = "Beginner"
-        profile.interests = ["Art", "Movies", "Organizing"]
-        profile.email = email        
-        # profile.email = result[0][0]
-        # profile.wordofTheDay = result[0][1]
-        # profile.isOnline = result[0][2]
-        # profile.countryCode = result[0][3]
-        # profile.picURL = result[0][4]
-        # profile.bio = result[0][5]
-        # profile.nativeLang = result[0][6]
-        # profile.level = result[0][7]
-        # profile.learningLang = result[0][8]
-        # profile.interests = result[0][9]
-        # profile.availability = result[0][10]
-        # profile.friends = result[0][11]
-        # profile.zoomLocation = result[0][12]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "SELECT email from user WHERE email = '"+email+"'"
+    cursor.execute(query1)
+    result1 = cursor.fetchall()
+
+    if (email == result1[0][0]):
+        # profile.wordofTheDay = "obfuscate"
+        # profile.isOnline = True
+        query = "SELECT countryCode,native_Lang,level from USER_PROFILE WHERE email = '"+email+"'"
+        cursor.execute(query)
+        result = cursor.fetchall()
+
+        profile.countryCode = result[0][0]
+        profile.nativeLang = result[0][1]
+        profile.level = result[0][2]
+
+        list2 = []
+        query2 = "SELECT learning_lang from LEARNING_LANG WHERE email = '"+email+"'"
+        cursor.execute(query2)
+        result2 = cursor.fetchall()
+        i=0
+        while i <len(result2):
+            list2 += result2[i]
+            i = i+1
+        profile.learningLang = list2
         
+
+        # profile.picURL = ""
+        # profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+       
+        list3 = []
+        query3 = "SELECT interest from INTERESTS WHERE email = '"+email+"'"
+        cursor.execute(query3)
+        result3 = cursor.fetchall()
+        i=0
+        while i <len(result3):
+            list3 += result3[i]
+            i = i+1
+        profile.interests = list3
+        
+        # profile.interests = ["Art", "Movies", "Organizing"]
+        profile.email = email        
+        
+    connection.commit()   
     return profile
 
 
@@ -187,11 +201,27 @@ def update_user_profile():
     #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
     #interests = request.form.get('interests')
     json = request.get_json()
-    email = json["email"]
-    countryCode = json["countryCode"]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}')".format(
+    email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level= json["level"])
+    cursor.execute(query1)
 
-    print("This email is from JSON: " + email)
-    print("This countryCode is from JSON: " + countryCode)
+    array  = json["learningLangs"]
+    for i in array:
+        query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
+        email=json["email"],learning_lang = i)
+        cursor.execute(query)
+    
+    list = json["interest"]
+    x = list.split(",")
+    for i in x:
+        query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
+        email=json["email"],interest = i)
+        cursor.execute(query2)
+
+    connection.commit()
+
 
     #Save to db
     '''
