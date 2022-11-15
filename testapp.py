@@ -79,7 +79,6 @@ def getUserProfile(email):
             i = i+1
         profile.interests = list3
         
-        # profile.interests = ["Art", "Movies", "Organizing"]
         profile.email = email        
         
     connection.commit()   
