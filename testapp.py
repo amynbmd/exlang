@@ -1,13 +1,15 @@
 
-from flask import Flask, Response, jsonify, make_response, render_template, request, flash
-from flask_cors import CORS
-from flask_login import LoginManager
-from flask_login import login_user, login_required, logout_user, current_user
-from flask_bcrypt import Bcrypt
-import sqlite3 
 import os
-from flask_bcrypt import Bcrypt
+import sqlite3
+
 import jsonpickle
+from flask import (Flask, Response, flash, jsonify, make_response,
+                   render_template, request)
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS
+from flask_login import (LoginManager, current_user, login_required,
+                         login_user, logout_user)
+
 
 class Profile():
     email = None
@@ -36,36 +38,36 @@ class User:
 def getUserProfile(email):
     profile = Profile()
     
-    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
-    cursor = connection.cursor()
-    query1 = "SELECT * from user WHERE email = '"+email+"'"
-    cursor.execute(query1)
-    result = cursor.fetchall()
+    # connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    # cursor = connection.cursor()
+    # query1 = "SELECT * from user WHERE email = '"+email+"'"
+    # cursor.execute(query1)
+    # result = cursor.fetchall()
     
-    if (result is not None):
-        # profile.wordofTheDay = "obfuscate"
-        # profile.isOnline = True
-        # profile.countryCode = "US"
-        # profile.picURL = ""
-        # profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        # profile.nativeLang = "en"
-        # profile.learningLang = ["vi", "de", "fr"]
-        # profile.level = "Beginner"
-        # profile.interests = ["Art", "Movies", "Organizing"]
-        # profile.email = email        
-        profile.email = result[0][0]
-        profile.wordofTheDay = result[0][1]
-        profile.isOnline = result[0][2]
-        profile.countryCode = result[0][3]
-        profile.picURL = result[0][4]
-        profile.bio = result[0][5]
-        profile.nativeLang = result[0][6]
-        profile.level = result[0][7]
-        profile.learningLang = result[0][8]
-        profile.interests = result[0][9]
-        profile.availability = result[0][10]
-        profile.friends = result[0][11]
-        profile.zoomLocation = result[0][12]
+    if (email == "ttran200@gmu.edu"):
+        profile.wordofTheDay = "obfuscate"
+        profile.isOnline = True
+        profile.countryCode = "US"
+        profile.picURL = ""
+        profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        profile.nativeLang = "en"
+        profile.learningLang = ["vi", "de", "fr"]
+        profile.level = "Beginner"
+        profile.interests = ["Art", "Movies", "Organizing"]
+        profile.email = email        
+        # profile.email = result[0][0]
+        # profile.wordofTheDay = result[0][1]
+        # profile.isOnline = result[0][2]
+        # profile.countryCode = result[0][3]
+        # profile.picURL = result[0][4]
+        # profile.bio = result[0][5]
+        # profile.nativeLang = result[0][6]
+        # profile.level = result[0][7]
+        # profile.learningLang = result[0][8]
+        # profile.interests = result[0][9]
+        # profile.availability = result[0][10]
+        # profile.friends = result[0][11]
+        # profile.zoomLocation = result[0][12]
         
     return profile
 
@@ -84,8 +86,8 @@ def getUserByEmail(email):
         user.name = result[0][0]
         user.email = result[0][1]
         user.password = result[0][2]
-
-    user.profile = getUserProfile(user.email)
+        user.profile = getUserProfile(user.email)
+        
     return user
 
 
@@ -99,7 +101,7 @@ bcrypt = Bcrypt(app)
 #We should store our private key in a more secure way, like encryption or somewhere on github.
 app.config['SECRET_KEY'] = 'exlang'
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
-
+user_email = "none"
 
 @app.route("/")
 def landing_page():
@@ -141,7 +143,6 @@ def signup_page():
             password = request.form['password']
             
     user = getUserByEmail(email)
-
     # Only try to register user if email is NOT in use.
     if (user.email is None):
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
@@ -150,7 +151,6 @@ def signup_page():
         query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
         cursor.execute(query1)
         connection.commit()
-
         user = getUserByEmail(email)
         return jsonpickle.encode(user), 200
 
@@ -186,7 +186,7 @@ def update_user_profile():
     #level = request.form.get('level')
     #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
     #interests = request.form.get('interests')
-
+    json = request.get_json()
     email = json["email"]
     countryCode = json["countryCode"]
 
