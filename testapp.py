@@ -1332,7 +1332,7 @@ def levels():
 
 #List of Timezones for UI drop down list.
 #Example: http://127.0.0.1:5000/timezones
-@app.route("/levels", methods=['GET'])
+@app.route("/timezones", methods=['GET'])
 def timezones():
     data = [
         {
