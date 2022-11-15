@@ -319,6 +319,25 @@ def update_user_availability():
 
     return jsonpickle.encode(request.get_json()), 200
 
+@app.route("/user/session-setting", methods=['POST'])
+def update_user_session_setting():
+    json = request.get_json()
+    email = json["email"]
+
+    print(json)    
+
+    #Save to db. Time in 24hr format.
+    '''
+    {
+        "sessionDuration":60,
+        "peopleBook":"Friends",
+        "timeZone":"EDT",
+        "email":"existingUser@email.com"
+    }
+    '''
+
+
+    return jsonpickle.encode(request.get_json()), 200
 
 #List of countries for UI dropdown select list.
 #Example: http://127.0.0.1:5000/countries

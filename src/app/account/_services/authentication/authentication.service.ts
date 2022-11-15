@@ -7,6 +7,7 @@ import { AuthenticationResponse } from 'src/app/account/_models/authentication-r
 import { Login } from 'src/app/account/_models/login';
 import { Registration } from 'src/app/account/_models/registration';
 import { Availability } from 'src/app/user-profile-area/_models/availability';
+import { SessionSetting } from 'src/app/user-profile-area/_models/session-setting';
 import { Timezone } from 'src/app/user-profile-area/_models/Timezone';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
@@ -64,6 +65,14 @@ export class AuthenticationService {
 
   updateUserProfile(profile: SignUpProfile):Observable<User> {
     return this._http.post<User>(this.baseUrl + '/user/profile', profile).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
+  updateSessionSetting(sessionSetting: SessionSetting):Observable<SessionSetting> {
+    return this._http.post<SessionSetting>(this.baseUrl + '/user/session-setting', sessionSetting).pipe(
       map(res => {
         return res;
       })

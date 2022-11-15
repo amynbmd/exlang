@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { FormModule } from 'src/app/_modules/form.module';
 import {MatSelectModule} from '@angular/material/select';
@@ -28,7 +28,7 @@ import { BaseComponent } from 'src/app/_shared/BaseComponent';
 export class SessionSettingComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup<SessionSettingForm>;
 
-  constructor(private _authService: AuthenticationService) {
+  constructor(private _authService: AuthenticationService, private _cd: ChangeDetectorRef) {
     super();
    }
 
@@ -42,7 +42,18 @@ export class SessionSettingComponent extends BaseComponent implements OnInit {
   submit(){
     let SessionSetting: SessionSetting = this.formGroup.getRawValue();
     this.summaryError = [];
-    console.log(SessionSetting)
+    console.log(JSON.stringify(SessionSetting))
+
+    this._authService.updateSessionSetting(SessionSetting).subscribe(response => {
+    },
+    error => {
+      this.summaryError.push(error.error.message);
+      this._cd.markForCheck();
+    }).
+    add(() => {
+      this.loading = false;  
+      this._cd.markForCheck();
+    });
   }
 
   private createForm(){
