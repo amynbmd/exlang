@@ -80,7 +80,7 @@ export class AuthenticationService {
     );
   }
 
-  getUserAvailability(email: string):Observable<Availability> {
+  getUserAvailability(email: string | null):Observable<Availability> {
     return this._http.get<Availability>(this.baseUrl + 'user/availability/' + email).pipe(
       map(res => {
         return res;

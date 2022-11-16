@@ -256,10 +256,9 @@ def update_user_profile():
 def get_user_availability(email):
     assert email == request.view_args['email']
 
-    #Get user availability by email.
-
+    #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
     availability = {
-        "email":"existingUser@email.com",
+        "email": email,
         "sunday":{
             "isAvailable":False,
             "startTime":"",
@@ -309,7 +308,7 @@ def update_user_availability():
 
     print(json)
 
-    #Save to db. Time in 24hr format.
+    #--------------------------------------------------------------------------------To-Do: Save user availability to db. Time is in 24hr string format.
     '''
     {
         "email":"existingUser@email.com",
@@ -360,7 +359,7 @@ def update_user_session_setting():
 
     print(json)    
 
-    #Save to db. Time in 24hr format.
+    #--------------------------------------------------------------------------------To-Do: Save to db.
     '''
     {
         "sessionDuration":60,

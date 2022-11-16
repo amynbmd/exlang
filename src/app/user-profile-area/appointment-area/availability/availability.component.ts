@@ -9,6 +9,7 @@ import { Availability } from '../../_models/availability';
 import { BaseComponent } from 'src/app/_shared/BaseComponent';
 import { AuthenticationService } from 'src/app/account/_services/authentication/authentication.service';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { User } from 'src/app/account/_models/user';
 
 @Component({
   selector: 'app-availability',
@@ -26,7 +27,9 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 })
 export class AvailabilityComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup<AvailabilityForm>;
-  private email: string = 'existingUser@email.com';
+
+  user: User;
+ 
 
   constructor(private _authService: AuthenticationService, private _cd: ChangeDetectorRef) {
     super();
@@ -38,8 +41,10 @@ export class AvailabilityComponent extends BaseComponent implements OnInit {
   }
 
   private createForm() {
+    this.user = this._authService.getUserFromLocalStorage();
+
     this.formGroup = new FormGroup<AvailabilityForm>({
-      email: new FormControl(this.email, {
+      email: new FormControl(this.user.email, {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
@@ -54,7 +59,7 @@ export class AvailabilityComponent extends BaseComponent implements OnInit {
   }
 
   private patchForm() {
-    this._authService.getUserAvailability(this.email).subscribe(response => {
+    this._authService.getUserAvailability(this.user.email).subscribe(response => {
       this.formGroup.patchValue(response);
     });
   }
