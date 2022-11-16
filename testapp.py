@@ -40,11 +40,12 @@ def getUserProfile(email):
     
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 = "SELECT email from user WHERE email = '"+email+"'"
+    query1 = "SELECT email from USER_PROFILE WHERE email = '"+email+"'"
     cursor.execute(query1)
     result1 = cursor.fetchall()
-
-    if (email == result1[0][0]):
+    
+    if (len(result1)!=0):
+        
         # profile.wordofTheDay = "obfuscate"
         # profile.isOnline = True
         query = "SELECT countryCode,native_Lang,level from USER_PROFILE WHERE email = '"+email+"'"
@@ -306,7 +307,7 @@ def update_user_availability():
     json = request.get_json()
     email = json["email"]
 
-    print("This email is from JSON: " + email)
+    print(json)
 
     #Save to db. Time in 24hr format.
     '''
