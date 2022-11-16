@@ -3,11 +3,13 @@
     <div>
       <div class="toolbar">
         <mat-toolbar color="primary">
-          <button title="Home" mat-button class="menu-button" [routerLink]="['']">
+          <button title="Home" mat-button class="menu-button" (click)="viewCommunity()">
             <mat-icon>home</mat-icon>
           </button>
 
-          <div class="box" (click)="viewTheme()">ExLang</div>
+          <div class="box pe-4" (click)="viewCommunity()"> ExLang Community</div>
+          <div class="box">Connections</div>
+
 
           <div class="flex-spacer"></div>
 
