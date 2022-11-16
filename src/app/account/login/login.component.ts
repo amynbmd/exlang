@@ -18,6 +18,8 @@ import { FormModule } from 'src/app/_modules/form.module';
 import { AuthenticationService } from 'src/app/account/_services/authentication/authentication.service';
 import { BaseComponent } from '../../_shared/BaseComponent';
 import { ShowComponent } from '../account-area/account-area.component';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
+import { Profile } from '../_models/profile';
 
 @Component({
   selector: 'login',
@@ -45,7 +47,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   private createForm() {
     this.formGroup = new FormGroup<LoginForm>({
-      email: new FormControl('existingUser@email.com', {
+      email: new FormControl('user3@email.com', {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
@@ -73,7 +75,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this._authService.setLoggedIn(response);
       console.log(response);
 
-      if (response.profile.email == null || response.profile.email == undefined) {
+      if (!this._authService.userHasProfile(response.profile)) {
         this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
         .then(() => {
           window.location.reload();
@@ -98,4 +100,19 @@ export class LoginComponent extends BaseComponent implements OnInit {
   switchToForgotPassword() {
     this.switchToForgotPasswordComponent.emit(ShowComponent.forgotPassword);
   }
+
 }
+/*
+export class Profile {
+    email: string;
+    wordofTheDay: string;
+    : boolean;
+    : string;
+    : string;
+    : string;
+    : string;
+    : string[];
+    : string;
+    interests: string[];
+}
+*/

@@ -93,7 +93,7 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
       this._authService.setLoggedIn(response);
       console.log(response);
 
-      if (response.profile.email == null || response.profile.email == undefined) {
+      if (!this._authService.userHasProfile(response.profile)) {
         this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
         .then(() => {
           window.location.reload();

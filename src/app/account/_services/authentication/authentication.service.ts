@@ -12,6 +12,7 @@ import { Timezone } from 'src/app/user-profile-area/_models/Timezone';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
 import { ConfigService } from 'src/app/_shared/config/config.service';
+import { Profile } from '../../_models/profile';
 import { SignUpProfile } from '../../_models/sign-up-profile';
 import { User } from '../../_models/user';
 
@@ -166,5 +167,29 @@ export class AuthenticationService {
     localStorage.removeItem("name");
 
     this.loggedIn.next(false);
+  }
+
+
+  userHasProfile(profile: Profile): boolean {
+    if (profile.email == null || profile.email == undefined) {
+      return false
+    }
+
+    if (
+      (profile.wordofTheDay == null || profile.wordofTheDay == undefined) &&
+      (profile.isOnline == null || profile.isOnline == undefined) &&
+      (profile.countryCode == null || profile.countryCode == undefined) &&
+      (profile.picURL == null || profile.picURL == undefined) &&
+      (profile.countryCode == null || profile.countryCode == undefined) &&
+      (profile.bio == null || profile.bio == undefined) &&
+      (profile.nativeLang == null || profile.nativeLang == undefined) &&
+      (profile.learningLang == null || profile.learningLang == undefined || profile.learningLang.length == 0) &&
+      (profile.level == null || profile.level == undefined) &&
+      (profile.interests == null || profile.interests == undefined || profile.interests.length == 0)
+    ) {
+      return false
+    }
+
+    return true;
   }
 }
