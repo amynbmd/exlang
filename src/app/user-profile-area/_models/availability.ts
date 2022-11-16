@@ -1,6 +1,6 @@
 
 export class Availability {
-    email: string;
+    email: string | null;
     sunday: Time;
     monday: Time;
     tuesday: Time;

@@ -1,7 +1,7 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 
 export class AvailabilityForm {
-    email: FormControl<string>;
+    email: FormControl<string | null>;
     sunday: FormGroup<TimeForm>;
     monday: FormGroup<TimeForm>;
     tuesday: FormGroup<TimeForm>;
