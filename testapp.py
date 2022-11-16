@@ -51,9 +51,13 @@ def getUserProfile(email):
         cursor.execute(query)
         result = cursor.fetchall()
 
-        profile.countryCode = result[0][0]
-        profile.nativeLang = result[0][1]
-        profile.level = result[0][2]
+        print(result)
+
+        if result:
+            profile.countryCode = result[0][0]
+            profile.nativeLang = result[0][1]
+            profile.level = result[0][2]
+
 
         list2 = []
         query2 = "SELECT learning_lang from LEARNING_LANG WHERE email = '"+email+"'"

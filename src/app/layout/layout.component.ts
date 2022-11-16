@@ -14,4 +14,8 @@ export class LayoutComponent implements OnInit {
   viewTheme() {
     this._router.navigate(['theme', 'view']);
   }
+
+  viewCommunity() {
+    this._router.navigate(['community']);
+  }
 }
