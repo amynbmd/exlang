@@ -115,7 +115,9 @@
           "options": {
             "browserTarget": "exlang:build"
           }
-        },
+        }
+        /*
+        ,
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -133,7 +135,8 @@
             ],
             "scripts": []
           }
-        }
+        } 
+        */
       }
     }
   },
