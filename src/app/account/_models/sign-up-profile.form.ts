@@ -7,4 +7,5 @@ export class SignUpProfileForm {
     learningLangs: FormControl<string[]>;
     level: FormControl<string>;
     interest: FormControl<string>;
+    bio: FormControl<string | null>;
 }

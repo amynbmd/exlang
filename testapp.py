@@ -48,7 +48,7 @@ def getUserProfile(email):
         
         # profile.wordofTheDay = "obfuscate"
         # profile.isOnline = True
-        query = "SELECT countryCode,native_Lang,level from USER_PROFILE WHERE email = '"+email+"'"
+        query = "SELECT countryCode,native_Lang,level, bio from USER_PROFILE WHERE email = '"+email+"'"
         cursor.execute(query)
         result = cursor.fetchall()
 
@@ -58,10 +58,11 @@ def getUserProfile(email):
             profile.countryCode = result[0][0]
             profile.nativeLang = result[0][1]
             profile.level = result[0][2]
+            profile.bio = result[0][3]
 
 
         list2 = []
-        query2 = "SELECT learning_lang from LEARNING_LANG WHERE email = '"+email+"'"
+        query2 = "SELECT learning_lang from LEARNING_LANG WHERE email = '"+email+"' ORDER BY learning_lang"
         cursor.execute(query2)
         result2 = cursor.fetchall()
         i=0
@@ -75,7 +76,7 @@ def getUserProfile(email):
         # profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
        
         list3 = []
-        query3 = "SELECT interest from INTERESTS WHERE email = '"+email+"'"
+        query3 = "SELECT interest from INTERESTS WHERE email = '"+email+"' ORDER BY interest"
         cursor.execute(query3)
         result3 = cursor.fetchall()
         i=0
@@ -197,55 +198,60 @@ def user_profile(email):
 #Example: http://127.0.0.1:5000/user/profile
 @app.route("/user/profile", methods=['POST'])
 def update_user_profile():
-    # split interest by comma and store as array
-    #countryCode = request.form.get('countryCode')
-    #nativeLang = request.form.get('nativeLang')
-    #learningLangs = request.form.get('learningLangs')
-    #level = request.form.get('level')
-    #We need to make sure we are using homogenous naming conventions : i.e. 'interests' or 'interest' consistently
-    #interests = request.form.get('interests')
     json = request.get_json()
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}')".format(
-    email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level= json["level"])
-    cursor.execute(query1)
 
-    array  = json["learningLangs"]
-    for i in array:
-        query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
-        email=json["email"],learning_lang = i)
-        cursor.execute(query)
-    
-    list = json["interest"]
-    x = list.split(",")
-    for i in x:
-        query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
-        email=json["email"],interest = i)
-        cursor.execute(query2)
+    user = getUserByEmail(json["email"])
+
+    if not user:
+        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}')".format(
+        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level= json["level"])
+        cursor.execute(query1)
+
+        array  = json["learningLangs"]
+        for i in array:
+            query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
+            email=json["email"],learning_lang = i.strip())
+            cursor.execute(query)
+        
+        list = json["interest"]
+        x = list.split(",")
+        for i in x:
+            query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
+            email=json["email"],interest = i.strip())
+            cursor.execute(query2)
+
+    else:
+        query1 = "UPDATE USER_PROFILE SET countryCode = '{countryCode}', native_Lang = '{native_Lang}', level = '{level}', bio = '{bio}' WHERE email = '{email}'".format(
+            countryCode = json["countryCode"],
+            native_Lang = json["nativeLang"],
+            level= json["level"],
+            bio= json["bio"],
+            email=json["email"]
+        )
+        cursor.execute(query1)
+
+        cursor.execute("DELETE FROM LEARNING_LANG WHERE email = '{email}'".format(email=json["email"]))
+        array  = json["learningLangs"]
+        for i in array:
+            query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
+            email=json["email"],learning_lang = i.strip())
+            cursor.execute(query)
+        
+
+        cursor.execute("DELETE FROM INTERESTS WHERE email = '{email}'".format(email=json["email"]))
+        list = json["interest"]
+        x = list.split(",")
+        for i in x:
+            query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
+            email=json["email"],interest = i.strip())
+            cursor.execute(query2)
+
 
     connection.commit()
 
 
-    #Save to db
-    '''
-    {
-        "email": "user@email.com",
-        "countryCode":"AL",
-        "nativeLang":"af",
-        "learningLangs":[
-            "af",
-            "ak",
-            "sq",
-            "fy",
-            "yi",
-            "yo",
-            "za"
-        ],
-        "level":"Intermediate",
-        "interest":"art, history, math"
-    }    
-    '''
 
     return jsonpickle.encode(request.get_json()), 200
 
