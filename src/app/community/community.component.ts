@@ -36,7 +36,7 @@ export class CommunityComponent implements OnInit {
       nativeLang: '',
       learningLang: [],
       level: '',
-      interests: []  
+      interests: [],
     };
 
     const profile2: Profile = {
@@ -49,7 +49,7 @@ export class CommunityComponent implements OnInit {
       nativeLang: '',
       learningLang: [],
       level: '',
-      interests: []  
+      interests: [],
     };
 
     const profile3: Profile = {
@@ -62,7 +62,7 @@ export class CommunityComponent implements OnInit {
       nativeLang: '',
       learningLang: [],
       level: '',
-      interests: []  
+      interests: [],
     };
 
     const profile4: Profile = {
@@ -75,7 +75,7 @@ export class CommunityComponent implements OnInit {
       nativeLang: '',
       learningLang: [],
       level: '',
-      interests: []  
+      interests: [],
     };
 
     const profile5: Profile = {
@@ -88,7 +88,7 @@ export class CommunityComponent implements OnInit {
       nativeLang: '',
       learningLang: [],
       level: '',
-      interests: []  
+      interests: [],
     };
 
     let user1: User = {

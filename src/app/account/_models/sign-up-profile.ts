@@ -5,4 +5,5 @@ export class SignUpProfile {
     learningLangs: string[];
     level: string;
     interest: string;
+    bio: string | null;
 }
