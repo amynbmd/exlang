@@ -22,14 +22,13 @@ import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { ThemeStorage } from './layout/ui/theme-picker/theme-storage/theme-storage';
 import { UserProfileAreaComponent } from './user-profile-area/user-profile-area.component';
-import { FirstLoginComponent } from './account/first-login/first-login.component';
 
 export function getAppConfig(configService: ConfigService) {
   return () => configService.loadConfiguration();
 }
 
 @NgModule({
-  declarations: [	AppComponent, FirstLoginComponent
+  declarations: [	AppComponent
    ],
   imports: [
     BrowserModule,

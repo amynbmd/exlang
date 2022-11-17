@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { LoginComponent } from '../login/login.component';
 import { RegistrationComponent } from '../registration/registration.component';
+import { SignUpProfileComponent } from '../sign-up-profile/sign-up-profile.component';
 
 @Component({
   selector: 'app-account-area',
@@ -16,15 +18,19 @@ import { RegistrationComponent } from '../registration/registration.component';
     MatCardModule,
     RegistrationComponent,
     LoginComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    SignUpProfileComponent
   ],
 })
 export class AccountAreaComponent implements OnInit {
   showComponent: ShowComponent = ShowComponent.login;
 
-  constructor() { }
+  constructor(private _route: ActivatedRoute, private _router: Router) { }
 
   ngOnInit() {
+    if (this._route.snapshot.queryParamMap.get('completeProfile')?.trim().toLowerCase() == 'false') {
+      this.showComponent = ShowComponent.completeProfile;
+    }
   }
 
   switchToRegister() {
@@ -43,5 +49,6 @@ export class AccountAreaComponent implements OnInit {
 export enum ShowComponent {
   register = 0, 
   login = 1,
-  forgotPassword = 2
+  forgotPassword = 2,
+  completeProfile = 3
 }

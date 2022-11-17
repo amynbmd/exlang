@@ -45,11 +45,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   private createForm() {
     this.formGroup = new FormGroup<LoginForm>({
-      email: new FormControl('your@email.com', {
+      email: new FormControl('existingUser@email.com', {
         nonNullable: true,
         validators: [RxwebValidators.required(), RxwebValidators.email()],
       }),
-      password: new FormControl('123123123', {
+      password: new FormControl('321654987', {
         nonNullable: true,
         validators: [
           RxwebValidators.required(),
@@ -58,10 +58,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
           // }),
           RxwebValidators.minLength({ value: 8 }),
         ],
-      }),
-      rememberMe: new FormControl(false, {
-        nonNullable: true
-      }),
+      })
     });
   }
   
@@ -70,17 +67,32 @@ export class LoginComponent extends BaseComponent implements OnInit {
     let credential: Login = this.formGroup.getRawValue();
 
     console.log(credential);
+    this.summaryError = [];
 
     this._authService.login(credential).subscribe(response => {
+      this._authService.setLoggedIn(response);
       console.log(response);
 
-      this._router.navigate(['user-profile-area']);
+      if (response.profile.email == null || response.profile.email == undefined) {
+        this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
+        .then(() => {
+          window.location.reload();
+        });;
 
+      } else {
+        this._router.navigate(['user-profile-area']);
+      }
+
+  
     },
     error => {
-      this.summaryError.push("Incorrect Email Address or Password. Please try again.");
+      this.summaryError.push(error.error.message);
       this._cd.markForCheck();
-    })
+    }).
+    add(() => {
+      this.loading = false;  
+      this._cd.markForCheck();
+    });
   }
 
   switchToForgotPassword() {
