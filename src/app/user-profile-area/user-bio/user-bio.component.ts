@@ -128,6 +128,15 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
 
   private patchForm() {
     this.user$.subscribe(response => {
+      if (!this._authService.userHasProfile(response.profile)) {
+        this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
+        .then(() => {
+          window.location.reload();
+        });;
+
+      }
+
+
       const profile: SignUpProfile = {
         email: response.email,
         countryCode: response.profile.countryCode,
