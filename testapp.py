@@ -223,13 +223,10 @@ def update_user_profile():
             cursor.execute(query2)
 
     else:
-        query1 = "UPDATE USER_PROFILE SET countryCode = '{countryCode}', native_Lang = '{native_Lang}', level = '{level}', bio = '{bio}' WHERE email = '{email}'".format(
-            countryCode = json["countryCode"],
-            native_Lang = json["nativeLang"],
-            level= json["level"],
-            bio= json["bio"],
-            email=json["email"]
-        )
+
+        cursor.execute("DELETE FROM USER_PROFILE WHERE email = '{email}'".format(email=json["email"]))
+        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level, bio) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}', '{bio}')".format(
+        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level=json["level"], bio=json["bio"])
         cursor.execute(query1)
 
         cursor.execute("DELETE FROM LEARNING_LANG WHERE email = '{email}'".format(email=json["email"]))

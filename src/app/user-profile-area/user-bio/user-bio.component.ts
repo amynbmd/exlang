@@ -58,7 +58,7 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
 
 
   getSelectItemName(list: SelectItem[], code: string) {
-    return list.filter(m => m.code == code)[0].name;
+    return list.filter(m => m.code == code)[0]?.name;
   }
 
   changeMode() {
@@ -121,7 +121,7 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
       }),
       bio: new FormControl('', {
         nonNullable: true,
-        validators: [RxwebValidators.required()],
+        validators: [],
       })
     });
   }
@@ -134,7 +134,7 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
         nativeLang: response.profile.nativeLang,
         learningLangs: response.profile.learningLang,
         level: response.profile.level,
-        interest: response.profile.interests.join(", "),
+        interest: response?.profile?.interests?.join(", "),
         bio: response.profile.bio,    
       };
 

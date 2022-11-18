@@ -87,7 +87,7 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
       }),
       bio: new FormControl('', {
         nonNullable: true,
-        validators: [RxwebValidators.required()],
+        validators: [],
       })
     });
   }
