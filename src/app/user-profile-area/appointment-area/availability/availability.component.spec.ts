@@ -1,9 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { AvailabilityComponent } from './availability.component';
+import { AccountTestingModule } from 'src/app/account/_testing/account-test.module';
 
 describe('AvailabilityComponent', () => {
   let component: AvailabilityComponent;
@@ -11,9 +10,11 @@ describe('AvailabilityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AvailabilityComponent ]
-    })
-    .compileComponents();
+      imports: [
+        AvailabilityComponent,
+        AccountTestingModule
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

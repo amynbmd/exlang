@@ -1,18 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { FormModule } from 'src/app/_modules/form.module';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import { Timezone } from '../../_models/Timezone';
 import { AuthenticationService } from 'src/app/account/_services/authentication/authentication.service';
 import { Observable } from 'rxjs';
 import { SelectItem } from 'src/app/_models/select-item';
 import { SessionSettingForm } from '../../_models/session-setting.form';
 import { FormControl, FormGroup } from '@angular/forms';
-import { RxwebFormDirective } from '@rxweb/reactive-form-validators/directives/rx-form.directive';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { SessionSetting } from '../../_models/session-setting';
 import { BaseComponent } from 'src/app/_shared/BaseComponent';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-session-setting',
@@ -20,9 +18,10 @@ import { BaseComponent } from 'src/app/_shared/BaseComponent';
   styleUrls: ['./session-setting.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-
   imports: [
-    FormModule, MatSelectModule, MatButtonModule,
+    FormModule,
+    // MatOptionModule,
+    MatSelectModule
   ]
 })
 export class SessionSettingComponent extends BaseComponent implements OnInit {
@@ -42,7 +41,6 @@ export class SessionSettingComponent extends BaseComponent implements OnInit {
   submit(){
     let SessionSetting: SessionSetting = this.formGroup.getRawValue();
     this.summaryError = [];
-    console.log(JSON.stringify(SessionSetting))
 
     this._authService.updateSessionSetting(SessionSetting).subscribe(response => {
     },

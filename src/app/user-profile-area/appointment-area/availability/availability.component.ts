@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormModule } from 'src/app/_modules/form.module';
-import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AvailabilityForm, TimeForm } from '../../_models/availability.form';
 import { Availability } from '../../_models/availability';
@@ -22,7 +21,6 @@ import { User } from 'src/app/account/_models/user';
     MatSlideToggleModule,
     MatDividerModule,
     FormModule,
-    MatButtonModule,
   ],
 })
 export class AvailabilityComponent extends BaseComponent implements OnInit {
@@ -88,11 +86,9 @@ export class AvailabilityComponent extends BaseComponent implements OnInit {
     this.loading = true;
     const availability: Availability = this.formGroup.getRawValue();
 
-    console.log(JSON.stringify(availability));
 
     this._authService.updateUserAvailability(availability).subscribe(response => {
       this._authService.setLoggedIn(response);
-      console.log(response);
 
     },
     error => {

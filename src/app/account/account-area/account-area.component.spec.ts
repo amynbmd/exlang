@@ -1,9 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { AccountAreaComponent } from './account-area.component';
+import { AccountTestingModule } from '../_testing/account-test.module';
 
 describe('RegistrationAreaComponent', () => {
   let component: AccountAreaComponent;
@@ -11,7 +10,7 @@ describe('RegistrationAreaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountAreaComponent ]
+      imports: [ AccountAreaComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -18,7 +23,8 @@ import { AuthenticationService } from '../_services/authentication/authenticatio
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    RouterModule, FormModule, MatSelectModule
+    MatSelectModule,
+    FormModule
   ]
 })
 export class SignUpProfileComponent extends BaseComponent implements OnInit {

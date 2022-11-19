@@ -69,8 +69,6 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
     let profile: SignUpProfile = this.formGroup.getRawValue();
     this.summaryError = [];
 
-    console.log(profile);
-
     this._authService.updateUserProfile(profile).subscribe(response => {
       this.editMode = false;
       if (response.email != null) {

@@ -8,7 +8,9 @@ import { ThemePickerModule } from './ui/theme-picker/theme-picker';
 
 @NgModule({
   declarations: [LayoutComponent, MenuComponent],
-  imports: [AppRoutingModule, SharedModule, ThemeModule, ThemePickerModule],
+  imports: [AppRoutingModule, 
+    SharedModule, 
+    ThemeModule, ThemePickerModule],
   exports: [LayoutComponent, MenuComponent],
 })
 export class LayoutModule {}
