@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { UpcomingComponent } from './upcoming.component';
+import { TestingModule } from 'src/app/_modules/testing.module';
 
 describe('UpcomingComponent', () => {
   let component: UpcomingComponent;
@@ -11,7 +12,7 @@ describe('UpcomingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpcomingComponent ]
+      imports: [ UpcomingComponent ]
     })
     .compileComponents();
   }));

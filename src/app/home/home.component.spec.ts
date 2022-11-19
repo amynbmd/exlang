@@ -6,6 +6,7 @@ import { DebugElement } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TestingModule } from '../_modules/testing.module';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -13,7 +14,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule, NoopAnimationsModule, HomeComponent ]
+      imports: [ HomeComponent, TestingModule ]
     })
     .compileComponents();
   }));

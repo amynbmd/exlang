@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { AccountAreaComponent } from './account-area.component';
+import { TestingModule } from 'src/app/_modules/testing.module';
 
 describe('RegistrationAreaComponent', () => {
   let component: AccountAreaComponent;
@@ -11,7 +12,7 @@ describe('RegistrationAreaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountAreaComponent ]
+      imports: [ AccountAreaComponent, TestingModule ]
     })
     .compileComponents();
   }));

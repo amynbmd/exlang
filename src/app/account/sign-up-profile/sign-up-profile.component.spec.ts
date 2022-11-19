@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { SignUpProfileComponent } from './sign-up-profile.component';
+import { AccountTestingModule } from '../_testing/account-test.module';
+import { TestingModule } from 'src/app/_modules/testing.module';
 
 describe('SignUpProfileComponent', () => {
   let component: SignUpProfileComponent;
@@ -11,7 +11,7 @@ describe('SignUpProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignUpProfileComponent ]
+      imports: [ SignUpProfileComponent, TestingModule],
     })
     .compileComponents();
   }));

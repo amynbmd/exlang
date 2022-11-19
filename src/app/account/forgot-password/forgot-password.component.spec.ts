@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { TestingModule } from 'src/app/_modules/testing.module';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -11,7 +12,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForgotPasswordComponent ]
+      imports: [ ForgotPasswordComponent, TestingModule ]
     })
     .compileComponents();
   }));

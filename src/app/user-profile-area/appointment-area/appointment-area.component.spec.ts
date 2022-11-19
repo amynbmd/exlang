@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { AppointmentAreaComponent } from './appointment-area.component';
+import { TestingModule } from 'src/app/_modules/testing.module';
 
 describe('AppointmentAreaComponent', () => {
   let component: AppointmentAreaComponent;
@@ -11,7 +12,7 @@ describe('AppointmentAreaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppointmentAreaComponent ]
+      imports: [ AppointmentAreaComponent ]
     })
     .compileComponents();
   }));

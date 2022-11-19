@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { CommunityComponent } from './community.component';
+import { TestingModule } from '../_modules/testing.module';
 
 describe('CommunityComponent', () => {
   let component: CommunityComponent;
@@ -11,7 +12,7 @@ describe('CommunityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunityComponent ]
+      imports: [ CommunityComponent, TestingModule ]
     })
     .compileComponents();
   }));
