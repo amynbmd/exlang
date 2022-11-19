@@ -5,7 +5,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { SharedModule } from '../_modules/shared.module';
 import { BaseComponent } from '../_shared/BaseComponent';
 
 @Component({
@@ -14,7 +13,7 @@ import { BaseComponent } from '../_shared/BaseComponent';
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SharedModule, MatProgressBarModule],
+  imports: [MatProgressBarModule],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
   constructor(

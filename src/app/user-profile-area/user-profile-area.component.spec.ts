@@ -1,8 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AccountTestingModule } from '../account/_testing/account-test.module';
 
 import { UserProfileAreaComponent } from './user-profile-area.component';
-import { TestingModule } from '../_modules/testing.module';
 
 describe('UserProfileAreaComponent', () => {
   let component: UserProfileAreaComponent;
@@ -10,7 +10,7 @@ describe('UserProfileAreaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ UserProfileAreaComponent ]
+      imports: [ UserProfileAreaComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

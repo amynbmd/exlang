@@ -17,14 +17,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'theme/view',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./layout/ui/view-theme/view-theme.module').then(
-            (m) => m.ViewThemeModule
-          ),
-      },
-      {
         path: 'account',
         loadChildren: () =>
           import('./account/account.module').then(

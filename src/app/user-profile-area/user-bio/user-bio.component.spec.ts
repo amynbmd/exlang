@@ -2,7 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserBioComponent } from './user-bio.component';
-import { TestingModule } from 'src/app/_modules/testing.module';
+import { AccountTestingModule } from 'src/app/account/_testing/account-test.module';
 
 describe('UserBioComponent', () => {
   let component: UserBioComponent;
@@ -12,7 +12,7 @@ describe('UserBioComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         UserBioComponent,
-        TestingModule
+        AccountTestingModule
       ],
     }).compileComponents();
   }));

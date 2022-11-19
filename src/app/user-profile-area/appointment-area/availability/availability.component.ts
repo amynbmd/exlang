@@ -86,11 +86,9 @@ export class AvailabilityComponent extends BaseComponent implements OnInit {
     this.loading = true;
     const availability: Availability = this.formGroup.getRawValue();
 
-    console.log(JSON.stringify(availability));
 
     this._authService.updateUserAvailability(availability).subscribe(response => {
       this._authService.setLoggedIn(response);
-      console.log(response);
 
     },
     error => {

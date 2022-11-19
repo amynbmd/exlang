@@ -1,10 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { CommunityComponent } from './community.component';
-import { TestingModule } from '../_modules/testing.module';
+import { AccountTestingModule } from '../account/_testing/account-test.module';
 
 describe('CommunityComponent', () => {
   let component: CommunityComponent;
@@ -12,7 +10,7 @@ describe('CommunityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ CommunityComponent, TestingModule ]
+      imports: [ CommunityComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

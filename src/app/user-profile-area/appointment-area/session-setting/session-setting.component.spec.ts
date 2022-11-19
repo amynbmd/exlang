@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TestingModule } from 'src/app/_modules/testing.module';
+import { AccountTestingModule } from 'src/app/account/_testing/account-test.module';
 
 import { SessionSettingComponent } from './session-setting.component';
 
@@ -10,7 +10,7 @@ describe('SessionSettingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ SessionSettingComponent, TestingModule ]
+      imports: [ SessionSettingComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

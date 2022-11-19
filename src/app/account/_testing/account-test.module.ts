@@ -13,9 +13,8 @@ import { AuthenticationService } from '../_services/authentication/authenticatio
     RouterTestingModule,
     HttpClientTestingModule,
     CookieModule.withOptions(),
-    MatMenuModule,
   ],
-  exports: [NoopAnimationsModule, RouterTestingModule, HttpClientTestingModule, MatMenuModule],
+  exports: [NoopAnimationsModule, RouterTestingModule, HttpClientTestingModule],
   providers: [
     AuthenticationService,
     JwtHelperService,

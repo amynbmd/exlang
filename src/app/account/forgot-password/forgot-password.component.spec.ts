@@ -1,10 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { TestingModule } from 'src/app/_modules/testing.module';
+import { AccountTestingModule } from '../_testing/account-test.module';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -12,7 +10,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ForgotPasswordComponent, TestingModule ]
+      imports: [ ForgotPasswordComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

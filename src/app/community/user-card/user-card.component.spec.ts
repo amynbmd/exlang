@@ -1,11 +1,9 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { UserCardComponent } from './user-card.component';
-import { TestingModule } from 'src/app/_modules/testing.module';
 import { User } from 'src/app/account/_models/user';
+import { AccountTestingModule } from 'src/app/account/_testing/account-test.module';
 
 describe('UserCardComponent', () => {
   let component: UserCardComponent;
@@ -13,7 +11,7 @@ describe('UserCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ UserCardComponent, TestingModule ]
+      imports: [ UserCardComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));

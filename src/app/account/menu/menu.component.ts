@@ -29,7 +29,6 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this._authService.logout();
-    console.log('logout()');
     this._router.navigate(['account', 'area'])
     .then(() => {
       window.location.reload();

@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MenuComponent } from './menu.component';
 import { AccountTestingModule } from '../_testing/account-test.module';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -12,7 +13,8 @@ describe('MenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MenuComponent],
       imports: [
-        AccountTestingModule
+        AccountTestingModule,
+        MatMenuModule
       ],
     }).compileComponents();
   }));
