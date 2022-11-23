@@ -11,7 +11,7 @@ describe('PastComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PastComponent ]
+      imports: [ PastComponent ]
     })
     .compileComponents();
   }));

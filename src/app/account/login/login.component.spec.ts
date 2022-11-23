@@ -16,13 +16,19 @@ describe('LoginComponent', () => {
     }).compileComponents();
   }));
 
+
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+
+  it('should create LoginComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create formGroup invalid', () => {
+    expect(component.formGroup.invalid).toBeTruthy();
   });
 });

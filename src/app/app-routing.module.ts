@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CommunityComponent } from './community/community.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './_shared/AuthGuard.guard';
 
@@ -16,14 +17,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'theme/view',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./layout/ui/view-theme/view-theme.module').then(
-            (m) => m.ViewThemeModule
-          ),
-      },
-      {
         path: 'account',
         loadChildren: () =>
           import('./account/account.module').then(
@@ -37,7 +30,15 @@ const routes: Routes = [
           title: 'User\'s Profile',
         },
         loadComponent: () => import('./user-profile-area/user-profile-area.component').then(m => m.UserProfileAreaComponent)
-      }
+      },
+      {
+        path: 'community',
+        component: CommunityComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Community',
+        },
+      },
     ],
   },
 ];

@@ -1,11 +1,22 @@
 
+<<<<<<< HEAD
 from flask import Flask, Response, jsonify, make_response, render_template, request, flash
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 import sqlite3 
+=======
+>>>>>>> master
 import os
-from flask_bcrypt import Bcrypt
+import sqlite3
+
 import jsonpickle
+from flask import (Flask, Response, flash, jsonify, make_response,
+                   render_template, request)
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS
+from flask_login import (LoginManager, current_user, login_required,
+                         login_user, logout_user)
+
 
 class Profile():
     email = None
@@ -20,6 +31,7 @@ class Profile():
     interests = []
     availability = []
     friends = []
+    zoomLocation = None
 
 class User:
     name = None
@@ -32,18 +44,57 @@ class User:
 # Please create a new user profile table in database, retrieve profile for this particular user and then map it to an object. Hardcode values below is for testing purposes only.
 def getUserProfile(email):
     profile = Profile()
-    if (email == "existingUser@email.com"):
-        profile.wordofTheDay = "obfuscate"
-        profile.isOnline = True
-        profile.countryCode = "US"
-        profile.picURL = ""
-        profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        profile.nativeLang = "en"
-        profile.learningLang = ["vi", "de", "fr"]
-        profile.level = "Beginner"
-        profile.interests = ["Art", "Movies", "Organizing"]
-        profile.email = email
+    
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "SELECT email from USER_PROFILE WHERE email = '"+email+"'"
+    cursor.execute(query1)
+    result1 = cursor.fetchall()
+    
+    if (len(result1)!=0):
+        
+        # profile.wordofTheDay = "obfuscate"
+        # profile.isOnline = True
+        query = "SELECT countryCode,native_Lang,level, bio from USER_PROFILE WHERE email = '"+email+"'"
+        cursor.execute(query)
+        result = cursor.fetchall()
 
+        print(result)
+
+        if result:
+            profile.countryCode = result[0][0]
+            profile.nativeLang = result[0][1]
+            profile.level = result[0][2]
+            profile.bio = result[0][3]
+
+
+        list2 = []
+        query2 = "SELECT learning_lang from LEARNING_LANG WHERE email = '"+email+"' ORDER BY learning_lang"
+        cursor.execute(query2)
+        result2 = cursor.fetchall()
+        i=0
+        while i <len(result2):
+            list2 += result2[i]
+            i = i+1
+        profile.learningLang = list2
+        
+
+        # profile.picURL = ""
+        # profile.bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+       
+        list3 = []
+        query3 = "SELECT interest from INTERESTS WHERE email = '"+email+"' ORDER BY interest"
+        cursor.execute(query3)
+        result3 = cursor.fetchall()
+        i=0
+        while i <len(result3):
+            list3 += result3[i]
+            i = i+1
+        profile.interests = list3
+        
+        profile.email = email        
+        
+    connection.commit()   
     return profile
 
 
@@ -61,8 +112,8 @@ def getUserByEmail(email):
         user.name = result[0][0]
         user.email = result[0][1]
         user.password = result[0][2]
+        user.profile = getUserProfile(user.email)
 
-    user.profile = getUserProfile(user.email)
     return user
 
 
@@ -76,15 +127,17 @@ bcrypt = Bcrypt(app)
 #We should store our private key in a more secure way, like encryption or somewhere on github.
 app.config['SECRET_KEY'] = 'exlang'
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
-
+user_email = "none"
 
 @app.route("/")
 def landing_page():
     return "<p>Testing Page for ExLang!</p>"
 
+
 @app.route("/home")
 def home_page():
     return "<p>Welcome to our home page!<p>"
+
 
 #LOGIN
 @app.route("/login", methods=['GET', 'POST'])
@@ -94,7 +147,13 @@ def login():
         password = request.form['password']
         candidate = password
 
+<<<<<<< HEAD
     
+=======
+    #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
+    #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
+    #and then (bcrypt.check_password_hash(realPassword, candiate), if True, authorize login
+>>>>>>> master
     user = getUserByEmail(email)
     
 
@@ -122,7 +181,6 @@ def signup_page():
         
             
     user = getUserByEmail(email)
-
     # Only try to register user if email is NOT in use.
     if (user.email is None):
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
@@ -131,13 +189,13 @@ def signup_page():
         query1 = "INSERT INTO USER VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
         cursor.execute(query1)
         connection.commit()
-
         user = getUserByEmail(email)
         return jsonpickle.encode(user), 200
 
     else:
         data = {'message': 'This Email Address is already in used! Please try a different Email Address.'}
         return jsonify(data), 401        
+
 
 #Retrieve user profile by email address and return as JSON
 #Example: http://127.0.0.1:5000/user/profile/firstlast@email.com
@@ -155,19 +213,232 @@ def user_profile(email):
 
 
 #------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
-#Retrieve user profile by email address and return as JSON
+#Save user profile from JSON.
 #Example: http://127.0.0.1:5000/user/profile
 @app.route("/user/profile", methods=['POST'])
 def update_user_profile():
-    # data is in the following json format: {'countryCode': 'AL', 'nativeLang': 'af', 'learningLangs': ['af', 'ak', 'sq', 'fy', 'yi', 'yo', 'za'], 'level': 'Intermediate', 'interest': 'art, history, math'}
-    # split interest by comma and store as array
-    
-    print(request.get_json())
+    json = request.get_json()
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    print(json)
+    user = getUserByEmail(json["email"])
+
+    if not user:
+        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}')".format(
+        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level= json["level"])
+        cursor.execute(query1)
+
+        array  = json["learningLangs"]
+        for i in array:
+            query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
+            email=json["email"],learning_lang = i.strip())
+            cursor.execute(query)
+        
+        list = json["interest"]
+        x = list.split(",")
+        for i in x:
+            query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
+            email=json["email"],interest = i.strip())
+            cursor.execute(query2)
+
+    else:
+
+        cursor.execute("DELETE FROM USER_PROFILE WHERE email = '{email}'".format(email=json["email"]))
+        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level, bio) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}', '{bio}')".format(
+        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level=json["level"], bio=json["bio"])
+        cursor.execute(query1)
+
+        cursor.execute("DELETE FROM LEARNING_LANG WHERE email = '{email}'".format(email=json["email"]))
+        array  = json["learningLangs"]
+        for i in array:
+            query = "INSERT INTO LEARNING_LANG(email,learning_lang) VALUES ('{email}', '{learning_lang}')".format(
+            email=json["email"],learning_lang = i.strip())
+            cursor.execute(query)
+        
+
+        cursor.execute("DELETE FROM INTERESTS WHERE email = '{email}'".format(email=json["email"]))
+        list = json["interest"]
+        x = list.split(",")
+        for i in x:
+            query2 = "INSERT INTO INTERESTS(email,interest) VALUES ('{email}', '{interest}')".format(
+            email=json["email"],interest = i.strip())
+            cursor.execute(query2)
+
+
+    connection.commit()
+
+
 
     return jsonpickle.encode(request.get_json()), 200
 
 
+#Get user availability from DB.
+#Example: http://127.0.0.1:5000/user/availability/existingUser@email.com
+@app.route("/user/availability/<email>", methods=['GET'])
+def get_user_availability(email):
+    assert email == request.view_args['email']
+    
+    #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
+    availability = {
+        "email": email,
+        "sunday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        },
+        "monday":{
+            "isAvailable":True,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "tuesday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "wednesday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        },
+        "thursday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "friday":{
+            "isAvailable":True,
+            "startTime":"12:00",
+            "endTime":"14:00"
+        },
+        "saturday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        }
+    }
 
+    return jsonpickle.encode(availability), 200
+
+
+#Save user availability from JSON.
+#Example: http://127.0.0.1:5000/user/availability
+@app.route("/user/availability", methods=['POST'])
+def update_user_availability():
+    json = request.get_json()
+    email = json["email"]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    day = ""
+    day1 = "monday"
+    day2 = "tuesday"
+    day3 = "wednesday"
+    day4 = "thursday"
+    day5 = "friday"
+    day6 = "saturday"
+    day7 = "sunday"
+    i=1
+    while i < 8:
+        if(i==1):
+            day = day1
+        elif(i==2):
+            day = day2
+        elif(i==3):
+            day = day3
+        elif(i==4):
+            day = day4
+        elif(i==5):
+            day = day5
+        elif(i==6):
+            day = day6
+        elif(i==7):
+            day = day7
+        if json[day]['isAvailable'] == True:
+            cursor.execute("DELETE FROM AVAILABILITY WHERE email = '{email}' AND day = '{day}'".format(email=json["email"],day = day) )
+            query1 = "INSERT INTO AVAILABIlITY(email,day,start_time,end_time) VALUES ('{email}', '{day}','{start_time}','{end_time}')".format(
+                email=json["email"],day = day,start_time = json[day]["startTime"],end_time = json[day]["endTime"])
+            cursor.execute(query1)
+        else:
+            cursor.execute("DELETE FROM AVAILABILITY WHERE email = '{email}' AND day = '{day}'".format(email=json["email"],day = day) )
+
+        i=i+1
+   
+    connection.commit()
+
+    
+    
+
+    #--------------------------------------------------------------------------------To-Do: Save user availability to db. Time is in 24hr string format.
+    '''
+    {
+        "email":"existingUser@email.com",
+        "sunday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        },
+        "monday":{
+            "isAvailable":True,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "tuesday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "wednesday":{
+            "isAvailable":True,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "thursday":{
+            "isAvailable":True,
+            "startTime":"15:00",
+            "endTime":"17:00"
+        },
+        "friday":{
+            "isAvailable":True,
+            "startTime":"08:00",
+            "endTime":"10:00"
+        },
+        "saturday":{
+            "isAvailable":False,
+            "startTime":"",
+            "endTime":""
+        }
+    }   
+    '''
+
+    return jsonpickle.encode(request.get_json()), 200
+
+@app.route("/user/session-setting", methods=['POST'])
+def update_user_session_setting():
+    json = request.get_json()
+    email = json["email"]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM SESSION WHERE email = '{email}' ".format(email=json["email"]) )
+    query1 = "INSERT INTO SESSION(email,duration,people,timeZone) VALUES ('{email}', '{duration}','{people}','{timeZone}')".format(
+                email=json["email"],duration = json["sessionDuration"],people = json["peopleBook"],timeZone = json["timeZone"])
+    cursor.execute(query1)
+    connection.commit()
+
+
+    print(json)    
+
+    #--------------------------------------------------------------------------------To-Do: Save to db.
+    '''
+    {
+        "sessionDuration":60,
+        "peopleBook":"Friends",
+        "timeZone":"EDT",
+        "email":"existingUser@email.com"
+    }
+    '''
+
+
+    return jsonpickle.encode(request.get_json()), 200
 
 #List of countries for UI dropdown select list.
 #Example: http://127.0.0.1:5000/countries
@@ -420,6 +691,7 @@ def countries():
         {"name": "Zimbabwe", "code": "ZW"} 
         ]
     return jsonify(data), 200
+
 
 #List of languages for UI dropdown select list.
 #Example: http://127.0.0.1:5000/languages
@@ -1177,4 +1449,727 @@ def levels():
         }
     ]
     return jsonify(data), 200
+
+#List of Timezones for UI drop down list.
+#Example: http://127.0.0.1:5000/timezones
+@app.route("/timezones", methods=['GET'])
+def timezones():
+    data = [
+        {
+            "value":"Dateline Standard Time",
+            "abbr":"DST",
+            "offset":-12,
+            "isdst":False,
+            "text":"(UTC-12:00) International Date Line West"
+        },
+        {
+            "value":"UTC-11",
+            "abbr":"U",
+            "offset":-11,
+            "isdst":False,
+            "text":"(UTC-11:00) Coordinated Universal Time-11"
+        },
+        {
+            "value":"Hawaiian Standard Time",
+            "abbr":"HST",
+            "offset":-10,
+            "isdst":False,
+            "text":"(UTC-10:00) Hawaii"
+        },
+        {
+            "value":"Alaskan Standard Time",
+            "abbr":"AKDT",
+            "offset":-8,
+            "isdst":True,
+            "text":"(UTC-09:00) Alaska"
+        },
+        {
+            "value":"Pacific Standard Time (Mexico)",
+            "abbr":"PDT",
+            "offset":-7,
+            "isdst":True,
+            "text":"(UTC-08:00) Baja California"
+        },
+        {
+            "value":"Pacific Standard Time",
+            "abbr":"PDT",
+            "offset":-7,
+            "isdst":True,
+            "text":"(UTC-08:00) Pacific Time (US & Canada)"
+        },
+        {
+            "value":"US Mountain Standard Time",
+            "abbr":"UMST",
+            "offset":-7,
+            "isdst":False,
+            "text":"(UTC-07:00) Arizona"
+        },
+        {
+            "value":"Mountain Standard Time (Mexico)",
+            "abbr":"MDT",
+            "offset":-6,
+            "isdst":True,
+            "text":"(UTC-07:00) Chihuahua, La Paz, Mazatlan"
+        },
+        {
+            "value":"Mountain Standard Time",
+            "abbr":"MDT",
+            "offset":-6,
+            "isdst":True,
+            "text":"(UTC-07:00) Mountain Time (US & Canada)"
+        },
+        {
+            "value":"Central America Standard Time",
+            "abbr":"CAST",
+            "offset":-6,
+            "isdst":False,
+            "text":"(UTC-06:00) Central America"
+        },
+        {
+            "value":"Central Standard Time",
+            "abbr":"CDT",
+            "offset":-5,
+            "isdst":True,
+            "text":"(UTC-06:00) Central Time (US & Canada)"
+        },
+        {
+            "value":"Central Standard Time (Mexico)",
+            "abbr":"CDT",
+            "offset":-5,
+            "isdst":True,
+            "text":"(UTC-06:00) Guadalajara, Mexico City, Monterrey"
+        },
+        {
+            "value":"Canada Central Standard Time",
+            "abbr":"CCST",
+            "offset":-6,
+            "isdst":False,
+            "text":"(UTC-06:00) Saskatchewan"
+        },
+        {
+            "value":"SA Pacific Standard Time",
+            "abbr":"SPST",
+            "offset":-5,
+            "isdst":False,
+            "text":"(UTC-05:00) Bogota, Lima, Quito"
+        },
+        {
+            "value":"Eastern Standard Time",
+            "abbr":"EDT",
+            "offset":-4,
+            "isdst":True,
+            "text":"(UTC-05:00) Eastern Time (US & Canada)"
+        },
+        {
+            "value":"US Eastern Standard Time",
+            "abbr":"UEDT",
+            "offset":-4,
+            "isdst":True,
+            "text":"(UTC-05:00) Indiana (East)"
+        },
+        {
+            "value":"Venezuela Standard Time",
+            "abbr":"VST",
+            "offset":-4.5,
+            "isdst":False,
+            "text":"(UTC-04:30) Caracas"
+        },
+        {
+            "value":"Paraguay Standard Time",
+            "abbr":"PST",
+            "offset":-4,
+            "isdst":False,
+            "text":"(UTC-04:00) Asuncion"
+        },
+        {
+            "value":"Atlantic Standard Time",
+            "abbr":"ADT",
+            "offset":-3,
+            "isdst":True,
+            "text":"(UTC-04:00) Atlantic Time (Canada)"
+        },
+        {
+            "value":"Central Brazilian Standard Time",
+            "abbr":"CBST",
+            "offset":-4,
+            "isdst":False,
+            "text":"(UTC-04:00) Cuiaba"
+        },
+        {
+            "value":"SA Western Standard Time",
+            "abbr":"SWST",
+            "offset":-4,
+            "isdst":False,
+            "text":"(UTC-04:00) Georgetown, La Paz, Manaus, San Juan"
+        },
+        {
+            "value":"Pacific SA Standard Time",
+            "abbr":"PSST",
+            "offset":-4,
+            "isdst":False,
+            "text":"(UTC-04:00) Santiago"
+        },
+        {
+            "value":"Newfoundland Standard Time",
+            "abbr":"NDT",
+            "offset":-2.5,
+            "isdst":True,
+            "text":"(UTC-03:30) Newfoundland"
+        },
+        {
+            "value":"E. South America Standard Time",
+            "abbr":"ESAST",
+            "offset":-3,
+            "isdst":False,
+            "text":"(UTC-03:00) Brasilia"
+        },
+        {
+            "value":"Argentina Standard Time",
+            "abbr":"AST",
+            "offset":-3,
+            "isdst":False,
+            "text":"(UTC-03:00) Buenos Aires"
+        },
+        {
+            "value":"SA Eastern Standard Time",
+            "abbr":"SEST",
+            "offset":-3,
+            "isdst":False,
+            "text":"(UTC-03:00) Cayenne, Fortaleza"
+        },
+        {
+            "value":"Greenland Standard Time",
+            "abbr":"GDT",
+            "offset":-2,
+            "isdst":True,
+            "text":"(UTC-03:00) Greenland"
+        },
+        {
+            "value":"Montevideo Standard Time",
+            "abbr":"MST",
+            "offset":-3,
+            "isdst":False,
+            "text":"(UTC-03:00) Montevideo"
+        },
+        {
+            "value":"Bahia Standard Time",
+            "abbr":"BST",
+            "offset":-3,
+            "isdst":False,
+            "text":"(UTC-03:00) Salvador"
+        },
+        {
+            "value":"UTC-02",
+            "abbr":"U",
+            "offset":-2,
+            "isdst":False,
+            "text":"(UTC-02:00) Coordinated Universal Time-02"
+        },
+        {
+            "value":"Mid-Atlantic Standard Time",
+            "abbr":"MDT",
+            "offset":-1,
+            "isdst":True,
+            "text":"(UTC-02:00) Mid-Atlantic - Old"
+        },
+        {
+            "value":"Azores Standard Time",
+            "abbr":"ADT",
+            "offset":0,
+            "isdst":True,
+            "text":"(UTC-01:00) Azores"
+        },
+        {
+            "value":"Cape Verde Standard Time",
+            "abbr":"CVST",
+            "offset":-1,
+            "isdst":False,
+            "text":"(UTC-01:00) Cape Verde Is."
+        },
+        {
+            "value":"Morocco Standard Time",
+            "abbr":"MDT",
+            "offset":1,
+            "isdst":True,
+            "text":"(UTC) Casablanca"
+        },
+        {
+            "value":"UTC",
+            "abbr":"CUT",
+            "offset":0,
+            "isdst":False,
+            "text":"(UTC) Coordinated Universal Time"
+        },
+        {
+            "value":"GMT Standard Time",
+            "abbr":"GDT",
+            "offset":1,
+            "isdst":True,
+            "text":"(UTC) Dublin, Edinburgh, Lisbon, London"
+        },
+        {
+            "value":"Greenwich Standard Time",
+            "abbr":"GST",
+            "offset":0,
+            "isdst":False,
+            "text":"(UTC) Monrovia, Reykjavik"
+        },
+        {
+            "value":"W. Europe Standard Time",
+            "abbr":"WEDT",
+            "offset":2,
+            "isdst":True,
+            "text":"(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+        },
+        {
+            "value":"Central Europe Standard Time",
+            "abbr":"CEDT",
+            "offset":2,
+            "isdst":True,
+            "text":"(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague"
+        },
+        {
+            "value":"Romance Standard Time",
+            "abbr":"RDT",
+            "offset":2,
+            "isdst":True,
+            "text":"(UTC+01:00) Brussels, Copenhagen, Madrid, Paris"
+        },
+        {
+            "value":"Central European Standard Time",
+            "abbr":"CEDT",
+            "offset":2,
+            "isdst":True,
+            "text":"(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb"
+        },
+        {
+            "value":"W. Central Africa Standard Time",
+            "abbr":"WCAST",
+            "offset":1,
+            "isdst":False,
+            "text":"(UTC+01:00) West Central Africa"
+        },
+        {
+            "value":"Namibia Standard Time",
+            "abbr":"NST",
+            "offset":1,
+            "isdst":False,
+            "text":"(UTC+01:00) Windhoek"
+        },
+        {
+            "value":"GTB Standard Time",
+            "abbr":"GDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Athens, Bucharest"
+        },
+        {
+            "value":"Middle East Standard Time",
+            "abbr":"MEDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Beirut"
+        },
+        {
+            "value":"Egypt Standard Time",
+            "abbr":"EST",
+            "offset":2,
+            "isdst":False,
+            "text":"(UTC+02:00) Cairo"
+        },
+        {
+            "value":"Syria Standard Time",
+            "abbr":"SDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Damascus"
+        },
+        {
+            "value":"E. Europe Standard Time",
+            "abbr":"EEDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) E. Europe"
+        },
+        {
+            "value":"South Africa Standard Time",
+            "abbr":"SAST",
+            "offset":2,
+            "isdst":False,
+            "text":"(UTC+02:00) Harare, Pretoria"
+        },
+        {
+            "value":"FLE Standard Time",
+            "abbr":"FDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius"
+        },
+        {
+            "value":"Turkey Standard Time",
+            "abbr":"TDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Istanbul"
+        },
+        {
+            "value":"Israel Standard Time",
+            "abbr":"JDT",
+            "offset":3,
+            "isdst":True,
+            "text":"(UTC+02:00) Jerusalem"
+        },
+        {
+            "value":"Libya Standard Time",
+            "abbr":"LST",
+            "offset":2,
+            "isdst":False,
+            "text":"(UTC+02:00) Tripoli"
+        },
+        {
+            "value":"Jordan Standard Time",
+            "abbr":"JST",
+            "offset":3,
+            "isdst":False,
+            "text":"(UTC+03:00) Amman"
+        },
+        {
+            "value":"Arabic Standard Time",
+            "abbr":"AST",
+            "offset":3,
+            "isdst":False,
+            "text":"(UTC+03:00) Baghdad"
+        },
+        {
+            "value":"Kaliningrad Standard Time",
+            "abbr":"KST",
+            "offset":3,
+            "isdst":False,
+            "text":"(UTC+03:00) Kaliningrad, Minsk"
+        },
+        {
+            "value":"Arab Standard Time",
+            "abbr":"AST",
+            "offset":3,
+            "isdst":False,
+            "text":"(UTC+03:00) Kuwait, Riyadh"
+        },
+        {
+            "value":"E. Africa Standard Time",
+            "abbr":"EAST",
+            "offset":3,
+            "isdst":False,
+            "text":"(UTC+03:00) Nairobi"
+        },
+        {
+            "value":"Iran Standard Time",
+            "abbr":"IDT",
+            "offset":4.5,
+            "isdst":True,
+            "text":"(UTC+03:30) Tehran"
+        },
+        {
+            "value":"Arabian Standard Time",
+            "abbr":"AST",
+            "offset":4,
+            "isdst":False,
+            "text":"(UTC+04:00) Abu Dhabi, Muscat"
+        },
+        {
+            "value":"Azerbaijan Standard Time",
+            "abbr":"ADT",
+            "offset":5,
+            "isdst":True,
+            "text":"(UTC+04:00) Baku"
+        },
+        {
+            "value":"Russian Standard Time",
+            "abbr":"RST",
+            "offset":4,
+            "isdst":False,
+            "text":"(UTC+04:00) Moscow, St. Petersburg, Volgograd"
+        },
+        {
+            "value":"Mauritius Standard Time",
+            "abbr":"MST",
+            "offset":4,
+            "isdst":False,
+            "text":"(UTC+04:00) Port Louis"
+        },
+        {
+            "value":"Georgian Standard Time",
+            "abbr":"GST",
+            "offset":4,
+            "isdst":False,
+            "text":"(UTC+04:00) Tbilisi"
+        },
+        {
+            "value":"Caucasus Standard Time",
+            "abbr":"CST",
+            "offset":4,
+            "isdst":False,
+            "text":"(UTC+04:00) Yerevan"
+        },
+        {
+            "value":"Afghanistan Standard Time",
+            "abbr":"AST",
+            "offset":4.5,
+            "isdst":False,
+            "text":"(UTC+04:30) Kabul"
+        },
+        {
+            "value":"West Asia Standard Time",
+            "abbr":"WAST",
+            "offset":5,
+            "isdst":False,
+            "text":"(UTC+05:00) Ashgabat, Tashkent"
+        },
+        {
+            "value":"Pakistan Standard Time",
+            "abbr":"PST",
+            "offset":5,
+            "isdst":False,
+            "text":"(UTC+05:00) Islamabad, Karachi"
+        },
+        {
+            "value":"India Standard Time",
+            "abbr":"IST",
+            "offset":5.5,
+            "isdst":False,
+            "text":"(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi"
+        },
+        {
+            "value":"Sri Lanka Standard Time",
+            "abbr":"SLST",
+            "offset":5.5,
+            "isdst":False,
+            "text":"(UTC+05:30) Sri Jayawardenepura"
+        },
+        {
+            "value":"Nepal Standard Time",
+            "abbr":"NST",
+            "offset":5.75,
+            "isdst":False,
+            "text":"(UTC+05:45) Kathmandu"
+        },
+        {
+            "value":"Central Asia Standard Time",
+            "abbr":"CAST",
+            "offset":6,
+            "isdst":False,
+            "text":"(UTC+06:00) Astana"
+        },
+        {
+            "value":"Bangladesh Standard Time",
+            "abbr":"BST",
+            "offset":6,
+            "isdst":False,
+            "text":"(UTC+06:00) Dhaka"
+        },
+        {
+            "value":"Ekaterinburg Standard Time",
+            "abbr":"EST",
+            "offset":6,
+            "isdst":False,
+            "text":"(UTC+06:00) Ekaterinburg"
+        },
+        {
+            "value":"Myanmar Standard Time",
+            "abbr":"MST",
+            "offset":6.5,
+            "isdst":False,
+            "text":"(UTC+06:30) Yangon (Rangoon)"
+        },
+        {
+            "value":"SE Asia Standard Time",
+            "abbr":"SAST",
+            "offset":7,
+            "isdst":False,
+            "text":"(UTC+07:00) Bangkok, Hanoi, Jakarta"
+        },
+        {
+            "value":"N. Central Asia Standard Time",
+            "abbr":"NCAST",
+            "offset":7,
+            "isdst":False,
+            "text":"(UTC+07:00) Novosibirsk"
+        },
+        {
+            "value":"China Standard Time",
+            "abbr":"CST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi"
+        },
+        {
+            "value":"North Asia Standard Time",
+            "abbr":"NAST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Krasnoyarsk"
+        },
+        {
+            "value":"Singapore Standard Time",
+            "abbr":"MPST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Kuala Lumpur, Singapore"
+        },
+        {
+            "value":"W. Australia Standard Time",
+            "abbr":"WAST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Perth"
+        },
+        {
+            "value":"Taipei Standard Time",
+            "abbr":"TST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Taipei"
+        },
+        {
+            "value":"Ulaanbaatar Standard Time",
+            "abbr":"UST",
+            "offset":8,
+            "isdst":False,
+            "text":"(UTC+08:00) Ulaanbaatar"
+        },
+        {
+            "value":"North Asia East Standard Time",
+            "abbr":"NAEST",
+            "offset":9,
+            "isdst":False,
+            "text":"(UTC+09:00) Irkutsk"
+        },
+        {
+            "value":"Tokyo Standard Time",
+            "abbr":"TST",
+            "offset":9,
+            "isdst":False,
+            "text":"(UTC+09:00) Osaka, Sapporo, Tokyo"
+        },
+        {
+            "value":"Korea Standard Time",
+            "abbr":"KST",
+            "offset":9,
+            "isdst":False,
+            "text":"(UTC+09:00) Seoul"
+        },
+        {
+            "value":"Cen. Australia Standard Time",
+            "abbr":"CAST",
+            "offset":9.5,
+            "isdst":False,
+            "text":"(UTC+09:30) Adelaide"
+        },
+        {
+            "value":"AUS Central Standard Time",
+            "abbr":"ACST",
+            "offset":9.5,
+            "isdst":False,
+            "text":"(UTC+09:30) Darwin"
+        },
+        {
+            "value":"E. Australia Standard Time",
+            "abbr":"EAST",
+            "offset":10,
+            "isdst":False,
+            "text":"(UTC+10:00) Brisbane"
+        },
+        {
+            "value":"AUS Eastern Standard Time",
+            "abbr":"AEST",
+            "offset":10,
+            "isdst":False,
+            "text":"(UTC+10:00) Canberra, Melbourne, Sydney"
+        },
+        {
+            "value":"West Pacific Standard Time",
+            "abbr":"WPST",
+            "offset":10,
+            "isdst":False,
+            "text":"(UTC+10:00) Guam, Port Moresby"
+        },
+        {
+            "value":"Tasmania Standard Time",
+            "abbr":"TST",
+            "offset":10,
+            "isdst":False,
+            "text":"(UTC+10:00) Hobart"
+        },
+        {
+            "value":"Yakutsk Standard Time",
+            "abbr":"YST",
+            "offset":10,
+            "isdst":False,
+            "text":"(UTC+10:00) Yakutsk"
+        },
+        {
+            "value":"Central Pacific Standard Time",
+            "abbr":"CPST",
+            "offset":11,
+            "isdst":False,
+            "text":"(UTC+11:00) Solomon Is., New Caledonia"
+        },
+        {
+            "value":"Vladivostok Standard Time",
+            "abbr":"VST",
+            "offset":11,
+            "isdst":False,
+            "text":"(UTC+11:00) Vladivostok"
+        },
+        {
+            "value":"New Zealand Standard Time",
+            "abbr":"NZST",
+            "offset":12,
+            "isdst":False,
+            "text":"(UTC+12:00) Auckland, Wellington"
+        },
+        {
+            "value":"UTC+12",
+            "abbr":"U",
+            "offset":12,
+            "isdst":False,
+            "text":"(UTC+12:00) Coordinated Universal Time+12"
+        },
+        {
+            "value":"Fiji Standard Time",
+            "abbr":"FST",
+            "offset":12,
+            "isdst":False,
+            "text":"(UTC+12:00) Fiji"
+        },
+        {
+            "value":"Magadan Standard Time",
+            "abbr":"MST",
+            "offset":12,
+            "isdst":False,
+            "text":"(UTC+12:00) Magadan"
+        },
+        {
+            "value":"Kamchatka Standard Time",
+            "abbr":"KDT",
+            "offset":13,
+            "isdst":True,
+            "text":"(UTC+12:00) Petropavlovsk-Kamchatsky - Old"
+        },
+        {
+            "value":"Tonga Standard Time",
+            "abbr":"TST",
+            "offset":13,
+            "isdst":False,
+            "text":"(UTC+13:00) Nuku'alofa"
+        },
+        {
+            "value":"Samoa Standard Time",
+            "abbr":"SST",
+            "offset":13,
+            "isdst":False,
+            "text":"(UTC+13:00) Samoa"
+        }
+    ]    
+    return jsonify(data), 200    
+
 app.run()

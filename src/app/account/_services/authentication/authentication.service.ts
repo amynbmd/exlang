@@ -6,9 +6,13 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { AuthenticationResponse } from 'src/app/account/_models/authentication-response';
 import { Login } from 'src/app/account/_models/login';
 import { Registration } from 'src/app/account/_models/registration';
+import { Availability } from 'src/app/user-profile-area/_models/availability';
+import { SessionSetting } from 'src/app/user-profile-area/_models/session-setting';
+import { Timezone } from 'src/app/user-profile-area/_models/Timezone';
 import { Jwt } from 'src/app/_models/jwt';
 import { SelectItem } from 'src/app/_models/select-item';
 import { ConfigService } from 'src/app/_shared/config/config.service';
+import { Profile } from '../../_models/profile';
 import { SignUpProfile } from '../../_models/sign-up-profile';
 import { User } from '../../_models/user';
 
@@ -68,6 +72,30 @@ export class AuthenticationService {
     );
   }
 
+  updateSessionSetting(sessionSetting: SessionSetting):Observable<SessionSetting> {
+    return this._http.post<SessionSetting>(this.baseUrl + '/user/session-setting', sessionSetting).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
+  getUserAvailability(email: string | null):Observable<Availability> {
+    return this._http.get<Availability>(this.baseUrl + 'user/availability/' + email).pipe(
+      map(res => {
+        return res;
+      })
+    )
+  }
+
+  updateUserAvailability(availability: Availability) {
+    return this._http.post<User>(this.baseUrl + '/user/availability', availability).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
   getUserProfile(email: string):Observable<User> {
     return this._http.get<User>(this.baseUrl + 'user/profile/' + email).pipe(
       map(res => {
@@ -99,7 +127,20 @@ export class AuthenticationService {
       })
     )
   }
+  
+  getTimezones():Observable<SelectItem[]> {
+    return this._http.get<Timezone[]>(this.baseUrl + 'timezones').pipe(
+      map(res => {
+        const items: SelectItem[] = [];
 
+        res.forEach(item => {
+          items.push({name: item.text, code: item.abbr});
+        });
+        
+        return items;
+      })
+    )
+  }  
 
   getUserFromLocalStorage():User {
     let user: User = new User();
@@ -126,5 +167,29 @@ export class AuthenticationService {
     localStorage.removeItem("name");
 
     this.loggedIn.next(false);
+  }
+
+
+  userHasProfile(profile: Profile): boolean {
+    if (profile.email == null || profile.email == undefined) {
+      return false
+    }
+
+    if (
+      (profile.wordofTheDay == null || profile.wordofTheDay == undefined) &&
+      (profile.isOnline == null || profile.isOnline == undefined) &&
+      (profile.countryCode == null || profile.countryCode == undefined) &&
+      (profile.picURL == null || profile.picURL == undefined) &&
+      (profile.countryCode == null || profile.countryCode == undefined) &&
+      (profile.bio == null || profile.bio == undefined) &&
+      (profile.nativeLang == null || profile.nativeLang == undefined) &&
+      (profile.learningLang == null || profile.learningLang == undefined || profile.learningLang.length == 0) &&
+      (profile.level == null || profile.level == undefined) &&
+      (profile.interests == null || profile.interests == undefined || profile.interests.length == 0)
+    ) {
+      return false
+    }
+
+    return true;
   }
 }

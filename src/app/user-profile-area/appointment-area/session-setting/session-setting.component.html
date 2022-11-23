@@ -1,3 +1,4 @@
+<form [formGroup]="formGroup">
 <div class="row pt-4 pb-4">
   <div class="col-md-5">
     <span>
@@ -5,7 +6,10 @@
     </span>
     <mat-form-field appearance="outline" color="accent">
       <mat-label>Minutes</mat-label>
-      <input matInput placeholder="8:00AM" />
+      <input matInput formControlName="sessionDuration" type="number" min="0" />
+      <mat-error *ngIf="formGroup.controls.sessionDuration?.hasError('required')">
+        This field is required
+      </mat-error>
     </mat-form-field>
   </div>
 </div>
@@ -16,17 +20,20 @@
       Who can book my time
     </span>
     <mat-form-field appearance="outline" color="accent">
-      <mat-select name="booker">
+      <mat-select formControlName="peopleBook">
         <mat-option value="" selected></mat-option>
         <mat-option value="Anyone" >Anyone</mat-option>
         <mat-option value="Friends" >Friends</mat-option>
         <mat-option value="Teachers" >Teachers</mat-option>
       </mat-select>
+      <mat-error *ngIf="formGroup.controls.peopleBook?.hasError('required')">
+        This field is required
+      </mat-error>
     </mat-form-field>
   </div>
 </div>
 
-<div class="row pt-4 pb-4">
+<div class="row pt-4 pb-4" *ngIf="timezones$ | async as timezones">
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-6">
@@ -34,12 +41,22 @@
       </div>
     </div>
     <mat-form-field appearance="outline" color="accent">
-      <mat-select name="timezone">
+      <mat-select formControlName="timeZone">
+        <mat-option *ngFor="let country of timezones" [value]="country.code">
+          {{country.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.controls.timeZone?.hasError('required')">
+        This field is required
+      </mat-error>
+
+      <!-- <mat-select name="timezone">
         <mat-option value="" selected></mat-option>
         <ng-container *ngFor="let zone of timeZones">
           <mat-option [value]="zone.abbr">{{zone.text}}</mat-option>
         </ng-container>
-      </mat-select>
+      </mat-select> -->
+
     </mat-form-field>
   </div>
 </div>
@@ -52,6 +69,7 @@
       type="button"
       mat-raised-button
       color="primary"
+      (click)="submit()"
     >
       UPDATE
     </button>

@@ -18,8 +18,9 @@ import { SignUpProfileComponent } from '../sign-up-profile/sign-up-profile.compo
     MatCardModule,
     RegistrationComponent,
     LoginComponent,
+    SignUpProfileComponent,
     ForgotPasswordComponent,
-    SignUpProfileComponent
+    
   ],
 })
 export class AccountAreaComponent implements OnInit {

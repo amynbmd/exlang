@@ -35,7 +35,6 @@ export class ForgotPasswordComponent implements OnInit {
 
   forgotPassword(){
     let credential: ForgotPassword = this.formGroup.getRawValue();
-    console.log(credential);
   }
 
 }

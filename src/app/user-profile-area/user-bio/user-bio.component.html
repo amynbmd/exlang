@@ -1,94 +1,154 @@
 
 <ng-container *ngIf="user$ | async as user">
-  <div class="row">
-    <div class="col-md-6">
-      <font size="5">
-        <strong>
-          {{ user.name }}
-        </strong>
-      </font>   
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <div class="col-md-6">
+        <font size="5">
+          <strong>
+            {{ user.name }}
+          </strong>
+        </font>   
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!editMode" title="Edit Profile" type="button" mat-raised-button="primary" (click)="changeMode()">Edit Profile</button>
+        <button *ngIf="editMode" title="Save Profile" type="button" mat-raised-button="primary" color="primary" (click)="submit()">Save Profile</button>
+      </div>
     </div>
-    <div class="col-md-6">
-      <button title="Edit Profile" type="button" mat-raised-button="primary">Edit Profile</button>
-    </div>
-  </div>
+  
+    <div class="row pt-3" *ngIf="countries$ | async as countries">
+      <div class="col-md-6">
+        Location
+      </div>
+      <div class="col-md-6">
+        <mat-chip-list *ngIf="!editMode">
+          <mat-chip>{{getSelectItemName(countries, user.profile.countryCode)}}</mat-chip>
+        </mat-chip-list>
 
-  <div class="row pt-3" *ngIf="countries$ | async as countries">
-    <div class="col-md-6">
-      Location
-    </div>
-    <div class="col-md-6">
-      <mat-chip-list>
-        <mat-chip>{{getSelectItemName(countries, user.profile.countryCode)}}</mat-chip>
-      </mat-chip-list>
-    </div>
-  </div>
+        <mat-form-field appearance="outline" color="accent" *ngIf="editMode">
+          <mat-select formControlName="countryCode">
+            <mat-option *ngFor="let country of countries" [value]="country.code">
+              {{country.name}}
+            </mat-option>
+          </mat-select>
+  
+          <mat-error *ngIf="formGroup.controls.countryCode?.hasError('required')">
+            Country is required
+          </mat-error>
+        </mat-form-field>
 
-  <div class="row pt-3" *ngIf="languages$ | async as languages">
-    <div class="col-md-6">
-      Native Language
+      </div>
     </div>
-    <div class="col-md-6">
-      <mat-chip-list>
-        <mat-chip>{{getSelectItemName(languages, user.profile.nativeLang)}}</mat-chip>
-      </mat-chip-list>
-    </div>
-  </div>  
+  
+    <div class="row pt-3" *ngIf="languages$ | async as languages">
+      <div class="col-md-6">
+        Native Language
+      </div>
+      <div class="col-md-6">
+        <mat-chip-list *ngIf="!editMode">
+          <mat-chip>{{getSelectItemName(languages, user.profile.nativeLang)}}</mat-chip>
+        </mat-chip-list>
 
-  <div class="row pt-3" *ngIf="languages$ | async as languages">
-    <div class="col-md-6">
-      Learning Language(s)
-    </div>
-    <div class="col-md-6">
-      <mat-chip-list>
-        <ng-container *ngFor="let learningLang of user.profile.learningLang">
-          <mat-chip>{{getSelectItemName(languages, learningLang)}}</mat-chip>
-        </ng-container>
+        <mat-form-field appearance="outline" color="accent" *ngIf="editMode">
+          <mat-select formControlName="nativeLang">
+            <mat-option *ngFor="let language of languages" [value]="language.code">
+              {{language.name}}
+            </mat-option>
+          </mat-select>
+  
+          <mat-error *ngIf="formGroup.controls.nativeLang?.hasError('required')">
+            Language is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>  
+  
+    <div class="row pt-3" *ngIf="languages$ | async as languages">
+      <div class="col-md-6">
+        Learning Language(s)
+      </div>
+      <div class="col-md-6">
+        <mat-chip-list *ngIf="!editMode">
+          <ng-container *ngFor="let learningLang of user.profile.learningLang">
+            <mat-chip>{{getSelectItemName(languages, learningLang)}}</mat-chip>
+          </ng-container>
+        </mat-chip-list>
 
-        
-      </mat-chip-list>
-    </div>
-  </div>  
+        <mat-form-field appearance="outline" color="accent" *ngIf="editMode">
+          <mat-select formControlName="learningLangs" multiple>
+            <mat-option *ngFor="let language of languages" [value]="language.code">
+              {{language.name}}
+            </mat-option>
+          </mat-select>
+  
+          <mat-error *ngIf="formGroup.controls.learningLangs?.hasError('required')">
+            Language is required
+          </mat-error>
+        </mat-form-field>    
+      </div>
+    </div>  
+  
+    <div class="row pt-3">
+      <div class="col-md-6">
+        Level
+      </div>
+      <div class="col-md-6" *ngIf="levels$ | async as levels">
+        <mat-chip-list *ngIf="!editMode">
+          <mat-chip>{{ user.profile.level }}</mat-chip>
+        </mat-chip-list>
 
-  <div class="row pt-3">
-    <div class="col-md-6">
-      Level
+        <mat-form-field appearance="outline" color="accent" *ngIf="editMode">
+          <mat-select formControlName="level">
+            <mat-option *ngFor="let level of levels" [value]="level.code">
+              {{level.name}}
+            </mat-option>
+          </mat-select>
+  
+          <mat-error *ngIf="formGroup.controls.learningLangs?.hasError('required')">
+            Level is required
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md-6">
-      <mat-chip-list>
-        <mat-chip>{{ user.profile.level }}</mat-chip>
-      </mat-chip-list>
+  
+    <div class="row pt-3 pb-5">
+      <div class="col-md-6">
+        Interests
+      </div>
+      <div class="col-md-6">
+        <mat-chip-list *ngIf="!editMode">
+          <ng-container *ngFor="let interest of user.profile.interests">
+            <mat-chip>{{interest}}</mat-chip>
+          </ng-container>
+        </mat-chip-list>
+
+        <mat-form-field appearance="outline" color="accent" *ngIf="editMode">
+          <input matInput formControlName="interest" />
+          <mat-error *ngIf="formGroup.controls.learningLangs?.hasError('required')">
+            Interest is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>  
+  
+    <mat-divider></mat-divider>
+  
+    <div class="row pt-3 pb-3">
+      <div class="col">
+        About me
+      </div>
     </div>
-  </div>
+  
+    <div class="row pb-5">
+      <div class="col" *ngIf="!editMode">{{user.profile.bio}}</div>
 
-  <div class="row pt-3 pb-5">
-    <div class="col-md-6">
-      Interests
+      <mat-form-field appearance="outline" color="accent"  *ngIf="editMode">
+        <textarea matInput name="questionText" cols="35" rows="8" placeholder="About me" formControlName="bio"></textarea>
+      </mat-form-field>
+
     </div>
-    <div class="col-md-6">
-      <mat-chip-list>
-        <ng-container *ngFor="let interest of user.profile.interests">
-          <mat-chip>{{interest}}</mat-chip>
-        </ng-container>
-      </mat-chip-list>
-    </div>
-  </div>  
-
-  <mat-divider></mat-divider>
-
-  <div class="row pt-3 pb-3">
-    <div class="col">
-      About me
-    </div>
-  </div>
-
-  <div class="row pb-5">
-    <div class="col">{{user.profile.bio}}</div>
-  </div>
-
-  <mat-divider></mat-divider>
+  
+    <mat-divider></mat-divider>
+  </form>
 </ng-container>
-
-
 
 

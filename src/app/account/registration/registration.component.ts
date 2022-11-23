@@ -86,14 +86,13 @@ export class RegistrationComponent extends BaseComponent implements OnInit {
     //this.formGroup.disable();
     const registration: Registration = this.formGroup.getRawValue();
 
-    console.log(JSON.stringify(registration));
     this.summaryError = [];
 
     this._authService.register(registration).subscribe(response => {
       this._authService.setLoggedIn(response);
-      console.log(response);
 
-      if (response.profile.email == null || response.profile.email == undefined) {
+
+      if (!this._authService.userHasProfile(response.profile)) {
         this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
         .then(() => {
           window.location.reload();

@@ -1,23 +1,22 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { ViewThemeComponent } from './view-theme.component';
+import { CommunityComponent } from './community.component';
+import { AccountTestingModule } from '../account/_testing/account-test.module';
 
-describe('ViewThemeComponent', () => {
-  let component: ViewThemeComponent;
-  let fixture: ComponentFixture<ViewThemeComponent>;
+describe('CommunityComponent', () => {
+  let component: CommunityComponent;
+  let fixture: ComponentFixture<CommunityComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewThemeComponent ]
+      imports: [ CommunityComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewThemeComponent);
+    fixture = TestBed.createComponent(CommunityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
