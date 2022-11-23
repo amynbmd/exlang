@@ -201,7 +201,7 @@ def update_user_profile():
     json = request.get_json()
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-
+    print(json)
     user = getUserByEmail(json["email"])
 
     if not user:
@@ -258,7 +258,7 @@ def update_user_profile():
 @app.route("/user/availability/<email>", methods=['GET'])
 def get_user_availability(email):
     assert email == request.view_args['email']
-
+    
     #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
     availability = {
         "email": email,
@@ -308,8 +308,46 @@ def get_user_availability(email):
 def update_user_availability():
     json = request.get_json()
     email = json["email"]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    day = ""
+    day1 = "monday"
+    day2 = "tuesday"
+    day3 = "wednesday"
+    day4 = "thursday"
+    day5 = "friday"
+    day6 = "saturday"
+    day7 = "sunday"
+    i=1
+    while i < 8:
+        if(i==1):
+            day = day1
+        elif(i==2):
+            day = day2
+        elif(i==3):
+            day = day3
+        elif(i==4):
+            day = day4
+        elif(i==5):
+            day = day5
+        elif(i==6):
+            day = day6
+        elif(i==7):
+            day = day7
+        if json[day]['isAvailable'] == True:
+            cursor.execute("DELETE FROM AVAILABILITY WHERE email = '{email}' AND day = '{day}'".format(email=json["email"],day = day) )
+            query1 = "INSERT INTO AVAILABIlITY(email,day,start_time,end_time) VALUES ('{email}', '{day}','{start_time}','{end_time}')".format(
+                email=json["email"],day = day,start_time = json[day]["startTime"],end_time = json[day]["endTime"])
+            cursor.execute(query1)
+        else:
+            cursor.execute("DELETE FROM AVAILABILITY WHERE email = '{email}' AND day = '{day}'".format(email=json["email"],day = day) )
 
-    print(json)
+        i=i+1
+   
+    connection.commit()
+
+    
+    
 
     #--------------------------------------------------------------------------------To-Do: Save user availability to db. Time is in 24hr string format.
     '''
@@ -359,6 +397,14 @@ def update_user_availability():
 def update_user_session_setting():
     json = request.get_json()
     email = json["email"]
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM SESSION WHERE email = '{email}' ".format(email=json["email"]) )
+    query1 = "INSERT INTO SESSION(email,duration,people,timeZone) VALUES ('{email}', '{duration}','{people}','{timeZone}')".format(
+                email=json["email"],duration = json["sessionDuration"],people = json["peopleBook"],timeZone = json["timeZone"])
+    cursor.execute(query1)
+    connection.commit()
+
 
     print(json)    
 
