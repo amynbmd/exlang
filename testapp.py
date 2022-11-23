@@ -1,11 +1,4 @@
 
-<<<<<<< HEAD
-from flask import Flask, Response, jsonify, make_response, render_template, request, flash
-from flask_cors import CORS
-from flask_bcrypt import Bcrypt
-import sqlite3 
-=======
->>>>>>> master
 import os
 import sqlite3
 
@@ -147,13 +140,9 @@ def login():
         password = request.form['password']
         candidate = password
 
-<<<<<<< HEAD
-    
-=======
     #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
     #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
     #and then (bcrypt.check_password_hash(realPassword, candiate), if True, authorize login
->>>>>>> master
     user = getUserByEmail(email)
     
 
