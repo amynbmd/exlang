@@ -1,4 +1,11 @@
 
+<<<<<<< HEAD
+from flask import Flask, Response, jsonify, make_response, render_template, request, flash
+from flask_cors import CORS
+from flask_bcrypt import Bcrypt
+import sqlite3 
+=======
+>>>>>>> master
 import os
 import sqlite3
 
@@ -140,10 +147,15 @@ def login():
         password = request.form['password']
         candidate = password
 
+<<<<<<< HEAD
+    
+=======
     #Make a call to the database with the candidate email and password that returns correct password, compare with password entered by user for authorization to login
     #Something like: realPassword = database.PassWordQuery(email) <-- I think we're using query1 for this
     #and then (bcrypt.check_password_hash(realPassword, candiate), if True, authorize login
+>>>>>>> master
     user = getUserByEmail(email)
+    
 
     if(user.email is not None and bcrypt.check_password_hash(user.password, password)):
         user.password = None
@@ -160,6 +172,13 @@ def signup_page():
             name = request.form['name']
             email = request.form['email']
             password = request.form['password']
+    # connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    # cursor = connection.cursor()
+    # pw_hash = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+    # query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
+    # cursor.execute(query1)
+    # connection.commit()
+        
             
     user = getUserByEmail(email)
     # Only try to register user if email is NOT in use.
@@ -167,7 +186,7 @@ def signup_page():
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
         cursor = connection.cursor()
         pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-        query1 = "INSERT INTO user VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
+        query1 = "INSERT INTO USER VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
         cursor.execute(query1)
         connection.commit()
         user = getUserByEmail(email)
