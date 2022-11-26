@@ -73,23 +73,23 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
         nonNullable: true,
         validators: [RxwebValidators.email(), RxwebValidators.required()],
       }),      
-      countryCode: new FormControl('US', {
+      countryCode: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      nativeLang: new FormControl('vi', {
+      nativeLang: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      learningLangs: new FormControl(['ko', 'ja'], {
+      learningLangs: new FormControl([], {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      level: new FormControl('Beginner', {
+      level: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      interest: new FormControl('Movies, Cooking', {
+      interest: new FormControl('', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
