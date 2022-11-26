@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Profile } from '../account/_models/profile';
 import { User } from '../account/_models/user';
-import { AuthenticationService } from '../account/_services/authentication/authentication.service';
-import { SelectItem } from '../_models/select-item';
-import { UserCardComponent } from './user-card/user-card.component';
+import { CommunityConnectionsComponent } from '../community-connections/community-connections.component';
 
 @Component({
   selector: 'app-community',
@@ -16,17 +13,15 @@ import { UserCardComponent } from './user-card/user-card.component';
   standalone: true,
   imports: [	
     CommonModule,
-    UserCardComponent
+    CommunityConnectionsComponent
   ]
 })
 export class CommunityComponent implements OnInit {
-  profiles: User[] = [];
-  languages$: Observable<SelectItem[]>;
+  users: User[] = [];
 
-  constructor(private _authService: AuthenticationService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.languages$ = this._authService.getLanguages();
     this.getProfiles();
   }
 
@@ -134,10 +129,10 @@ export class CommunityComponent implements OnInit {
       profile: profile5
     };
 
-    this.profiles.push(user1);
-    this.profiles.push(user2);
-    this.profiles.push(user3);
-    this.profiles.push(user4);
-    this.profiles.push(user5);
+    this.users.push(user1);
+    this.users.push(user2);
+    this.users.push(user3);
+    this.users.push(user4);
+    this.users.push(user5);
   }
 }

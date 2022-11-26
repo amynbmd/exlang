@@ -43,6 +43,8 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
     this.countries$ = this._authService.getCountries();
     this.languages$ = this._authService.getLanguages();
     this.levels$ = this._authService.getLevels();
+
+    console.log(this.formGroup);
   }
 
   submit() {
@@ -71,23 +73,23 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
         nonNullable: true,
         validators: [RxwebValidators.email(), RxwebValidators.required()],
       }),      
-      countryCode: new FormControl('', {
+      countryCode: new FormControl('US', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      nativeLang: new FormControl('', {
+      nativeLang: new FormControl('vi', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      learningLangs: new FormControl([], {
+      learningLangs: new FormControl(['ko', 'ja'], {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      level: new FormControl('', {
+      level: new FormControl('Beginner', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
-      interest: new FormControl('', {
+      interest: new FormControl('Movies, Cooking', {
         nonNullable: true,
         validators: [RxwebValidators.required()],
       }),
