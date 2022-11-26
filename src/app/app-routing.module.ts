@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommunityComponent } from './community/community.component';
+import { ConnectionsComponent } from './connections/connections.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './_shared/AuthGuard.guard';
 
@@ -37,6 +38,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           title: 'Community',
+        },
+      },
+      {
+        path: 'connections',
+        component: ConnectionsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Connections',
         },
       },
     ],

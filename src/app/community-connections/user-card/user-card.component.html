@@ -1,0 +1,23 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>{{user.name}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image [src]="user.profile.picURL" alt="Photo of a person">
+  <mat-card-content>
+    <div class="row" *ngIf="languages$ | async as languages">
+      <div class="col">
+        <mat-icon>language</mat-icon> {{getSelectItemName(languages, user.profile.nativeLang)}}
+      </div>
+    </div>
+
+    <div class="row pt-2">
+      <div class="col">
+        <mat-icon>interests</mat-icon> {{ user.profile.interests.join(', ') }}
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button *ngIf="!user.profile.connected" mat-raised-button color="primary">Connect</button>
+    <button *ngIf="user.profile.connected" mat-raised-button color="accent">Connected</button>
+  </mat-card-actions>
+</mat-card>

@@ -18,4 +18,8 @@ export class LayoutComponent implements OnInit {
   viewCommunity() {
     this._router.navigate(['community']);
   }
+
+  viewConnections() {
+    this._router.navigate(['connections']);
+  }
 }

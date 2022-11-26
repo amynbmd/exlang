@@ -43,6 +43,8 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
     this.countries$ = this._authService.getCountries();
     this.languages$ = this._authService.getLanguages();
     this.levels$ = this._authService.getLevels();
+
+    console.log(this.formGroup);
   }
 
   submit() {

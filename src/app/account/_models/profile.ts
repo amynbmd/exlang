@@ -9,4 +9,5 @@ export class Profile {
     learningLang: string[];
     level: string;
     interests: string[];
+    connected: boolean;
 }

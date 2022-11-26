@@ -97,7 +97,7 @@ def getUserByEmail(email):
 
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 = "SELECT * from user WHERE email = '"+email+"'"
+    query1 = "SELECT name, email, password from user WHERE email = '"+email+"'"
     cursor.execute(query1)
     result = cursor.fetchall()
 
@@ -175,7 +175,7 @@ def signup_page():
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
         cursor = connection.cursor()
         pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-        query1 = "INSERT INTO USER VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
+        query1 = "INSERT INTO USER (name, email, password) VALUES ('{name}', '{email}', '{password}')".format(name = name, email = email, password = pw_hash)
         cursor.execute(query1)
         connection.commit()
         user = getUserByEmail(email)

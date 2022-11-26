@@ -1,0 +1,5 @@
+<div class="row">
+  <div class="col-lg-2" *ngFor="let profile of users">
+    <app-user-card [user]="profile" [languages$]="languages$"></app-user-card>
+  </div>
+</div>
