@@ -1,22 +1,5 @@
 <div class="row">
-  
-  <div class="col bg-primary" *ngFor="let profile of profiles">
-    <app-user-card [user]="profile"></app-user-card>
+  <div class="col" *ngFor="let profile of profiles">
+    <app-user-card [user]="profile" [languages$]="languages$"></app-user-card>
   </div>
-
-
-
-
-  <!-- <div class="col bg-primary">
-    <app-user-card></app-user-card>
-  </div>
-  <div class="col bg-accent">
-    <app-user-card></app-user-card>
-  </div>
-  <div class="col bg-primary">
-    <app-user-card></app-user-card>
-  </div>
-  <div class="col bg-accent">
-    <app-user-card></app-user-card>
-  </div> -->
 </div>

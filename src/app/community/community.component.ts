@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Profile } from '../account/_models/profile';
 import { User } from '../account/_models/user';
+import { AuthenticationService } from '../account/_services/authentication/authentication.service';
+import { SelectItem } from '../_models/select-item';
 import { UserCardComponent } from './user-card/user-card.component';
 
 @Component({
@@ -18,10 +21,12 @@ import { UserCardComponent } from './user-card/user-card.component';
 })
 export class CommunityComponent implements OnInit {
   profiles: User[] = [];
+  languages$: Observable<SelectItem[]>;
 
-  constructor() { }
+  constructor(private _authService: AuthenticationService) { }
 
   ngOnInit() {
+    this.languages$ = this._authService.getLanguages();
     this.getProfiles();
   }
 
@@ -33,10 +38,11 @@ export class CommunityComponent implements OnInit {
       countryCode: 'US',
       picURL: './../../../assets/fake-people/person1.jpg',
       bio: '',
-      nativeLang: '',
-      learningLang: [],
+      nativeLang: 'en',
+      learningLang: ['en'],
       level: '',
-      interests: [],
+      interests: ['Cooking', 'Movie'],
+      connected: false
     };
 
     const profile2: Profile = {
@@ -46,10 +52,11 @@ export class CommunityComponent implements OnInit {
       countryCode: 'US',
       picURL: './../../../assets/fake-people/person2.jpg',
       bio: '',
-      nativeLang: '',
-      learningLang: [],
+      nativeLang: 'en',
+      learningLang: ['en'],
       level: '',
-      interests: [],
+      interests: ['Pets', 'Sports'],
+      connected: false
     };
 
     const profile3: Profile = {
@@ -59,10 +66,11 @@ export class CommunityComponent implements OnInit {
       countryCode: 'US',
       picURL: './../../../assets/fake-people/person3.jpg',
       bio: '',
-      nativeLang: '',
-      learningLang: [],
+      nativeLang: 'en',
+      learningLang: ['en'],
       level: '',
-      interests: [],
+      interests: ["Running", 'Rock climbing'],
+      connected: false
     };
 
     const profile4: Profile = {
@@ -72,10 +80,11 @@ export class CommunityComponent implements OnInit {
       countryCode: 'US',
       picURL: './../../../assets/fake-people/person4.jpg',
       bio: '',
-      nativeLang: '',
-      learningLang: [],
+      nativeLang: 'en',
+      learningLang: ['en'],
       level: '',
-      interests: [],
+      interests: ['Reading'],
+      connected: false
     };
 
     const profile5: Profile = {
@@ -85,10 +94,11 @@ export class CommunityComponent implements OnInit {
       countryCode: 'US',
       picURL: './../../../assets/fake-people/person5.jpg',
       bio: '',
-      nativeLang: '',
-      learningLang: [],
+      nativeLang: 'en',
+      learningLang: ['en'],
       level: '',
       interests: [],
+      connected: false
     };
 
     let user1: User = {

@@ -1,0 +1,11 @@
+.col:first-child {
+    padding-left: 33px;
+}
+
+.col:last-child {
+    padding-right: 33px;
+}
+
+.col {
+    padding-top: 24px;
+}
