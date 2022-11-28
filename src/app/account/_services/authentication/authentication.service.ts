@@ -104,6 +104,14 @@ export class AuthenticationService {
     )
   }
 
+  getUsersProfile(email: string | null):Observable<User[]> {
+    return this._http.get<User[]>(this.baseUrl + 'user/' + email).pipe(
+      map(res => {
+        return res;
+      })
+    )
+  }
+
   getCountries():Observable<SelectItem[]> {
     return this._http.get<SelectItem[]>(this.baseUrl + 'countries').pipe(
       map(res => {

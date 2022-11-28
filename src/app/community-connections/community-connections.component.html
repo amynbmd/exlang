@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-2" *ngFor="let profile of users">
+  <div class="col-md-2 pt-4" *ngFor="let profile of users" style="min-width: 290px;">
     <app-user-card [user]="profile" [languages$]="languages$"></app-user-card>
   </div>
 </div>

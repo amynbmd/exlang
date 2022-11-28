@@ -48,7 +48,7 @@ def getUserProfile(email):
         
         # profile.wordofTheDay = "obfuscate"
         # profile.isOnline = True
-        query = "SELECT countryCode,native_Lang,level, bio from USER_PROFILE WHERE email = '"+email+"'"
+        query = "SELECT countryCode,native_Lang,level, bio, picURL from USER_PROFILE WHERE email = '"+email+"'"
         cursor.execute(query)
         result = cursor.fetchall()
 
@@ -59,6 +59,7 @@ def getUserProfile(email):
             profile.nativeLang = result[0][1]
             profile.level = result[0][2]
             profile.bio = result[0][3]
+            profile.picURL = result[0][4]
 
 
         list2 = []
@@ -200,6 +201,29 @@ def user_profile(email):
         data = {'message': 'User not found!'}
         return jsonify(data), 404
 
+
+#Get all users except for 
+@app.route("/user/<email>", methods=['GET'])
+def get_users(email):
+    emails = []
+    users = []
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "select email from USER where email <> '" + email + "'"
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    i=0
+    while i <len(result):
+        emails += result[i]
+        i = i+1
+
+
+    for email in emails:
+        user = getUserByEmail(email)
+        users.append(user)
+
+    return jsonpickle.encode(users), 200
+    
 
 #------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
 #Save user profile from JSON.
