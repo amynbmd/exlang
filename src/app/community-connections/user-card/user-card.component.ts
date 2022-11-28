@@ -36,4 +36,8 @@ export class UserCardComponent implements OnInit {
   getSelectItemName(list: SelectItem[], code: string) {
     return list.filter(m => m.code == code)[0]?.name;
   }
+
+  setDefaultPic() {
+    this.user.profile.picURL = '../../assets/img/profile_picture_placeholder.png';
+  }
 }

@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>{{user.name}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image [src]="user.profile.picURL" alt="Photo of a person">
+  <img mat-card-image [src]="user.profile.picURL" alt="Photo of a person" (error)="setDefaultPic()">
   <mat-card-content>
     <div class="row" *ngIf="languages$ | async as languages">
       <div class="col">

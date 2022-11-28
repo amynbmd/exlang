@@ -31,7 +31,7 @@ export class CommunityComponent implements OnInit {
       wordofTheDay: '',
       isOnline: false,
       countryCode: 'US',
-      picURL: './../../../assets/fake-people/person1.jpg',
+      picURL: './../../../assets/fake-people/person11.jpg',
       bio: '',
       nativeLang: 'en',
       learningLang: ['en'],
