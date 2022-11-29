@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatChipsModule} from '@angular/material/chips';
@@ -29,8 +29,9 @@ import { BaseComponent } from 'src/app/_shared/BaseComponent';
   ]
 })
 export class UserBioComponent extends BaseComponent  implements OnInit {
+  @Input() user: User;
+
   formGroup: FormGroup<SignUpProfileForm>;
-  user$: Observable<User>;
   countries$: Observable<SelectItem[]>;
   languages$: Observable<SelectItem[]>;
   levels$: Observable<SelectItem[]>;
@@ -40,9 +41,7 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
   constructor(private _authService: AuthenticationService, private _router: Router, private _cd: ChangeDetectorRef) { super() }
 
   ngOnInit() {
-    let user = this._authService.getUserFromLocalStorage();
-    if (user.email != null) {
-      this.user$ = this._authService.getUserProfile(user.email);
+    if (this.user.email != null) {
       this.countries$ = this._authService.getCountries();
       this.languages$ = this._authService.getLanguages();
       this.levels$ = this._authService.getLevels();
@@ -71,8 +70,10 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
 
     this._authService.updateUserProfile(profile).subscribe(response => {
       this.editMode = false;
-      if (response.email != null) {
-        this.user$ = this._authService.getUserProfile(response.email);
+      this.user = response;
+      if (this.user.email != null) {
+        console.log(this.user);
+
         this.patchForm();
       }
       
@@ -115,9 +116,13 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
       }),
       interest: new FormControl('', {
         nonNullable: true,
-        validators: [RxwebValidators.required()],
+        validators: [],
       }),
       bio: new FormControl('', {
+        nonNullable: true,
+        validators: [],
+      }),
+      picURL: new FormControl('', {
         nonNullable: true,
         validators: [],
       })
@@ -125,27 +130,17 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
   }
 
   private patchForm() {
-    this.user$.subscribe(response => {
-      if (!this._authService.userHasProfile(response.profile)) {
-        this._router.navigate(['account', 'area'], { queryParams: {completeProfile: false}})
-        .then(() => {
-          window.location.reload();
-        });;
+    const profile: SignUpProfile = {
+      email: this.user.email,
+      countryCode: this.user.profile.countryCode,
+      nativeLang: this.user.profile.nativeLang,
+      learningLangs: this.user.profile.learningLang,
+      level: this.user.profile.level,
+      interest: this.user?.profile?.interests?.join(", "),
+      bio: this.user.profile.bio,
+      picURL: this.user.profile.picURL
+    };
 
-      }
-
-
-      const profile: SignUpProfile = {
-        email: response.email,
-        countryCode: response.profile.countryCode,
-        nativeLang: response.profile.nativeLang,
-        learningLangs: response.profile.learningLang,
-        level: response.profile.level,
-        interest: response?.profile?.interests?.join(", "),
-        bio: response.profile.bio,    
-      };
-
-      this.formGroup.patchValue(profile);
-    });
+    this.formGroup.patchValue(profile);
   }
 }

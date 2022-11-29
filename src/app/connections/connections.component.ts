@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Profile } from '../account/_models/profile';
 import { User } from '../account/_models/user';
+import { AuthenticationService } from '../account/_services/authentication/authentication.service';
 import { CommunityConnectionsComponent } from '../community-connections/community-connections.component';
 
 @Component({
@@ -16,57 +18,60 @@ import { CommunityConnectionsComponent } from '../community-connections/communit
   ]
 })
 export class ConnectionsComponent implements OnInit {
-  users: User[] = [];
+  users$: Observable<User[]>;
+  // users: User[] = [];
 
-  constructor() { }
+  constructor(private _authService:AuthenticationService) { }
 
   ngOnInit() {
-    this.getProfiles();
+    // this.getProfiles();
+
+    this.users$ = this._authService.getConnectedUsersProfile(this._authService.getUserFromLocalStorage().email);
   }
 
-  getProfiles() {
-    const profile1: Profile = {
-      email: 'user1@email.com',
-      wordofTheDay: '',
-      isOnline: false,
-      countryCode: 'US',
-      picURL: './../../../assets/fake-people/person6.jpg',
-      bio: '',
-      nativeLang: 'en',
-      learningLang: ['en'],
-      level: '',
-      interests: ['Cooking', 'Movie'],
-      connected: true
-    };
+  // getProfiles() {
+  //   const profile1: Profile = {
+  //     email: 'user1@email.com',
+  //     wordofTheDay: '',
+  //     isOnline: false,
+  //     countryCode: 'US',
+  //     picURL: './../../../assets/fake-people/person6.jpg',
+  //     bio: '',
+  //     nativeLang: 'en',
+  //     learningLang: ['en'],
+  //     level: '',
+  //     interests: ['Cooking', 'Movie'],
+  //     connected: true
+  //   };
 
-    const profile2: Profile = {
-      email: 'user2@email.com',
-      wordofTheDay: '',
-      isOnline: false,
-      countryCode: 'US',
-      picURL: './../../../assets/fake-people/person7.jpg',
-      bio: '',
-      nativeLang: 'en',
-      learningLang: ['en'],
-      level: '',
-      interests: ['Pets', 'Sports'],
-      connected: true
-    };
+  //   const profile2: Profile = {
+  //     email: 'user2@email.com',
+  //     wordofTheDay: '',
+  //     isOnline: false,
+  //     countryCode: 'US',
+  //     picURL: './../../../assets/fake-people/person7.jpg',
+  //     bio: '',
+  //     nativeLang: 'en',
+  //     learningLang: ['en'],
+  //     level: '',
+  //     interests: ['Pets', 'Sports'],
+  //     connected: true
+  //   };
 
-    let user1: User = {
-      name: 'Jen',
-      email: 'user1@email.com',
-      password: '',
-      profile: profile1
-    };
-    let user2: User = {
-      name: 'Sherry',
-      email: 'user2@email.com',
-      password: '',
-      profile: profile2
-    };
+  //   let user1: User = {
+  //     name: 'Jen',
+  //     email: 'user1@email.com',
+  //     password: '',
+  //     profile: profile1
+  //   };
+  //   let user2: User = {
+  //     name: 'Sherry',
+  //     email: 'user2@email.com',
+  //     password: '',
+  //     profile: profile2
+  //   };
 
-    this.users.push(user1);
-    this.users.push(user2);
-  }
+  //   this.users.push(user1);
+  //   this.users.push(user2);
+  // }
 }

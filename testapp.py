@@ -202,14 +202,14 @@ def user_profile(email):
         return jsonify(data), 404
 
 
-#Get all users except for 
+#Get all users except for current user
 @app.route("/user/<email>", methods=['GET'])
 def get_users(email):
     emails = []
     users = []
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    query1 = "select email from USER where email <> '" + email + "'"
+    query1 = "select USER.email from USER LEFT JOIN FRIENDS ON USER.email = FRIENDS.friend_name where FRIENDS.ID IS NULL AND USER.email <> '" + email + "'"
     cursor.execute(query1)
     result = cursor.fetchall()
     i=0
@@ -224,6 +224,28 @@ def get_users(email):
 
     return jsonpickle.encode(users), 200
     
+@app.route("/user/connected/<email>", methods=['GET'])
+def get_connected_users(email):
+    emails = []
+    users = []
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "select FRIENDS.friend_name from USER INNER JOIN FRIENDS ON USER.email = FRIENDS.email where USER.email = '" + email + "'"
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    i=0
+    while i <len(result):
+        emails += result[i]
+        i = i+1
+
+
+    for email in emails:
+        user = getUserByEmail(email)
+        users.append(user)
+
+    return jsonpickle.encode(users), 200
+
+
 
 #------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
 #Save user profile from JSON.
@@ -257,8 +279,8 @@ def update_user_profile():
     else:
 
         cursor.execute("DELETE FROM USER_PROFILE WHERE email = '{email}'".format(email=json["email"]))
-        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level, bio) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}', '{bio}')".format(
-        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level=json["level"], bio=json["bio"])
+        query1 =  "INSERT INTO USER_PROFILE(email,countryCode, native_Lang, level, bio, picURL) VALUES ('{email}', '{countryCode}', '{native_Lang}','{level}', '{bio}', '{picURL}')".format(
+        email=json["email"],countryCode = json["countryCode"],native_Lang = json["nativeLang"],level=json["level"], bio=json["bio"], picURL=json["picURL"])
         cursor.execute(query1)
 
         cursor.execute("DELETE FROM LEARNING_LANG WHERE email = '{email}'".format(email=json["email"]))
@@ -280,9 +302,9 @@ def update_user_profile():
 
     connection.commit()
 
+    user = getUserByEmail(json["email"])
 
-
-    return jsonpickle.encode(request.get_json()), 200
+    return jsonpickle.encode(user), 200
 
 
 #Get user availability from DB.
