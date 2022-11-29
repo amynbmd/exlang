@@ -96,6 +96,10 @@ export class SignUpProfileComponent extends BaseComponent implements OnInit {
       bio: new FormControl('', {
         nonNullable: true,
         validators: [],
+      }),
+      picURL: new FormControl('', {
+        nonNullable: true,
+        validators: [],
       })
     });
   }

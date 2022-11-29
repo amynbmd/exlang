@@ -112,6 +112,18 @@ export class AuthenticationService {
     )
   }
 
+  getConnectedUsersProfile(email: string | null):Observable<User[]> {
+    return this._http.get<User[]>(this.baseUrl + 'user/connect/' + email).pipe(
+      map(res => {
+        res.forEach(user => {
+          user.profile.connected = true;
+        });
+
+        return res;
+      })
+    )
+  }
+
   getCountries():Observable<SelectItem[]> {
     return this._http.get<SelectItem[]>(this.baseUrl + 'countries').pipe(
       map(res => {
@@ -199,5 +211,22 @@ export class AuthenticationService {
     }
 
     return true;
+  }
+
+
+  connectUser(primary: string | null, secondary: string | null):Observable<User> {
+    return this._http.post<User>(this.baseUrl + '/connect', {primary: primary, secondary: secondary}).pipe(
+      map(res => {
+        return res;
+      })
+    );
+  }
+
+  disconnectUser(primary: string | null, secondary: string | null):Observable<User> {
+    return this._http.post<User>(this.baseUrl + '/disconnect', {primary: primary, secondary: secondary}).pipe(
+      map(res => {
+        return res;
+      })
+    );
   }
 }

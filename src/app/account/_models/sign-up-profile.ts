@@ -4,6 +4,7 @@ export class SignUpProfile {
     nativeLang: string;
     learningLangs: string[];
     level: string;
-    interest: string;
+    interest: string | null;
     bio: string | null;
+    picURL: string | null;
 }

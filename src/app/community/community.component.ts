@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthenticationResponse } from '../account/_models/authentication-response';
-import { Profile } from '../account/_models/profile';
 import { User } from '../account/_models/user';
 import { AuthenticationService } from '../account/_services/authentication/authentication.service';
 import { CommunityConnectionsComponent } from '../community-connections/community-connections.component';
