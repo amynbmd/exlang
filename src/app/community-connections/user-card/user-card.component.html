@@ -17,7 +17,7 @@
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button *ngIf="!user.profile.connected" mat-raised-button color="primary">Connect</button>
-    <button *ngIf="user.profile.connected" mat-raised-button color="warn">Disconnect</button>
+    <button *ngIf="!user.profile.connected" mat-raised-button color="primary" (click)="connect(user.email)">Connect</button>
+    <button *ngIf="user.profile.connected" mat-raised-button color="warn" (click)="disconnect(user.email)">Disconnect</button>
   </mat-card-actions>
 </mat-card>

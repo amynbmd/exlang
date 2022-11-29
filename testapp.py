@@ -224,7 +224,7 @@ def get_users(email):
 
     return jsonpickle.encode(users), 200
     
-@app.route("/user/connected/<email>", methods=['GET'])
+@app.route("/user/connect/<email>", methods=['GET'])
 def get_connected_users(email):
     emails = []
     users = []
@@ -245,6 +245,33 @@ def get_connected_users(email):
 
     return jsonpickle.encode(users), 200
 
+
+@app.route("/connect", methods=['POST'])
+def connected_users():
+    json = request.get_json()
+    print(json)
+
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "INSERT INTO FRIENDS (email, friend_name) VALUES ('{email}', '{friend_name}')".format(email = json["primary"], friend_name = json["secondary"])
+    cursor.execute(query1)
+    connection.commit()
+
+    return jsonpickle.encode(json), 200
+
+
+@app.route("/disconnect", methods=['POST'])
+def disconnected_users():
+    json = request.get_json()
+    print(json)
+
+    connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+    cursor = connection.cursor()
+    query1 = "DELETE FROM FRIENDS WHERE email = '{email}' AND friend_name = '{friend_name}'".format(email = json["primary"], friend_name = json["secondary"])
+    cursor.execute(query1)
+    connection.commit()
+
+    return jsonpickle.encode(json), 200    
 
 
 #------------------------------------------TO-DO: Save the data from this endpoint to database------------------------------------------#
