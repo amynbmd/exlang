@@ -247,7 +247,7 @@ def get_connected_users(email):
 
 
 @app.route("/connect", methods=['POST'])
-def connected_users():
+def connect_users():
     json = request.get_json()
     print(json)
 
@@ -261,7 +261,7 @@ def connected_users():
 
 
 @app.route("/disconnect", methods=['POST'])
-def disconnected_users():
+def disconnect_users():
     json = request.get_json()
     print(json)
 
