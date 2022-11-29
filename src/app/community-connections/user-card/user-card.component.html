@@ -18,6 +18,6 @@
   </mat-card-content>
   <mat-card-actions>
     <button *ngIf="!user.profile.connected" mat-raised-button color="primary">Connect</button>
-    <button *ngIf="user.profile.connected" mat-raised-button color="accent">Connected</button>
+    <button *ngIf="user.profile.connected" mat-raised-button color="warn">Disconnect</button>
   </mat-card-actions>
 </mat-card>

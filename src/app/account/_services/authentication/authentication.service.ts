@@ -115,6 +115,10 @@ export class AuthenticationService {
   getConnectedUsersProfile(email: string | null):Observable<User[]> {
     return this._http.get<User[]>(this.baseUrl + 'user/connected/' + email).pipe(
       map(res => {
+        res.forEach(user => {
+          user.profile.connected = true;
+        });
+
         return res;
       })
     )
