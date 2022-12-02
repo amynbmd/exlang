@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/account/_models/user';
 import { AuthenticationService } from 'src/app/account/_services/authentication/authentication.service';
 import { SelectItem } from 'src/app/_models/select-item';
+import { ConnectType } from '../community-connections.component';
 
 @Component({
   selector: 'app-user-card',
@@ -26,7 +27,7 @@ export class UserCardComponent implements OnInit {
   @Input() user: User;
   @Input() languages$: Observable<SelectItem[]>;
 
-  @Output() updated = new EventEmitter<number>();
+  @Output() connectType = new EventEmitter<ConnectType>();
   
   //Generate random image of fake people
   //https://this-person-does-not-exist.com/en
@@ -47,15 +48,16 @@ export class UserCardComponent implements OnInit {
     this.user.profile.picURL = '../../assets/img/profile_picture_placeholder.png';
   }
 
-  connect(email: string | null) {
-    this._authService.connectUser(this.currentUser.email, email).subscribe();
+  actionHandler(email: string, type: number) {
+    let connectType: ConnectType = new ConnectType();
+    connectType.email = email;
 
-    this.updated.emit(1);
-  }
+    if (type == 1) {
+      connectType.type = type;
+    } else {
+      connectType.type = type;
+    }
 
-  disconnect(email: string | null) {
-    this._authService.disconnectUser(this.currentUser.email, email).subscribe();
-
-    this.updated.emit(0);
+    this.connectType.emit(connectType);
   }
 }

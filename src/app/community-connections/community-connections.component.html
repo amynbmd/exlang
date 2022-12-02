@@ -1,5 +1,5 @@
-<div class="row" *ngIf="users$ | async as users">
+<div class="row">
   <div class="col-md-2 pt-4" *ngFor="let profile of users" style="min-width: 290px;">
-    <app-user-card [user]="profile" [languages$]="languages$" (updated)="updateList($event)"></app-user-card>
+    <app-user-card [user]="profile" [languages$]="languages$" (connectType)="emitConnection($event)"></app-user-card>
   </div>
 </div>
