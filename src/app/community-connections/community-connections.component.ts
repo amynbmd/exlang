@@ -18,7 +18,7 @@ import { SelectItem } from '../_models/select-item';
   ]
 })
 export class CommunityConnectionsComponent implements OnInit {
-  @Input() users$: Observable<User[]>;
+  @Input() users: User[];
   
   languages$: Observable<SelectItem[]>;
   currentUser: User;
@@ -34,14 +34,18 @@ export class CommunityConnectionsComponent implements OnInit {
   emitConnection(connectType: ConnectType) {
     if (connectType.type === 1) {
       this._authService.connectUser(this.currentUser.email, connectType.email).subscribe(response => {
-        this.users$ = this._authService.getUsersProfile(this._authService.getUserFromLocalStorage().email);
-        this._cd.markForCheck();
+        this._authService.getUsersProfile(this._authService.getUserFromLocalStorage().email).subscribe(res => {
+          this.users = [...res];
+          this._cd.markForCheck();
+        });
       });
 
     } else {
       this._authService.disconnectUser(this.currentUser.email, connectType.email).subscribe(response => {
-        this.users$ = this._authService.getConnectedUsersProfile(this._authService.getUserFromLocalStorage().email);
-        this._cd.markForCheck();
+        this._authService.getConnectedUsersProfile(this._authService.getUserFromLocalStorage().email).subscribe(res => {
+          this.users = [...res];
+          this._cd.markForCheck();
+        });
       });
     }
   }
