@@ -1,7 +1,7 @@
 
 import os
 import sqlite3
-
+from Ava import *
 import jsonpickle
 from flask import (Flask, Response, flash, jsonify, make_response,
                    render_template, request)
@@ -334,51 +334,109 @@ def update_user_profile():
     return jsonpickle.encode(user), 200
 
 
+
 #Get user availability from DB.
 #Example: http://127.0.0.1:5000/user/availability/existingUser@email.com
 @app.route("/user/availability/<email>", methods=['GET'])
 def get_user_availability(email):
     assert email == request.view_args['email']
-    
+    user = getUserByEmail(email)
+    if (user.email is not None):
+        connection = sqlite3.connect(currentdirectory + "\ExLang.db")
+        cursor = connection.cursor()
+        query1 = "SELECT day, start_time, end_time FROM availability where email = '{email}' ".format(email = user.email)
+        cursor.execute(query1)
+        result = cursor.fetchall()
+        i=1
+
+        if(result!=None):
+            while i<8:
+                j=0
+                while j<len(result):
+                    if(i==1):
+                        if(Ava.day1 == result[j][0]):
+                            Ava.ava_mon = True
+                            Ava.s1 = result[j][1]
+                            Ava.e1 = result[j][2]
+                    
+                    elif(i==2):
+                        
+                        if(Ava.day2 == result[j][0]):
+                            Ava.ava_tues = True
+                            Ava.s2 = result[j][1]
+                            Ava.e2 = result[j][2]
+                    elif(i==3):
+                        if(Ava.day3 == result[j][0]):
+                            Ava.ava_weds = True
+                            Ava.s3 = result[j][1]
+                            Ava.e3 = result[j][2]
+                    elif(i==4):
+                        
+                        if(Ava.day4 == result[j][0]):
+                            Ava.ava_thurs = True
+                            Ava.s4 = result[j][1]
+                            Ava.e4 = result[j][2]
+                    elif(i==5):
+                        if(Ava.day5 == result[j][0]):
+                            Ava.ava_fri = True
+                            Ava.s5 = result[j][1]
+                            Ava.e5 = result[j][2]
+                    elif(i==6):
+                        
+                        if(Ava.day6 == result[j][0]):
+                            Ava.ava_sat = True
+                            Ava.s6 = result[j][1]
+                            Ava.e6 = result[j][2]
+                    elif(i==7):
+                        if(Ava.day7 == result[j][0]):
+                            Ava.ava_sun = True
+                            Ava.s7 = result[j][1]
+                            Ava.e7 = result[j][2]
+                    j+=1
+                
+                i+=1
+
+        connection.close()
     #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
     availability = {
         "email": email,
         "sunday":{
-            "isAvailable":False,
-            "startTime":"",
-            "endTime":""
+            "isAvailable":Ava.ava_sun,
+            "startTime":Ava.s7,
+            "endTime":Ava.e7
         },
         "monday":{
-            "isAvailable":True,
-            "startTime":"08:00",
-            "endTime":"10:00"
+            "isAvailable":Ava.ava_mon,
+            "startTime":Ava.s1,
+            "endTime":Ava.e1
         },
         "tuesday":{
-            "isAvailable":True,
-            "startTime":"15:00",
-            "endTime":"17:00"
+            "isAvailable":Ava.ava_tues,
+            "startTime":Ava.s2,
+            "endTime":Ava.e2
         },
         "wednesday":{
-            "isAvailable":False,
-            "startTime":"",
-            "endTime":""
+            "isAvailable":Ava.ava_weds,
+            "startTime":Ava.s3,
+            "endTime":Ava.e3
         },
         "thursday":{
-            "isAvailable":True,
-            "startTime":"15:00",
-            "endTime":"17:00"
+            "isAvailable":Ava.ava_thurs,
+            "startTime":Ava.s4,
+            "endTime":Ava.e4
         },
         "friday":{
-            "isAvailable":True,
-            "startTime":"12:00",
-            "endTime":"14:00"
+            "isAvailable":Ava.ava_fri,
+            "startTime":Ava.s5,
+            "endTime":Ava.e5
         },
         "saturday":{
-            "isAvailable":False,
-            "startTime":"",
-            "endTime":""
+            "isAvailable":Ava.ava_sat,
+            "startTime":Ava.s6,
+            "endTime":Ava.e6
         }
     }
+    
 
     return jsonpickle.encode(availability), 200
 
