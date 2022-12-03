@@ -9,8 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { SessionSetting } from '../../_models/session-setting';
 import { BaseComponent } from 'src/app/_shared/BaseComponent';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-session-setting',
@@ -20,8 +18,6 @@ import { MatOptionModule } from '@angular/material/core';
   standalone: true,
   imports: [
     FormModule,
-    // MatOptionModule,
-    MatSelectModule
   ]
 })
 export class SessionSettingComponent extends BaseComponent implements OnInit {
