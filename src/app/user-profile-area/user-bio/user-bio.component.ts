@@ -41,7 +41,7 @@ export class UserBioComponent extends BaseComponent  implements OnInit {
   constructor(private _authService: AuthenticationService, private _router: Router, private _cd: ChangeDetectorRef) { super() }
 
   ngOnInit() {
-    if (this.user.email != null) {
+    if (this.user?.email != null) {
       this.countries$ = this._authService.getCountries();
       this.languages$ = this._authService.getLanguages();
       this.levels$ = this._authService.getLevels();

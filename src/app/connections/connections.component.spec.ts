@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ConnectionsComponent } from './connections.component';
+import { AccountTestingModule } from '../account/_testing/account-test.module';
 
 describe('ConnectionsComponent', () => {
   let component: ConnectionsComponent;
@@ -11,7 +12,7 @@ describe('ConnectionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConnectionsComponent ]
+      imports: [ ConnectionsComponent, AccountTestingModule ]
     })
     .compileComponents();
   }));
