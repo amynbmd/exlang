@@ -31,7 +31,8 @@ describe('UserCardComponent', () => {
         nativeLang: "nativeLang",
         learningLang: ["learningLang"],
         level: "level",
-        interests: ["interests"]
+        interests: ["interests"],
+        connected: false
       }
 
     };
