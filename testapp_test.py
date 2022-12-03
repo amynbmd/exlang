@@ -6,6 +6,7 @@ from flask import jsonify
 import os
 import sqlite3
 
+
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
 
 class Test(unittest.TestCase):
