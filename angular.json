@@ -124,6 +124,15 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
+            "codeCoverageExclude": ["/src/app/app.component.ts", "/src/app/_shared/BaseComponent.ts", "/src/app/_shared/config/config.service.ts", 
+                                    "/src/app/account/_services/authentication/authentication.service.ts", "/src/app/account/login/login.component.ts", 
+                                    "/src/app/account/menu/menu.component.ts", "/src/app/account/registration/registration.component.ts", 
+                                    "/src/app/community-connections/community-connections.component.ts", "/src/app/community-connections/user-card/user-card.component.ts", 
+                                    "/src/app/layout/layout.component.ts", "/src/app/user-profile-area/user-bio/user-bio.component.ts", 
+                                    "/src/app/layout/layout.component.ts", "/src/app/account/account-area/account-area.component.ts", 
+                                    "/src/app/account/forgot-password/forgot-password.component.ts", "/src/app/account/sign-up-profile/sign-up-profile.component.ts",
+                                    "/src/app/user-profile-area/user-profile-area.component.ts", "/src/app/user-profile-area/appointment-area/availability/availability.component.ts", 
+                                    "/src/app/user-profile-area/appointment-area/session-setting/user-bio.component.ts"], 
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -136,5 +145,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "0bd6ebec-51ef-4864-967b-9242227b2e78"
   }
 }
