@@ -9,6 +9,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
+from session import *
 
 
 class Profile():
@@ -52,14 +53,17 @@ def getUserProfile(email):
         cursor.execute(query)
         result = cursor.fetchall()
 
-        print(result)
-
         if result:
             profile.countryCode = result[0][0]
             profile.nativeLang = result[0][1]
             profile.level = result[0][2]
             profile.bio = result[0][3]
             profile.picURL = result[0][4]
+
+            Profile.countryCode = result[0][0]
+            Profile.nativeLang = result[0][1]
+            Profile.level = result[0][2]
+            Profile.bio = result[0][3]
 
 
         list2 = []
@@ -71,6 +75,8 @@ def getUserProfile(email):
             list2 += result2[i]
             i = i+1
         profile.learningLang = list2
+
+        Profile.learningLang = list2
         
 
         # profile.picURL = ""
@@ -85,8 +91,11 @@ def getUserProfile(email):
             list3 += result3[i]
             i = i+1
         profile.interests = list3
+        Profile.interests = list3
         
-        profile.email = email        
+        profile.email = email  
+
+        Profile.email = email      
         
     connection.commit()   
     return profile
@@ -101,13 +110,17 @@ def getUserByEmail(email):
     query1 = "SELECT name, email, password from user WHERE email = '"+email+"'"
     cursor.execute(query1)
     result = cursor.fetchall()
-
+    
     if result:
         user.name = result[0][0]
         user.email = result[0][1]
         user.password = result[0][2]
         user.profile = getUserProfile(user.email)
-
+    else:
+        User.name=None
+        User.email = None
+        User.password = None
+    
     return user
 
 
@@ -121,17 +134,6 @@ bcrypt = Bcrypt(app)
 #We should store our private key in a more secure way, like encryption or somewhere on github.
 app.config['SECRET_KEY'] = 'exlang'
 currentdirectory  = os.path.dirname(os.path.abspath(__file__))
-user_email = "none"
-
-@app.route("/")
-def landing_page():
-    return "<p>Testing Page for ExLang!</p>"
-
-
-@app.route("/home")
-def home_page():
-    return "<p>Welcome to our home page!<p>"
-
 
 #LOGIN
 @app.route("/login", methods=['GET', 'POST'])
@@ -146,7 +148,9 @@ def login():
     #and then (bcrypt.check_password_hash(realPassword, candiate), if True, authorize login
     user = getUserByEmail(email)
     
-
+    User.email = email
+    User.password = password
+    
     if(user.email is not None and bcrypt.check_password_hash(user.password, password)):
         user.password = None
         return jsonpickle.encode(user), 200
@@ -171,6 +175,7 @@ def signup_page():
         
             
     user = getUserByEmail(email)
+
     # Only try to register user if email is NOT in use.
     if (user.email is None):
         connection = sqlite3.connect(currentdirectory + "\ExLang.db")
@@ -180,6 +185,9 @@ def signup_page():
         cursor.execute(query1)
         connection.commit()
         user = getUserByEmail(email)
+        User.name = name
+        User.email = email
+        User.password = password
         return jsonpickle.encode(user), 200
 
     else:
@@ -282,7 +290,7 @@ def update_user_profile():
     json = request.get_json()
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    print(json)
+    
     user = getUserByEmail(json["email"])
 
     if not user:
@@ -348,7 +356,7 @@ def get_user_availability(email):
         cursor.execute(query1)
         result = cursor.fetchall()
         i=1
-
+        print(result)
         if(result!=None):
             while i<8:
                 j=0
@@ -395,6 +403,28 @@ def get_user_availability(email):
                     j+=1
                 
                 i+=1
+        if(result==[]):
+            Ava.ava_mon = False
+            Ava.ava_tues = False
+            Ava.ava_weds = False
+            Ava.ava_thurs = False
+            Ava.ava_fri = False
+            Ava.ava_sat = False
+            Ava.ava_sun = False
+            Ava.s1 = None
+            Ava.e1 = None
+            Ava.s2 = None
+            Ava.e2 = None
+            Ava.s3 = None
+            Ava.e3 = None
+            Ava.s4 = None
+            Ava.e4 = None
+            Ava.s5 = None
+            Ava.e5 = None
+            Ava.s6 = None
+            Ava.e6 = None
+            Ava.s7 = None
+            Ava.e7 = None
 
         connection.close()
     #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
@@ -450,29 +480,36 @@ def update_user_availability():
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
     day = ""
-    day1 = "monday"
-    day2 = "tuesday"
-    day3 = "wednesday"
-    day4 = "thursday"
-    day5 = "friday"
-    day6 = "saturday"
-    day7 = "sunday"
     i=1
     while i < 8:
         if(i==1):
-            day = day1
+            day = Ava.day1
+            Ava.s1 = json[day]["startTime"]
+            Ava.e1 = json[day]["endTime"]
         elif(i==2):
-            day = day2
+            day = Ava.day2
+            Ava.s2 = json[day]["startTime"]
+            Ava.e2 = json[day]["endTime"]
         elif(i==3):
-            day = day3
+            day = Ava.day3
+            Ava.s3 = json[day]["startTime"]
+            Ava.e3 = json[day]["endTime"]
         elif(i==4):
-            day = day4
+            day = Ava.day4
+            Ava.s4 = json[day]["startTime"]
+            Ava.e4 = json[day]["endTime"]
         elif(i==5):
-            day = day5
+            day = Ava.day5
+            Ava.s5 = json[day]["startTime"]
+            Ava.e5 = json[day]["endTime"]
         elif(i==6):
-            day = day6
+            day = Ava.day6
+            Ava.s6 = json[day]["startTime"]
+            Ava.e6 = json[day]["endTime"]
         elif(i==7):
-            day = day7
+            day = Ava.day7
+            Ava.s7 = json[day]["startTime"]
+            Ava.e7 = json[day]["endTime"]
         if json[day]['isAvailable'] == True:
             cursor.execute("DELETE FROM AVAILABILITY WHERE email = '{email}' AND day = '{day}'".format(email=json["email"],day = day) )
             query1 = "INSERT INTO AVAILABIlITY(email,day,start_time,end_time) VALUES ('{email}', '{day}','{start_time}','{end_time}')".format(
@@ -541,11 +578,17 @@ def update_user_session_setting():
     cursor.execute("DELETE FROM SESSION WHERE email = '{email}' ".format(email=json["email"]) )
     query1 = "INSERT INTO SESSION(email,duration,people,timeZone) VALUES ('{email}', '{duration}','{people}','{timeZone}')".format(
                 email=json["email"],duration = json["sessionDuration"],people = json["peopleBook"],timeZone = json["timeZone"])
+    
+    Session.email = email
+    Session.duration = json["sessionDuration"]
+    Session.people = json["peopleBook"]
+    Session.timeZone = json["timeZone"]
     cursor.execute(query1)
+    
     connection.commit()
 
 
-    print(json)    
+    # print(json)    
 
     #--------------------------------------------------------------------------------To-Do: Save to db.
     '''
