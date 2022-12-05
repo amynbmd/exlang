@@ -53,8 +53,6 @@ def getUserProfile(email):
         cursor.execute(query)
         result = cursor.fetchall()
 
-        print(result)
-
         if result:
             profile.countryCode = result[0][0]
             profile.nativeLang = result[0][1]
@@ -219,7 +217,7 @@ def update_user_profile():
     json = request.get_json()
     connection = sqlite3.connect(currentdirectory + "\ExLang.db")
     cursor = connection.cursor()
-    print(json)
+    
     user = getUserByEmail(json["email"])
 
     if not user:
@@ -285,7 +283,7 @@ def get_user_availability(email):
         cursor.execute(query1)
         result = cursor.fetchall()
         i=1
-
+        print(result)
         if(result!=None):
             while i<8:
                 j=0
@@ -332,6 +330,28 @@ def get_user_availability(email):
                     j+=1
                 
                 i+=1
+        if(result==[]):
+            Ava.ava_mon = False
+            Ava.ava_tues = False
+            Ava.ava_weds = False
+            Ava.ava_thurs = False
+            Ava.ava_fri = False
+            Ava.ava_sat = False
+            Ava.ava_sun = False
+            Ava.s1 = None
+            Ava.e1 = None
+            Ava.s2 = None
+            Ava.e2 = None
+            Ava.s3 = None
+            Ava.e3 = None
+            Ava.s4 = None
+            Ava.e4 = None
+            Ava.s5 = None
+            Ava.e5 = None
+            Ava.s6 = None
+            Ava.e6 = None
+            Ava.s7 = None
+            Ava.e7 = None
 
         connection.close()
     #--------------------------------------------------------------------------------To-Do: Get user availability in the following JSON format.
@@ -491,14 +511,11 @@ def update_user_session_setting():
     Session.people = json["peopleBook"]
     Session.timeZone = json["timeZone"]
     cursor.execute(query1)
-    print(Session.email)
-    print(Session.duration)
-    print(Session.people)
-    print(Session.timeZone)
+    
     connection.commit()
 
 
-    print(json)    
+    # print(json)    
 
     #--------------------------------------------------------------------------------To-Do: Save to db.
     '''
