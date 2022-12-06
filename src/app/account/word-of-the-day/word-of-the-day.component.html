@@ -1,0 +1,14 @@
+<div class="wod-card">
+  <h3>
+    Word of the Day
+  </h3>
+  <p style="text-transform: capitalize;" class="pb-3">{{fullDate}}</p>
+
+  <hr>
+
+  <div class="pt-4" *ngIf="definition$ | async as definition">
+    <div class="wod">{{definition[0].meta.id}}</div>
+    <div class="">{{definition[0].fl}} [{{definition[0]?.hwi.hw}}]</div>
+    <div class="pt-3">{{definition[0].shortdef[0]}}.</div>
+  </div>
+</div>

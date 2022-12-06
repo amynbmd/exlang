@@ -229,4 +229,20 @@ export class AuthenticationService {
       })
     );
   }
+
+  getRandomWord():Observable<string> {
+    return this._http.get<string>('https://random-word-api.herokuapp.com/word').pipe(
+      map(res => {
+        return res[0];
+      })
+    )
+  }  
+
+  getDefinition(word: any) {
+    return this._http.get<any>(`https://www.dictionaryapi.com/api/v3/references/learners/json/${word}?key=fc78342b-8176-4a31-9e8e-9ee75a22eb72`).pipe(
+      map(res => {
+        return res;
+      })
+    )
+  }
 }

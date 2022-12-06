@@ -21,9 +21,13 @@
   <img src="/assets/img/registration.jpg" alt="Italian Trulli" class="img-right">
 
   <div class="centered">
-    <div class="text-quote" style="color: white;">
+    <div class="text-quote" style="color: white;" *ngIf="showComponent == 0">
       "<span class="color-accent">ExLang</span> not only helps you 
       <span class="color-accent">ex</span>change <span class="color-accent">lang</span>uage, but also make friends."
+    </div>
+
+    <div *ngIf="showComponent != 0">
+      <app-word-of-the-day></app-word-of-the-day>
     </div>
   </div>
 </div>

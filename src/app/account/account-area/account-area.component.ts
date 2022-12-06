@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 import { LoginComponent } from '../login/login.component';
 import { RegistrationComponent } from '../registration/registration.component';
 import { SignUpProfileComponent } from '../sign-up-profile/sign-up-profile.component';
+import { WordOfTheDayComponent } from '../word-of-the-day/word-of-the-day.component';
 
 @Component({
   selector: 'app-account-area',
@@ -20,7 +21,7 @@ import { SignUpProfileComponent } from '../sign-up-profile/sign-up-profile.compo
     LoginComponent,
     SignUpProfileComponent,
     ForgotPasswordComponent,
-    
+    WordOfTheDayComponent
   ],
 })
 export class AccountAreaComponent implements OnInit {
