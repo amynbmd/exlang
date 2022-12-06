@@ -1,0 +1,11 @@
+
+.wod-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.wod {
+    font-size: 70px;
+    color: rgb(0, 0, 129);
+}
